@@ -11,7 +11,7 @@ enum Type {Input, Output, Mix};
 
 
 class Node{
-private:
+public:
   string name;
   Type type;
   vector<pair<Node*, int> > inputs;
@@ -30,16 +30,25 @@ public:
 };
 
 class AppGraph{
-private:
+public:
 	vector<Node*> inputs;
 	vector<Node*> outputs;
 	vector<Node*> internals;
 public:
-	vector<pair<Node*, int> > GetInputs(Node*);
+	vector<pair<Node*, int> > GetInputs(Node*);                                              //For a particular node in the graph
 	vector<pair<Node*, int> > GetOutputs(Node*);
 	void AddNode(Node*, Type);
 	void AddEdge(Node*, Node*);
 };	
+
+void Printer(AppGraph ap){                                                     //Debugger
+	cout << "HERE" << endl;
+	int i;
+	for(i = 0; i < 10; i++ ){
+		cout << ap.inputs[i]-> name <<"and"<< endl;
+	}
+	return; 
+}
 
 void AppGraph::AddNode(Node* n, Type t){             
 	switch(t){
@@ -50,6 +59,8 @@ void AppGraph::AddNode(Node* n, Type t){
 	return;
 }
 
+
+
 Node* createnode(string Name, Type optype){
 	Node* temp;
 	*temp = Node(Name, optype);
@@ -57,10 +68,14 @@ Node* createnode(string Name, Type optype){
 }
 
 int main(){
+
+
 	map<string, Type> conversion;                     //Avoid this map in global scope
 	conversion["INPUT"] = Input;
 	conversion["OUTPUT"] = Output;
 	conversion["MIX"] = Mix;
+
+	AppGraph app_graph;
 
 	ifstream inputfile("a2.txt");
     string optype_string;
@@ -79,20 +94,16 @@ int main(){
 				if(optype_string.at(0)=='I')
 					optype_string.resize(5);
 
-				//cout << name << ' ' << optype_string << endl; 
 				optype = conversion[optype_string];
-				//cout << optype << endl;
 				temp = createnode(name, optype);
-				AppGraph.AddNode(temp, optype);
+				app_graph.AddNode(temp, optype);
 			}
 			else
 				getline(inputfile, garbage);
-		
-		} 
+		}
     }
-	/*cin >> optype_string;
-	optype = conversion[optype_string];
-	cout << optype << endl;*/ 	
+	Printer(app_graph);
+
 	return 0;
 }
 
