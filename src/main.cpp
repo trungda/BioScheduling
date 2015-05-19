@@ -50,7 +50,11 @@ void AppGraph::AddNode(Node* n, Type t){
 	return;
 }
 
-
+Node* createnode(string Name, Type optype){
+	Node* temp;
+	*temp = Node(Name, optype);
+	return temp;  
+}
 
 int main(){
 	map<string, Type> conversion;                     //Avoid this map in global scope
@@ -64,6 +68,7 @@ int main(){
     string garbage;
     Type optype;
     char ch;
+    Node* temp;
     if(inputfile.is_open()){                              //the first pass
 		while(!inputfile.eof()){
 			inputfile >> name;
@@ -77,8 +82,8 @@ int main(){
 				//cout << name << ' ' << optype_string << endl; 
 				optype = conversion[optype_string];
 				//cout << optype << endl;
-
-				
+				temp = createnode(name, optype);
+				AppGraph.AddNode(temp, optype);
 			}
 			else
 				getline(inputfile, garbage);
