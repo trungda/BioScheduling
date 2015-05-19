@@ -2,9 +2,9 @@
 #include <string>							 //string class 						
 #include <fstream>							 //flie handling
 #include <vector>							 //vector class
-#include <algorithm>                        //easy-to-use algorithms
+#include <algorithm>                         //easy-to-use algorithms
 #include <utility>                           //pair template
-#include <map>
+#include <map>                               //using maps
 using namespace std;
 
 enum Type {Input, Output, Mix};
@@ -17,11 +17,11 @@ private:
   vector<pair<Node*, int> > inputs;
   vector<pair<Node*, int> > outputs;
 public:
-  Node(string Name, Type optype){                                                                        //Constructor for the 
+  Node(string Name, Type optype){                                                                      //Constructor for the 
     name = Name;                                                                                       //first pass
     type = optype;
   }
-  Node(string Name, Type optype, vector<pair<Node*, int> >* iputs, vector<pair<Node*, int> >* oputs){   //Constructor for the 
+  Node(string Name, Type optype, vector<pair<Node*, int> >* iputs, vector<pair<Node*, int> >* oputs){  //Constructor for the 
   	name = Name;																					   //second pass
   	type = optype;
   	inputs = *iputs;
@@ -37,12 +37,12 @@ private:
 public:
 	vector<pair<Node*, int> > GetInputs(Node*);
 	vector<pair<Node*, int> > GetOutputs(Node*);
-	void AddNode(Node*);
+	void AddNode(Node*, Type);
 	void AddEdge(Node*, Node*);
 };	
 
-void AppGraph::AddNode(Node* n){             
-	switch(n->Type){
+void AppGraph::AddNode(Node* n, Type t){             
+	switch(t){
 		case Input : inputs.push_back(n);
 		case Output: outputs.push_back(n);
 		case Mix: internals.push_back(n); 
@@ -77,12 +77,12 @@ int main(){
 				//cout << name << ' ' << optype_string << endl; 
 				optype = conversion[optype_string];
 				//cout << optype << endl;
+
 				
 			}
 			else
 				getline(inputfile, garbage);
-			}
-
+		
 		} 
     }
 	/*cin >> optype_string;
