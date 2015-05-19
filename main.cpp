@@ -37,16 +37,24 @@ private:
 public:
 	vector<pair<Node*, int> > GetInputs(Node*);
 	vector<pair<Node*, int> > GetOutputs(Node*);
-	void CreateNode(Node*);
-	void CreateEdge(Node*, Node*);
+	void AddNode(Node*);
+	void AddEdge(Node*, Node*);
 };	
 
+void AppGraph::AddNode(Node* n){             
+	switch(n->Type){
+		case Input : inputs.push_back(n);
+		case Output: outputs.push_back(n);
+		case Mix: internals.push_back(n); 
+	}
+	return;
+}
 
 
 
 int main(){
-	map<string, Type> conversion;                     //Avoid this code block in global scope
-	conversion["INPUT:1"] = Input;
+	map<string, Type> conversion;                     //Avoid this map in global scope
+	conversion["INPUT"] = Input;
 	conversion["OUTPUT"] = Output;
 	conversion["MIX"] = Mix;
 
@@ -56,17 +64,22 @@ int main(){
     string garbage;
     Type optype;
     char ch;
-    if(inputfile.is_open()){
+    if(inputfile.is_open()){                              //the first pass
 		while(!inputfile.eof()){
 			inputfile >> name;
 			ch = name.at(0);
-			if(ch!='#' && ch!='('){
+			if(ch!='#' && ch!='(' ){
 				inputfile >> optype_string;
-				cout << name << ' ' << optype_string << endl; 
+
+				if(optype_string.at(0)=='I')
+					optype_string.resize(5);
+
+				//cout << name << ' ' << optype_string << endl; 
 				optype = conversion[optype_string];
-				cout << optype << endl;
+				//cout << optype << endl;
+				
 			}
-			else{
+			else
 				getline(inputfile, garbage);
 			}
 
@@ -74,9 +87,11 @@ int main(){
     }
 	/*cin >> optype_string;
 	optype = conversion[optype_string];
-	cout << optype << endl;*/
+	cout << optype << endl;*/ 	
 	return 0;
 }
+
+
 
 
 
