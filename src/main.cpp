@@ -17,6 +17,10 @@ public:   //Temporarily made public
   vector<pair<Node*, int> > inputs;
   vector<pair<Node*, int> > outputs;
 public:
+  Node(){
+  	name = "default";
+  	type = Input;
+  }
   Node (string Name, Type optype){                                                                      //Constructor for the 
     name = Name;                                                                                       //first pass
     type = optype;
@@ -48,22 +52,26 @@ public:
 };	
 
 void Printer(AppGraph* ap){                                                     //Debugger
-	cout << "HERE" << endl;
+	//cout << "HERE" << endl;
 	int i;
 	for(i = 0; i < (ap->inputs).size(); i++ ){
-		cout << ap->inputs[i]-> name <<"and"<< endl;
+		cout << ap->inputs[i]-> name << endl;
 	}
 	return; 
 }
 
 void AppGraph::AddNode(Node* n, Type t){  
-	//cout << "Adding" << n->name << endl;           
+	//cout << "Adding" << n->name << endl;
+	int i=0;           
 	switch(t){
-		case Input : inputs.push_back(n);  /*cout<< inputs[0]->name << " IP" << endl;*/ break;
+		case Input : inputs.push_back(n);  /*cout<< inputs[0]->name << " IP" << endl;*/break;
 		case Output: outputs.push_back(n); /*cout<< outputs[outputs.size()-1]->name << "OP" << endl;*/ break;
 		case Mix: internals.push_back(n); /*cout<< internals[internals.size()-1]->name << "MIX" << endl;*/ break;
 	}
-	//cout << inputs[0]->name << endl; 
+	/*for(i=0; i<inputs.size(); i++){
+		cout<< inputs[i]->name << endl;
+	}
+	cout << endl;*/
 	return;
 }
 
@@ -94,6 +102,8 @@ int main(){
     string garbage;
     Type optype;
     char ch;
+    Node var[1000];
+    int i=0;
     if(inputfile.is_open()){                              //the first pass
 		while(!inputfile.eof()){
 			inputfile >> name;
@@ -107,21 +117,28 @@ int main(){
 
 				optype = conversion[optype_string];
 				//cout << "Here now" << endl;
-				//cout << name << " and " << optype << endl;
-				//Node temp(name, optype);
+				//cout << name << " " << optype << endl;
+				Node n (name, optype);
+				var[i]= n;
+				//variables[i] = temp;
+				//i++;
 				//cout << temp.pointer()->type << endl ;
-				//app_graph.AddNode(temp.pointer(), optype);
+				app_graph.AddNode(var+i, optype);
+				//cout << var[i].name << endl;
+				i++;
 			}
 			else{
 				getline(inputfile, garbage);
-				cout << garbage << endl;
+				//cout << garbage << endl;
+				garbage.resize(0);                   //Flushing out the values not needed in this pass
+				name.resize(0);
 			}
 		}
     }
-	//Printer(app_graph.pointer());
+	Printer(app_graph.pointer());
     //cout << app_graph.inputs[5]->name << endl; 
     //int i = 0;
-    //cout << app_graph.inputs.at(0)->name << endl;
+    //cout << app_graph.inputs[0]->name << endl;
 	return 0;
 }
 
