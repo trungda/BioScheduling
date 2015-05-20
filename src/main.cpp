@@ -11,13 +11,13 @@ enum Type {Input, Output, Mix};
 
 
 class Node{
-public:
+public:   //Temporarily made public
   string name;
   Type type;
   vector<pair<Node*, int> > inputs;
   vector<pair<Node*, int> > outputs;
 public:
-  Node(string Name, Type optype){                                                                      //Constructor for the 
+  Node (string Name, Type optype){                                                                      //Constructor for the 
     name = Name;                                                                                       //first pass
     type = optype;
   }
@@ -27,45 +27,56 @@ public:
   	inputs = *iputs;
   	outputs = *oputs;
   }
+  Node* pointer(){
+  	return this;
+  }
 };
 
 class AppGraph{
-public:
+public:  //Temporarily made public
 	vector<Node*> inputs;
 	vector<Node*> outputs;
 	vector<Node*> internals;
 public:
-	vector<pair<Node*, int> > GetInputs(Node*);                                              //For a particular node in the graph
-	vector<pair<Node*, int> > GetOutputs(Node*);
+	vector<pair<Node*, int> > GetInputs(Node*);                                           //For a particular node in the graph
+	vector<pair<Node*, int> > GetOutputs(Node*);                                          //After the second pass
 	void AddNode(Node*, Type);
 	void AddEdge(Node*, Node*);
+	AppGraph* pointer(){
+  	return this;
+    }
 };	
 
-void Printer(AppGraph ap){                                                     //Debugger
+void Printer(AppGraph* ap){                                                     //Debugger
 	cout << "HERE" << endl;
 	int i;
-	for(i = 0; i < 10; i++ ){
-		cout << ap.inputs[i]-> name <<"and"<< endl;
+	for(i = 0; i < (ap->inputs).size(); i++ ){
+		cout << ap->inputs[i]-> name <<"and"<< endl;
 	}
 	return; 
 }
 
-void AppGraph::AddNode(Node* n, Type t){             
+void AppGraph::AddNode(Node* n, Type t){  
+	//cout << "Adding" << n->name << endl;           
 	switch(t){
-		case Input : inputs.push_back(n);
-		case Output: outputs.push_back(n);
-		case Mix: internals.push_back(n); 
+		case Input : inputs.push_back(n);  /*cout<< inputs[0]->name << " IP" << endl;*/ break;
+		case Output: outputs.push_back(n); /*cout<< outputs[outputs.size()-1]->name << "OP" << endl;*/ break;
+		case Mix: internals.push_back(n); /*cout<< internals[internals.size()-1]->name << "MIX" << endl;*/ break;
 	}
+	//cout << inputs[0]->name << endl; 
 	return;
 }
 
 
 
-Node* createnode(string Name, Type optype){
+/*Node* createnode(string Name, Type optype){
 	Node* temp;
-	*temp = Node(Name, optype);
+	Node n (Name, optype);
+
+	temp = &n;	
+	//*temp = n;
 	return temp;  
-}
+}*/
 
 int main(){
 
@@ -77,33 +88,40 @@ int main(){
 
 	AppGraph app_graph;
 
-	ifstream inputfile("a2.txt");
+	ifstream inputfile("../resources/a2.txt");
     string optype_string;
     string name;
     string garbage;
     Type optype;
     char ch;
-    Node* temp;
     if(inputfile.is_open()){                              //the first pass
 		while(!inputfile.eof()){
 			inputfile >> name;
 			ch = name.at(0);
-			if(ch!='#' && ch!='(' ){
+			if(ch!='#' && ch!='('){
 				inputfile >> optype_string;
-
-				if(optype_string.at(0)=='I')
+				//cout << "Here now" << endl;
+				if(optype_string.at(0)=='I'){
 					optype_string.resize(5);
+				}
 
 				optype = conversion[optype_string];
-				temp = createnode(name, optype);
-				app_graph.AddNode(temp, optype);
+				//cout << "Here now" << endl;
+				//cout << name << " and " << optype << endl;
+				//Node temp(name, optype);
+				//cout << temp.pointer()->type << endl ;
+				//app_graph.AddNode(temp.pointer(), optype);
 			}
-			else
+			else{
 				getline(inputfile, garbage);
+				cout << garbage << endl;
+			}
 		}
     }
-	Printer(app_graph);
-
+	//Printer(app_graph.pointer());
+    //cout << app_graph.inputs[5]->name << endl; 
+    //int i = 0;
+    //cout << app_graph.inputs.at(0)->name << endl;
 	return 0;
 }
 
