@@ -34,6 +34,11 @@ public:
   Node* pointer(){
   	return this;
   }
+  void InputVolumePopulator(int a){
+  	pair<Node*, int> temp(NULL, a);
+  	outputs.push_back(temp);
+  	return;
+  }
 };
 
 class AppGraph{
@@ -49,20 +54,22 @@ public:
 	AppGraph* pointer(){
   	return this;
     }
+    void InVolumePopulator(int index, int volume){
+    	inputs[index]->InputVolumePopulator(volume);
+    	return;
+    }
 };	
 
 void Printer(AppGraph* ap){                                                     //Debugger
 	//cout << "HERE" << endl;
 	int i;
-	for(i = 0; i < (ap->inputs).size(); i++ ){
-		cout << ap->inputs[i]-> name << endl;
+	for(i = 0; i < (ap->internals).size(); i++ ){
+		cout << ap->internals[i]-> name << endl;
 	}
 	return; 
 }
 
-void AppGraph::AddNode(Node* n, Type t){  
-	//cout << "Adding" << n->name << endl;
-	int i=0;           
+void AppGraph::AddNode(Node* n, Type t){            
 	switch(t){
 		case Input : inputs.push_back(n);  /*cout<< inputs[0]->name << " IP" << endl;*/break;
 		case Output: outputs.push_back(n); /*cout<< outputs[outputs.size()-1]->name << "OP" << endl;*/ break;
@@ -74,17 +81,6 @@ void AppGraph::AddNode(Node* n, Type t){
 	cout << endl;*/
 	return;
 }
-
-
-
-/*Node* createnode(string Name, Type optype){
-	Node* temp;
-	Node n (Name, optype);
-
-	temp = &n;	
-	//*temp = n;
-	return temp;  
-}*/
 
 int main(){
 
@@ -135,10 +131,51 @@ int main(){
 			}
 		}
     }
-	Printer(app_graph.pointer());
+	//Printer(app_graph.pointer());
     //cout << app_graph.inputs[5]->name << endl; 
     //int i = 0;
     //cout << app_graph.inputs[0]->name << endl;
+
+
+
+    /*****************************************************************************************************************/
+	ifstream inputfile_2("../resources/a2.txt");  //Order of occurence is same so no searching overhead
+	i=0;
+	int volume;
+	/*string volume;
+	inputfile_2 >> volume;
+	cout << volume  << endl;*/
+	if(inputfile_2.is_open()){                              //the second pass-look for numbers approach
+		while(!inputfile_2.eof()){
+			//cout << "here" << endl;
+			inputfile >> name;
+			ch = name.at(0);
+			if(ch!='#'){
+				//cout << "Entered" << endl;
+				inputfile >> optype_string;
+				if(optype_string.at(0)== 'I'){
+					cout << "Finally" << endl;
+					inputfile_2.ignore(100, ':');
+					inputfile_2 >> volume;
+					cout << volume << endl;
+					break;
+					app_graph.InVolumePopulator(i, volume);
+					i++;
+				}
+
+			}
+			else{
+				getline(inputfile, garbage);
+
+				cout << garbage << endl;
+				garbage.resize(0);                   //Flushing out the values not needed in this pass
+				name.resize(0);
+			}
+		}
+    }
+
+
+
 	return 0;
 }
 
