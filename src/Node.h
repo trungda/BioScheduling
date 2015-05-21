@@ -1,12 +1,12 @@
 #ifndef NODE_H
 #define NODE_H
-#include <iostream>                          //cout, cin
-#include <string>							 //string class 						
-#include <fstream>							 //flie handling
-#include <vector>							 //vector class
-#include <algorithm>                         //easy-to-use algorithms
-#include <utility>                           //pair template
-#include <map>                               //using maps
+#include <iostream>                          
+#include <string>							 
+#include <fstream>							
+#include <vector>							 
+#include <algorithm>                         
+#include <utility>                           
+#include <map>                               
 using namespace std;
 
 enum Type {Input, Output, Mix};

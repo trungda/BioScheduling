@@ -6,28 +6,9 @@
 #include <utility>                           //pair template
 #include <map>                               //using maps
 #include "Node.h"
+#include "AppGraph.h"
 using namespace std;
 
-
-
-class AppGraph{
-public:  //Temporarily made public
-	vector<Node*> inputs;
-	vector<Node*> outputs;
-	vector<Node*> internals;
-public:
-	vector<pair<Node*, int> > GetInputs(Node*);                                           //For a particular node in the graph
-	vector<pair<Node*, int> > GetOutputs(Node*);                                          //After the second pass
-	void AddNode(Node*, Type);
-	void AddEdge(Node*, Node*);
-	AppGraph* pointer(){
-  	return this;
-    }
-    void InVolumePopulator(int index, int volume){
-    	inputs[index]->InputVolumePopulator(volume);
-    	return;
-    }
-};	
 
 /*void Printer(AppGraph* ap){                                                     //Debugger
 	//cout << "HERE" << endl;
@@ -37,19 +18,6 @@ public:
 	}
 	return; 
 }*/
-
-void AppGraph::AddNode(Node* n, Type t){            
-	switch(t){
-		case Input : inputs.push_back(n);  /*cout<< inputs[0]->name << " IP" << endl;*/break;
-		case Output: outputs.push_back(n); /*cout<< outputs[outputs.size()-1]->name << "OP" << endl;*/ break;
-		case Mix: internals.push_back(n); /*cout<< internals[internals.size()-1]->name << "MIX" << endl;*/ break;
-	}
-	/*for(i=0; i<inputs.size(); i++){
-		cout<< inputs[i]->name << endl;
-	}
-	cout << endl;*/
-	return;
-}
 
 int main(){
 
