@@ -20,7 +20,6 @@ class Node{
 	public:
   		Node();
   		Node(string name, Type type);
-  		Node(string name, Type type, vector<pair<Node*, int> >* inputs, vector<pair<Node*, int> >* outputs);
   		void InputVolumePopulator(int a);
   		string name();
 };

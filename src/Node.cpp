@@ -19,13 +19,6 @@ Node::Node(string Name, Type optype){
     type_ = optype;
 }
 
-Node::Node(string name, Type type, vector<pair<Node*, int> >* inputs, vector<pair<Node*, int> >* outputs){  
-  	name_ = name;																					   
-  	type_ = type;
-  	inputs_ = *inputs;
-  	outputs_ = *outputs;
-}
-
 void Node::InputVolumePopulator(int a){
   	pair<Node*, int> temp(NULL, a);
   	outputs_.push_back(temp);
