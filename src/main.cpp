@@ -70,15 +70,15 @@ int main(){
 			ch = name.at(0);
 			if(ch!='#'){
 				//cout << "Entered" << endl;
-				inputfile_2 >> optype_string;
+				inputfile_2 >> type_string;
 				//cout << volume << endl;
-				cout << optype_string.at(0) << ' ' << name << endl;
-				if(optype_string.at(0)== 'I'){
+				cout << type_string.at(0) << ' ' << name << endl;
+				if(type_string.at(0)== 'I'){
 					//cout << "Finally" << endl;
 					//inputfile_2.ignore(10, '\n');
 					//cout << volume << ' ' << i << endl;
-					optype_string.erase(0, 6);
-					cout << optype_string << endl;
+					type_string.erase(0, 6);
+					cout << type_string << endl;
 					//app_graph.InVolumePopulator(i, volume);
 					i++;
 				}
