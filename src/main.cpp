@@ -145,29 +145,31 @@ int main(){
 	/*string volume;
 	inputfile_2 >> volume;
 	cout << volume  << endl;*/
-	if(inputfile_2.is_open()){                              //the second pass-look for numbers approach
+	if(inputfile_2.is_open()){                              //the second pass-(look for numbers approach)
 		while(!inputfile_2.eof()){
 			//cout << "here" << endl;
-			inputfile >> name;
+			inputfile_2 >> name;
 			ch = name.at(0);
 			if(ch!='#'){
 				//cout << "Entered" << endl;
-				inputfile >> optype_string;
+				inputfile_2 >> optype_string;
+				//cout << volume << endl;
+				cout << optype_string.at(0) << ' ' << name << endl;
 				if(optype_string.at(0)== 'I'){
-					cout << "Finally" << endl;
-					inputfile_2.ignore(100, ':');
-					inputfile_2 >> volume;
-					cout << volume << endl;
-					break;
+					//cout << "Finally" << endl;
+					//inputfile_2.ignore(10, '\n');
+					//cout << volume << ' ' << i << endl;
+					optype_string.erase(0, 6);
+					cout << optype_string << endl;
 					app_graph.InVolumePopulator(i, volume);
 					i++;
 				}
 
 			}
 			else{
-				getline(inputfile, garbage);
+				getline(inputfile_2, garbage);
 
-				cout << garbage << endl;
+				//cout << garbage <<" garbage"<< endl;
 				garbage.resize(0);                   //Flushing out the values not needed in this pass
 				name.resize(0);
 			}
