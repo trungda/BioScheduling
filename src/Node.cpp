@@ -32,3 +32,7 @@ void Node::InputVolumePopulator(int a){
   	return;
 }
 
+string Node::NameAccess(){
+	return name;
+}
+

@@ -6,6 +6,7 @@
 #include <algorithm>                         
 #include <utility>                         
 #include <map>
+#include "Node.h"
 using namespace std;
 
 void AppGraph::InVolumePopulator(int index, int volume){
@@ -20,6 +21,10 @@ void AppGraph::AddNode(Node* n, Type t){
 		case Mix: internals.push_back(n); break;
 	}
 	return;
+}
+
+vector<Node*> AppGraph::InputAccess(){
+	return inputs;
 }
 
 

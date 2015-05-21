@@ -22,6 +22,7 @@ class Node{
   		Node(string Name, Type optype);
   		Node(string Name, Type optype, vector<pair<Node*, int> >* iputs, vector<pair<Node*, int> >* oputs);
   		void InputVolumePopulator(int a);
+  		string NameAccess();
 };
 
 #endif

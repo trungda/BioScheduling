@@ -5,7 +5,8 @@
 #include <vector>							 
 #include <algorithm>                         
 #include <utility>                           
-#include <map>                               
+#include <map>  
+#include "Node.h"                             
 using namespace std;
 
 
@@ -20,6 +21,7 @@ class AppGraph{
 		void AddNode(Node*, Type);
 		void AddEdge(Node*, Node*);
     	void InVolumePopulator(int index, int volume);
+    	vector<Node*> InputAccess();
 };	
 
 #endif
