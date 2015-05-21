@@ -10,21 +10,21 @@
 using namespace std;
 
 void AppGraph::InVolumePopulator(int index, int volume){
-    inputs[index]->InputVolumePopulator(volume);
+    inputs_[index]->InputVolumePopulator(volume);
     return;
 }
 
 void AppGraph::AddNode(Node* n, Type t){            
 	switch(t){
-		case Input : inputs.push_back(n);  break;
-		case Output: outputs.push_back(n); break;
-		case Mix: internals.push_back(n); break;
+		case Input : inputs_.push_back(n);  break;
+		case Output: outputs_.push_back(n); break;
+		case Mix: internals_.push_back(n); break;
 	}
 	return;
 }
 
-vector<Node*> AppGraph::InputAccess(){
-	return inputs;
+vector<Node*> AppGraph::inputs(){
+	return inputs_;
 }
 
 

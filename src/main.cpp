@@ -12,9 +12,9 @@ using namespace std;
 
 void Printer(AppGraph* ap){                                                     //Debugger
 	int i;
-	vector<Node*> input = ap->InputAccess();
+	vector<Node*> input = ap->inputs();
 	for(i = 0; i < input.size(); i++ ){
-		cout << input[i]-> NameAccess() << endl;
+		cout << input[i]-> name() << endl;
 	}
 	return; 
 }
@@ -47,7 +47,7 @@ int main(){
 					optype_string.resize(5);
 				}
 				optype = conversion[optype_string];
-				//cout << name << '\t' << optype << endl;
+				//cout << name << '\t' << optype << endl;             //To check for Correctness
 				Node n(name, optype);
 				var[i]= n;
 				app_graph.AddNode(var+i, optype);
@@ -57,7 +57,7 @@ int main(){
 			}
 		}
     }
-	Printer(&app_graph);
+	//Printer(&app_graph);                                            //Prints all the inputs in the graph
     //cout << app_graph->inputs[5]->name << endl; 
     //int i = 0;
     //cout << app_graph->inputs[0]->name << endl;

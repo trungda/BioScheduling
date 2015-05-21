@@ -10,29 +10,29 @@
 using namespace std;
 
 Node::Node(){
-	name = "default";
-  	type = Input;
+	name_ = "default";
+  	type_ = Input;
 }
 
 Node::Node(string Name, Type optype){                                                                       
-    name = Name;                                                                                       
-    type = optype;
+    name_ = Name;                                                                                       
+    type_ = optype;
 }
 
-Node::Node(string Name, Type optype, vector<pair<Node*, int> >* iputs, vector<pair<Node*, int> >* oputs){  
-  	name = Name;																					   
-  	type = optype;
-  	inputs = *iputs;
-  	outputs = *oputs;
+Node::Node(string name, Type type, vector<pair<Node*, int> >* inputs, vector<pair<Node*, int> >* outputs){  
+  	name_ = name;																					   
+  	type_ = type;
+  	inputs_ = *inputs;
+  	outputs_ = *outputs;
 }
 
 void Node::InputVolumePopulator(int a){
   	pair<Node*, int> temp(NULL, a);
-  	outputs.push_back(temp);
+  	outputs_.push_back(temp);
   	return;
 }
 
-string Node::NameAccess(){
-	return name;
+string Node::name(){
+	return name_;
 }
 

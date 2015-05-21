@@ -13,16 +13,16 @@ enum Type {Input, Output, Mix};
 
 class Node{
 	private:
-  		string name;
-  		Type type;
-  		vector<pair<Node*, int> > inputs;
-  		vector<pair<Node*, int> > outputs;
+  		string name_;
+  		Type type_;
+  		vector<pair<Node*, int> > inputs_;
+  		vector<pair<Node*, int> > outputs_;
 	public:
   		Node();
-  		Node(string Name, Type optype);
-  		Node(string Name, Type optype, vector<pair<Node*, int> >* iputs, vector<pair<Node*, int> >* oputs);
+  		Node(string name, Type type);
+  		Node(string name, Type type, vector<pair<Node*, int> >* inputs, vector<pair<Node*, int> >* outputs);
   		void InputVolumePopulator(int a);
-  		string NameAccess();
+  		string name();
 };
 
 #endif
