@@ -30,10 +30,10 @@ int main(){
 	AppGraph app_graph;
 
 	ifstream inputfile("../resources/a2.txt");
-    string optype_string;
+    string type_string;
     string name;
     string garbage;
-    Type optype;
+    Type type;
     char ch;
     Node var[1000];                                                   //Assuming 1000 is the maximum number of nodes
     int i=0;
@@ -42,15 +42,15 @@ int main(){
 			inputfile >> name;
 			ch = name.at(0);
 			if(ch!='#' && ch!='('){
-				inputfile >> optype_string;
-				if(optype_string.at(0)=='I'){                         //To keep only "INPUT"
-					optype_string.resize(5);
+				inputfile >> type_string;
+				if(type_string.at(0)=='I'){                           //To keep only "INPUT"
+					type_string.resize(5);
 				}
-				optype = conversion[optype_string];
+				type = conversion[type_string];
 				//cout << name << '\t' << optype << endl;             //To check for Correctness
-				Node n(name, optype);
+				Node n(name, type);
 				var[i]= n;
-				app_graph.AddNode(var+i, optype);
+				app_graph.AddNode(var+i, type);
 			}
 			else{
 				getline(inputfile, garbage);
@@ -58,21 +58,13 @@ int main(){
 		}
     }
 	//Printer(&app_graph);                                            //Prints all the inputs in the graph
-    //cout << app_graph->inputs[5]->name << endl; 
-    //int i = 0;
-    //cout << app_graph->inputs[0]->name << endl;
 
 
-
-    //******************************************************************************************************
-	ifstream inputfile_2("../resources/a2.txt");  //Order of occurence is same so no searching overhead
-	i=0;
+	ifstream inputfile_2("../resources/a2.txt");                      //Order of occurence is same so no searching overhead
 	int volume;
-	/*string volume;
-	inputfile_2 >> volume;
-	cout << volume  << endl;*/
-	/*if(inputfile_2.is_open()){                              //the second pass-(look for numbers approach)
-		while(!inputfile_2.eof()){
+	string volume;
+	if(inputfile_2.is_open()){                                        //the second pass-(look for numbers approach)
+		for(i=0; !inputfile_2.eof(); ){
 			//cout << "here" << endl;
 			inputfile_2 >> name;
 			ch = name.at(0);
@@ -94,13 +86,9 @@ int main(){
 			}
 			else{
 				getline(inputfile_2, garbage);
-
-				//cout << garbage <<" garbage"<< endl;
-				garbage.resize(0);                   //Flushing out the values not needed in this pass
-				name.resize(0);
 			}
 		}
-    }*/
+    }
 
 
 
