@@ -5,41 +5,10 @@
 #include <algorithm>                         //easy-to-use algorithms
 #include <utility>                           //pair template
 #include <map>                               //using maps
+#include "Node.h"
 using namespace std;
 
-enum Type {Input, Output, Mix};
 
-
-class Node{
-public:   //Temporarily made public
-  string name;
-  Type type;
-  vector<pair<Node*, int> > inputs;
-  vector<pair<Node*, int> > outputs;
-public:
-  Node(){
-  	name = "default";
-  	type = Input;
-  }
-  Node (string Name, Type optype){                                                                      //Constructor for the 
-    name = Name;                                                                                       //first pass
-    type = optype;
-  }
-  Node(string Name, Type optype, vector<pair<Node*, int> >* iputs, vector<pair<Node*, int> >* oputs){  //Constructor for the 
-  	name = Name;																					   //second pass
-  	type = optype;
-  	inputs = *iputs;
-  	outputs = *oputs;
-  }
-  Node* pointer(){
-  	return this;
-  }
-  void InputVolumePopulator(int a){
-  	pair<Node*, int> temp(NULL, a);
-  	outputs.push_back(temp);
-  	return;
-  }
-};
 
 class AppGraph{
 public:  //Temporarily made public
@@ -60,14 +29,14 @@ public:
     }
 };	
 
-void Printer(AppGraph* ap){                                                     //Debugger
+/*void Printer(AppGraph* ap){                                                     //Debugger
 	//cout << "HERE" << endl;
 	int i;
 	for(i = 0; i < (ap->internals).size(); i++ ){
 		cout << ap->internals[i]-> name << endl;
 	}
 	return; 
-}
+}*/
 
 void AppGraph::AddNode(Node* n, Type t){            
 	switch(t){
@@ -161,7 +130,7 @@ int main(){
 					//cout << volume << ' ' << i << endl;
 					optype_string.erase(0, 6);
 					cout << optype_string << endl;
-					app_graph.InVolumePopulator(i, volume);
+					//app_graph.InVolumePopulator(i, volume);
 					i++;
 				}
 
