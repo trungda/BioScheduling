@@ -20,9 +20,14 @@ Node::Node(string Name, Type optype){
 }
 
 void Node::InputVolumePopulator(int a){
-  	pair<Node*, int> temp(NULL, a);
-  	outputs_.push_back(temp);
-  	return;
+	if(outputs_.empty()){
+  		pair<Node*, int> temp;
+  		temp.second = a;
+  		outputs_.push_back(temp);
+  		return;
+  	}
+  	else
+  		
 }
 
 string Node::name(){

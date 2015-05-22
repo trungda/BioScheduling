@@ -21,7 +21,10 @@ class AppGraph{
 		void AddNode(Node*, Type);
 		void AddEdge(Node*, Node*);
     	void InVolumePopulator(int index, int volume);
+    	node* SearchByName(string);
     	vector<Node*> inputs();
+    	vector<Node*> internals();
+    	vector<Node*> outputs();
 };	
 
 #endif

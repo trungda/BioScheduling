@@ -27,5 +27,30 @@ vector<Node*> AppGraph::inputs(){
 	return inputs_;
 }
 
+vector<Node*> AppGraph::internals(){
+	return internals_;
+}
+
+vector<Node*> AppGraph::outputs(){
+	return outputs_;
+}
+
+Node* AppGraph::SearchByName(string input_name){
+	int i; 
+	int found = 0;
+	for(i=0; i<inputs_.size(); i++){
+		if(inputs_[i]->name == input_name)
+			return inputs_[i]; 
+	}
+	for(i=0; i<internals_.size(); i++){
+		if(internals_[i]->name == input_name)
+			return internals_[i]; 
+	}
+	for(i=0; i<outputs_.size(); i++){
+		if(outputs_[i]->name == input_name)
+			return outputs_[i]; 
+	}
+}
+
 
 

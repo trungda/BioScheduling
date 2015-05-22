@@ -8,6 +8,7 @@
 #include "Node.h"
 #include "AppGraph.h"
 #include "Functions.h"
+#include <regex>
 using namespace std;
 
 int main(){
@@ -22,14 +23,19 @@ int main(){
     string garbage;
     Type type;
     char ch;
+    int flag=1;
     Node var[1000];                                                   //Assuming 1000 is the maximum number of nodes
     int i=0;
-    if(inputfile.is_open()){                             
-		for(i=0; !inputfile.eof(); i++){
-			inputfile >> name;
+    if(inputfile_1.is_open()){                             
+		for(i=0; !inputfile_1.eof(); i++){
+			inputfile_1 >> name;
 			ch = name.at(0);
 			if(ch!='#' && ch!='('){
-				inputfile >> type_string;
+				/*if(flag){
+					name_size = name.size()-1;
+					flag = 0;
+				}*/
+				inputfile_1 >> type_string;
 				if(type_string.at(0)=='I'){                           //To keep only "INPUT"
 					type_string.resize(5);
 				}
@@ -40,7 +46,7 @@ int main(){
 				app_graph.AddNode(var+i, type);
 			}
 			else{
-				getline(inputfile, garbage);
+				getline(inputfile_1, garbage);
 			}
 		}
     }
@@ -52,6 +58,8 @@ int main(){
 	int inputs_counter=0;
 	int outputs_counter=0;
 	int internals_counter=0;
+	string input_name;
+	node* node_address;
 	if(inputfile_2.is_open()){                                        //the second pass-(look for numbers approach)
 		while(!inputfile_2.eof()){
 			inputfile_2 >> name;
@@ -65,6 +73,19 @@ int main(){
 					app_graph.InVolumePopulator(inputs_counter, volume);
 					inputs_counter++;
 				}
+				if(type_string.at(0)== 'M'){
+					inputfile_2 >> input_name;
+					input1_name.erase(0, 1);
+					input1_name.pop_back(); 
+
+					node_address = app_graph.SearchByName(input_name);
+					if(node_address->type = Input){
+						
+					}
+					inputfile_2 >> input_name;
+					input_name.pop_back(); 
+					
+				}
 
 			}
 			else{
@@ -72,7 +93,6 @@ int main(){
 			}
 		}
     }
-
 
 
 	return 0;

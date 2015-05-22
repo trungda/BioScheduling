@@ -11,5 +11,4 @@
 #include "AppGraph.h"
 
 void Printer(AppGraph* ap);
-
 #endif
