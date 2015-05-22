@@ -7,28 +7,15 @@
 #include <map>                               //using maps
 #include "Node.h"
 #include "AppGraph.h"
+#include "Functions.h"
 using namespace std;
 
-
-void Printer(AppGraph* ap){                                                     //Debugger
-	int i;
-	vector<Node*> input = ap->inputs();
-	for(i = 0; i < input.size(); i++ ){
-		cout << input[i]-> name() << endl;
-	}
-	return; 
-}
-
 int main(){
-
-
 	map<string, Type> conversion;                    
 	conversion["INPUT"] = Input;
 	conversion["OUTPUT"] = Output;
 	conversion["MIX"] = Mix;
-
 	AppGraph app_graph;
-
 	ifstream inputfile("../resources/a2.txt");
     string type_string;
     string name;
@@ -62,25 +49,21 @@ int main(){
 
 	ifstream inputfile_2("../resources/a2.txt");                      //Order of occurence is same so no searching overhead
 	int volume;
-	string volume;
+	int inputs_counter=0;
+	int outputs_counter=0;
+	int internals_counter=0;
 	if(inputfile_2.is_open()){                                        //the second pass-(look for numbers approach)
-		for(i=0; !inputfile_2.eof(); ){
-			//cout << "here" << endl;
+		while(!inputfile_2.eof()){
 			inputfile_2 >> name;
 			ch = name.at(0);
 			if(ch!='#'){
-				//cout << "Entered" << endl;
 				inputfile_2 >> type_string;
-				//cout << volume << endl;
-				cout << type_string.at(0) << ' ' << name << endl;
 				if(type_string.at(0)== 'I'){
-					//cout << "Finally" << endl;
-					//inputfile_2.ignore(10, '\n');
-					//cout << volume << ' ' << i << endl;
 					type_string.erase(0, 6);
-					cout << type_string << endl;
-					//app_graph.InVolumePopulator(i, volume);
-					i++;
+					volume = stoi(type_string);
+					//cout << volume << endl;
+					app_graph.InVolumePopulator(inputs_counter, volume);
+					inputs_counter++;
 				}
 
 			}
