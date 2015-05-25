@@ -1,4 +1,6 @@
 #include "AppGraph.h"
+#include "Node.h"
+
 #include <iostream>                         
 #include <string>							 
 #include <fstream>							 
@@ -6,7 +8,6 @@
 #include <algorithm>                         
 #include <utility>                         
 #include <map>
-#include "Node.h"
 using namespace std;
 
 void AppGraph::InVolumePopulator(int index, int volume){
@@ -39,17 +40,46 @@ Node* AppGraph::SearchByName(string input_name){
 	int i; 
 	int found = 0;
 	for(i=0; i<inputs_.size(); i++){
-		if(inputs_[i]->name == input_name)
+		if(inputs_[i]->name() == input_name)
 			return inputs_[i]; 
 	}
 	for(i=0; i<internals_.size(); i++){
-		if(internals_[i]->name == input_name)
+		if(internals_[i]->name() == input_name)
 			return internals_[i]; 
 	}
 	for(i=0; i<outputs_.size(); i++){
-		if(outputs_[i]->name == input_name)
+		if(outputs_[i]->name() == input_name)
 			return outputs_[i]; 
 	}
+}
+
+void AppGraph::AddEdge1(Node* start, Node* end){
+
+	if(start->type() == Input){
+		if(start->outputs().empty()){            //The parser has not seen it yet
+			pair<Node*, int> output_info;
+			output_info.first = end;
+			start->set_outputs(output_info);
+			pair<Node*, int> input_info;
+			input_info.first = start;
+			end->set_inputs(input_info);
+		}
+		else{											//The parser has seen it
+			start->outputs()[0].first = end;
+			pair<Node*, int> input_info (start, start->outputs()[0].second);
+			end->set_inputs(input_info);
+		}
+	}
+	/*else if(start->type()== Mix){
+		if(start->outputs().empty()){
+			pair<Node*, int> output_info;
+			output_info.first = end;
+			start->set_outputs(output_info);
+			pair<Node*, int> input_info;
+			input_info.first = start;
+			end->set_inputs(input_info);
+		}
+	}*/
 }
 
 

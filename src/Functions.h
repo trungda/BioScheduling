@@ -11,4 +11,5 @@
 #include "AppGraph.h"
 
 void Printer(AppGraph* ap);
+pair<Node*, int> MakePair(string, AppGraph);
 #endif

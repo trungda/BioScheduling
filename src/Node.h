@@ -22,6 +22,11 @@ class Node{
   		Node(string name, Type type);
   		void InputVolumePopulator(int a);
   		string name();
+      Type type();
+      vector<pair<Node*, int> > outputs();
+      void set_outputs(pair<Node*, int> output_info);
+      void set_inputs(pair<Node*, int> inuput_info);
+      int SearchByName(string);
 };
 
 #endif

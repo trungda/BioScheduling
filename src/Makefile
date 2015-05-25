@@ -1,2 +1,2 @@
 all:
-	g++ -std=c++11 main.cpp Node.cpp AppGraph.cpp Functions.cpp
+	g++ -g -std=c++11 main.cpp Node.cpp AppGraph.cpp Functions.cpp 
