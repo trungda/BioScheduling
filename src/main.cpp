@@ -68,10 +68,11 @@ int main(){
 				//cout << name << '\t';
 				inputfile_2 >> type_string;
 				if(type_string.at(0)== 'I'){
+					Node* curr = app_graph.inputs()[inputs_counter];
 					type_string.erase(0, 6);
 					volume = stoi(type_string);
 					//cout << volume << endl;
-					app_graph.InVolumePopulator(inputs_counter, volume);
+					curr->InputVolumePopulator(volume);
 					inputs_counter++;
 				}
 				else if(type_string.at(0)== 'M'){
@@ -81,12 +82,11 @@ int main(){
 					input_name.erase(0, 1);
 					input_name.pop_back(); 
 					node_address = app_graph.SearchByName(input_name);
-					app_graph.AddEdge1(node_address, curr);
-					internals_counter++;
+					app_graph.AddEdge(node_address, curr);
 					inputfile_2 >> input_name;
 					input_name.pop_back();
 					node_address = app_graph.SearchByName(input_name);
-					app_graph.AddEdge1(node_address, curr);
+					app_graph.AddEdge(node_address, curr);
 
 					inputfile_2 >> output_name;
 					output_name.erase(0, 1);
@@ -110,7 +110,7 @@ int main(){
 			}
 		}
     }
-    //Printer(&app_graph);
+    cout << app_graph.inputs()[1]->outputs()[0].first->name()<< endl;
 	return 0;
 }
 

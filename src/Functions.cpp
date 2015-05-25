@@ -13,7 +13,7 @@ void Printer(AppGraph* ap){                                                     
 
 	vector<Node*> input = ap->inputs();
 	for(i = 0; i < input.size(); i++ ){
-		cout << input[i]-> outputs()[0].second << endl;
+		cout << input[i]-> outputs()[0].first->name() << endl;
 	}
 	cout << endl;
 

@@ -10,11 +10,6 @@
 #include <map>
 using namespace std;
 
-void AppGraph::InVolumePopulator(int index, int volume){
-    inputs_[index]->InputVolumePopulator(volume);
-    return;
-}
-
 void AppGraph::AddNode(Node* n, Type t){            
 	switch(t){
 		case Input : inputs_.push_back(n);  break;
@@ -53,7 +48,7 @@ Node* AppGraph::SearchByName(string input_name){
 	}
 }
 
-void AppGraph::AddEdge1(Node* start, Node* end){
+void AppGraph::AddEdge(Node* start, Node* end){
 
 	if(start->type() == Input){
 		if(start->outputs().empty()){            //The parser has not seen it yet
@@ -65,11 +60,12 @@ void AppGraph::AddEdge1(Node* start, Node* end){
 			end->set_inputs(input_info);
 		}
 		else{											//The parser has seen it
-			start->outputs()[0].first = end;
+			start->InputPointerPopulator(end);
 			pair<Node*, int> input_info (start, start->outputs()[0].second);
 			end->set_inputs(input_info);
 		}
 	}
+	return;
 	/*else if(start->type()== Mix){
 		if(start->outputs().empty()){
 			pair<Node*, int> output_info;

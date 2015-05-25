@@ -51,6 +51,10 @@ vector<pair<Node*, int> > Node::outputs(){
 	return outputs_;
 }
 
+vector<pair<Node*, int> > Node::inputs(){
+	return inputs_;
+}
+
 void Node::set_inputs(pair<Node*, int> input_info){
 	inputs_.push_back(input_info);
 	return;
@@ -63,5 +67,10 @@ int Node::SearchByName(string output_name){
 			return i; 
 	}
 	//else handle the exception
+}
+
+void Node::InputPointerPopulator(Node* output){
+	outputs_[0].first= output;
+	return;
 }
 
