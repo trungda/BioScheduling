@@ -13,10 +13,12 @@
 using namespace std;
 
 int main(){
+
 	map<string, Type> conversion;                    
 	conversion["INPUT"] = Input;
 	conversion["OUTPUT"] = Output;
 	conversion["MIX"] = Mix;
+
 	AppGraph app_graph;
 	ifstream inputfile_1("../resources/a2.txt");
     string type_string;
@@ -37,23 +39,20 @@ int main(){
 					type_string.resize(5);
 				}
 				type = conversion[type_string];
-				//cout << name << '\t' << optype << endl;             //To check for Correctness
 				Node n(name, type);
 				var[i]= n;
-				app_graph.AddNode(var+i, type);
+				app_graph.AddNode(var+i);
 			}
 			else{
 				getline(inputfile_1, garbage);
 			}
 		}
     }
-	//Printer(&app_graph);                                            //Prints all the inputs in the graph
 
 
-	ifstream inputfile_2("../resources/a2.txt");                  //Order of occurence is same so no searching overhead
+	ifstream inputfile_2("../resources/a2.txt");               
 	int volume;
 	int inputs_counter=0;
-	//int outputs_counter=0;
 	int internals_counter=0;
 	string input_name;
 	string output_name;
@@ -65,19 +64,16 @@ int main(){
 			ch = name.at(0);
 
 			if(ch!='#'){
-				//cout << name << '\t';
 				inputfile_2 >> type_string;
 				if(type_string.at(0)== 'I'){
 					Node* curr = app_graph.inputs()[inputs_counter];
 					type_string.erase(0, 6);
 					volume = stoi(type_string);
-					//cout << volume << endl;
 					curr->InputVolumePopulator(volume);
 					inputs_counter++;
 				}
 				else if(type_string.at(0)== 'M'){
 					Node* curr = app_graph.internals()[internals_counter]; 
-					//cout << "here" << '\t';
 					inputfile_2 >> input_name;
 					input_name.erase(0, 1);
 					input_name.pop_back(); 
@@ -90,19 +86,20 @@ int main(){
 
 					inputfile_2 >> output_name;
 					output_name.erase(0, 1);
-					while(ch!=')'){
-						ch = output_name.back();
+					pair<Node*, int> output_info = MakePair(output_name, app_graph);
+					curr->set_outputs(output_info);
+					pair<Node*, int> input_info(curr, output_info.second);
+					output_info.first->set_inputs(input_info);
+					ch='a';
+					while(output_name.back()!=')'){
+						inputfile_2 >> output_name;
 						pair<Node*, int> output_info = MakePair(output_name, app_graph);
-						//cout << output_info.first->name() << '\t';
 						curr->set_outputs(output_info);
 						pair<Node*, int> input_info(curr, output_info.second);
 						output_info.first->set_inputs(input_info);
-						inputfile_2 >> output_name;
-						//cout << output_name.back() << '\t';
-						//cout << "here" << '\t';
+						i++;
 					}
 					internals_counter++;
-					//cout << "out" << endl;
  				}
 			}
 			else{
@@ -110,7 +107,10 @@ int main(){
 			}
 		}
     }
-    cout << app_graph.inputs()[1]->outputs()[0].first->name()<< endl;
+    //cout << app_graph.internals()[6]->outputs()[0].first->name()<< endl;
+    app_graph.PrintInternals();
+    app_graph.PrintInputs();
+    app_graph.PrintOutputs();
 	return 0;
 }
 

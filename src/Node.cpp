@@ -20,15 +20,15 @@ Node::Node(string Name, Type optype){
     type_ = optype;
 }
 
-void Node::InputVolumePopulator(int a){
+void Node::InputVolumePopulator(int volume){
 	if(outputs_.empty()){
   		pair<Node*, int> temp;
-  		temp.second = a;
+  		temp.second = volume;
   		outputs_.push_back(temp);
   		return;
   	}
   	else{
-  		outputs_[0].second=a;
+  		outputs_[0].second=volume;
   		return;
   	}
 
@@ -43,7 +43,7 @@ Type Node::type(){
 }
 
 void Node::set_outputs(pair<Node*, int> output_info){
-	inputs_.push_back(output_info);
+	outputs_.push_back(output_info);
 	return;
 }
 

@@ -20,7 +20,7 @@ class AppGraph{
 	public:
 		vector<pair<Node*, int> > GetInputs(Node*);                                    
 		vector<pair<Node*, int> > GetOutputs(Node*);                                          
-		void AddNode(Node*, Type);
+		void AddNode(Node*);
 		void AddEdge(Node* start, Node* end);
 		void AddEdge2(Node* start, Node* end);
     	void InVolumePopulator(int index, int volume);
@@ -28,7 +28,10 @@ class AppGraph{
     	vector<Node*> inputs();
     	vector<Node*> internals();
     	vector<Node*> outputs();
-};	
+    	void PrintInternals();
+    	void PrintInputs();
+    	void PrintOutputs();
+	};	
 
 #endif
 

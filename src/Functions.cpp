@@ -35,19 +35,15 @@ pair<Node*, int> MakePair(string output_name, AppGraph app_graph){
 	int i;
 	string volume_string;
 	output_name.pop_back();
-	//cout << output_name << '\t';
 	for(i=0; i < output_name.size(); i++){
 		if(output_name[i]==':'){
 			break;
 		}
 	}
 	volume_string = output_name.substr(i+1, 10);
-	//cout << volume_string << '\t';
-
 	int volume = stoi(volume_string);
-	//cout << volume << '\t';
 	output_name = output_name.substr(0, i);
-	//cout << output_name << endl ;
+	//cout << output_name << '\t' << volume << endl;
 	Node* node_address = app_graph.SearchByName(output_name);
 	pair<Node*, int> output_pair(node_address, volume);
 	return output_pair;
