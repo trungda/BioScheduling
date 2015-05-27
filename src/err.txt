@@ -1,4 +1,0 @@
-/tmp/ccDq1w9I.o: In function `main':
-/home/abhiy/Summer'15/code/src/main.cpp:74: undefined reference to `AppGraph::InVolumePopulator(int, int)'
-collect2: error: ld returned 1 exit status
-make: *** [all] Error 1

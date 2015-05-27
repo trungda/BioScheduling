@@ -1,15 +1,15 @@
+#include <iostream>                      
+#include <string>										
+#include <fstream>							
+#include <vector>						
+#include <algorithm>                       
+#include <utility>                         
+#include <map>                           
+
 #include "AppGraph.h"
 #include "Functions.h"
-
-#include <iostream>                          //cout, cin
-#include <string>							 //string class 						
-#include <fstream>							 //flie handling
-#include <vector>							 //vector class
-#include <algorithm>                         //easy-to-use algorithms
-#include <utility>                           //pair template
-#include <map>                               //using maps
 #include "Node.h"
-#include <regex>
+
 using namespace std;
 
 int main(){
@@ -20,94 +20,106 @@ int main(){
 	conversion["MIX"] = Mix;
 
 	AppGraph app_graph;
+
 	ifstream inputfile_1("../resources/a2.txt");
-    string type_string;
-    string name;
+
+    string type_string, name;
     string garbage;
     Type type;
     char ch;
-    int flag=1;
-    Node var[1000];                                                   //Assuming 1000 is the maximum number of nodes
-    int i=0;
+    int i;
+    Node createnode[1000];                                                
+
+    //First-Padd
     if(inputfile_1.is_open()){                             
-		for(i=0; !inputfile_1.eof(); i++){
+	    for(i=0; !inputfile_1.eof(); i++){
+
+	    	//Read the Name
 			inputfile_1 >> name;
 			ch = name.at(0);
 			if(ch!='#' && ch!='('){
+
+				//Read the type
 				inputfile_1 >> type_string;
-				if(type_string.at(0)=='I'){                           //To keep only "INPUT"
+				if(type_string.at(0)=='I'){                           
 					type_string.resize(5);
 				}
 				type = conversion[type_string];
-				Node n(name, type);
-				var[i]= n;
-				app_graph.AddNode(var+i);
+				Node temp(name, type);
+				createnode[i]= temp;
+				app_graph.AddNode(createnode+i);
 			}
 			else{
+				//Skip the line
 				getline(inputfile_1, garbage);
 			}
 		}
     }
 
+    //Second-Pass
+	ifstream inputfile_2("../resources/a2.txt");
 
-	ifstream inputfile_2("../resources/a2.txt");               
+	string input_name, output_name, volume_string;           
+	int inputs_counter=0, internals_counter=0;
 	int volume;
-	int inputs_counter=0;
-	int internals_counter=0;
-	string input_name;
-	string output_name;
-	string volume_string;
 	Node* node_address;
-	if(inputfile_2.is_open()){                                        //the second pass-(look for numbers approach)	
+	Node* curr_address;
+
+	if(inputfile_2.is_open()){                                    
 		while(!inputfile_2.eof()){
+
+			//Read the name
 			inputfile_2 >> name;
 			ch = name.at(0);
-
 			if(ch!='#'){
+
+				//Read the line
 				inputfile_2 >> type_string;
 				if(type_string.at(0)== 'I'){
-					Node* curr = app_graph.inputs()[inputs_counter];
+					curr_address = app_graph.inputs().at(inputs_counter);
 					type_string.erase(0, 6);
 					volume = stoi(type_string);
-					curr->InputVolumePopulator(volume);
+					curr_address->set_outputs_volume(volume);
 					inputs_counter++;
 				}
 				else if(type_string.at(0)== 'M'){
-					Node* curr = app_graph.internals()[internals_counter]; 
+					Node* curr_address = app_graph.internals()[internals_counter];
+
+					//First Input
 					inputfile_2 >> input_name;
 					input_name.erase(0, 1);
 					input_name.pop_back(); 
 					node_address = app_graph.SearchByName(input_name);
-					app_graph.AddEdge(node_address, curr);
+					SetInputsPointer(curr_address, node_address);
+
+					//Second Input
 					inputfile_2 >> input_name;
 					input_name.pop_back();
 					node_address = app_graph.SearchByName(input_name);
-					app_graph.AddEdge(node_address, curr);
+					SetInputsPointer(curr_address, node_address);
 
+					//First Output
 					inputfile_2 >> output_name;
 					output_name.erase(0, 1);
 					pair<Node*, int> output_info = MakePair(output_name, app_graph);
-					curr->set_outputs(output_info);
-					pair<Node*, int> input_info(curr, output_info.second);
-					output_info.first->set_inputs(input_info);
-					ch='a';
+					app_graph.AddEdge(curr_address, output_info.first, output_info.second);
+
+					//Remaining Outputs
 					while(output_name.back()!=')'){
 						inputfile_2 >> output_name;
 						pair<Node*, int> output_info = MakePair(output_name, app_graph);
-						curr->set_outputs(output_info);
-						pair<Node*, int> input_info(curr, output_info.second);
-						output_info.first->set_inputs(input_info);
+						app_graph.AddEdge(curr_address, output_info.first, output_info.second);
 						i++;
 					}
 					internals_counter++;
  				}
 			}
 			else{
+				//Skip the line
 				getline(inputfile_2, garbage);
 			}
 		}
     }
-    //cout << app_graph.internals()[6]->outputs()[0].first->name()<< endl;
     app_graph.PrintInternals();
     app_graph.PrintInputs();
     app_graph.PrintOutputs();

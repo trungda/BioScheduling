@@ -1,36 +1,15 @@
-#include <iostream>                          //cout, cin
-#include <string>							 //string class 						
-#include <fstream>							 //flie handling
-#include <vector>							 //vector class
-#include <algorithm>                         //easy-to-use algorithms
-#include <utility>                           //pair template
-#include <map>                               //using maps
-#include "Node.h"
+#include <iostream>                      
+#include <string>										
+#include <fstream>							
+#include <vector>						
+#include <algorithm>                       
+#include <utility>                         
+#include <map>                           
+
 #include "AppGraph.h"
+#include "Functions.h"
+#include "Node.h"
 
-void Printer(AppGraph* ap){                                                     //Debugger
-	int i;
-
-	vector<Node*> input = ap->inputs();
-	for(i = 0; i < input.size(); i++ ){
-		cout << input[i]-> outputs()[0].first->name() << endl;
-	}
-	cout << endl;
-
-	vector<Node*> internal = ap->internals();
-	for(i = 0; i < internal.size(); i++ ){
-		cout << internal[i]-> outputs()[0].second << endl;
-	}
-	cout << endl;
-
-	vector<Node*> output = ap->outputs();
-	for(i = 0; i < output.size(); i++ ){
-		cout << output[i]-> outputs()[0].second << endl;
-	}
-	cout << endl;
-
-	return; 
-}
 pair<Node*, int> MakePair(string output_name, AppGraph app_graph){
 	int i;
 	string volume_string;
@@ -43,8 +22,73 @@ pair<Node*, int> MakePair(string output_name, AppGraph app_graph){
 	volume_string = output_name.substr(i+1, 10);
 	int volume = stoi(volume_string);
 	output_name = output_name.substr(0, i);
-	//cout << output_name << '\t' << volume << endl;
 	Node* node_address = app_graph.SearchByName(output_name);
 	pair<Node*, int> output_pair(node_address, volume);
 	return output_pair;
+}
+
+void SetInputsPointer(Node* curr, Node* next){
+
+	//Input being set by itself
+	//100 used as dummy to indicate self-set
+	if(curr->inputs().empty() || curr->inputs().at(0).second == 100){  
+		pair<Node*, int> temp(next, 100);
+		curr->set_inputs(temp);
+	}
+
+	//Both-Inputs set by other nodes
+	else if(curr->inputs().size()==2 && curr->inputs()[0].first!= next && curr->inputs()[1].first!= next)
+			cout << "Inconsistency at" << curr->name() << endl;
+
+	//Only one input set and that too by other
+	else if(curr->inputs().size()==1 && curr->inputs().at(0).second != 100 ){
+		if(curr->inputs().at(0).first != next){
+			pair<Node*, int> temp(next, 100);
+			curr->set_inputs(temp);	
+		}
+	}
+
+	return;
+}
+
+void SetInputs(Node* input, pair<Node*, int> output_info){
+	if(input->outputs().empty()){
+			input->set_outputs(output_info);
+			//Setting dummy volume to indicate unvisited by the parser
+			pair<Node*, int> temp;
+			temp.second = 100;
+			input->set_outputs(output_info);
+		}
+		else{
+			//Unvisited by parser but visited by other nodes
+			if(input->outputs().back().second == 100){
+				input->pop_outputs_volume();
+				input->set_outputs(output_info);
+			}
+
+			//Visited by parser 
+			else{
+				int volume_left = input->outputs().back().second;
+				if(volume_left < output_info.second){
+					cout << "Inconsistency at" << output_info.first->name() << endl;
+					return;
+				}
+				else{
+					input->pop_outputs_volume();
+					input->set_outputs(output_info);
+					pair <Node*, int> temp;
+					temp.second = volume_left - output_info.second;
+					input->set_outputs(temp); 
+				}
+			}
+
+		}	
+}
+
+int IfEven(int n){
+	if(n%2==1){
+		return 0;
+	}
+	else 
+		return 1;
 }

@@ -1,15 +1,19 @@
 #ifndef FUNCTIONS_H
 #define FUCTIONS_H
-#include <iostream>                          //cout, cin
-#include <string>							 //string class 						
-#include <fstream>							 //flie handling
-#include <vector>							 //vector class
-#include <algorithm>                         //easy-to-use algorithms
-#include <utility>                           //pair template
-#include <map>                               //using maps
-#include "Node.h"
-#include "AppGraph.h"
 
-void Printer(AppGraph* ap);
+#include <iostream>                      
+#include <string>										
+#include <fstream>							
+#include <vector>						
+#include <algorithm>                       
+#include <utility>                         
+#include <map>                           
+
+#include "AppGraph.h"
+#include "Node.h"
+
 pair<Node*, int> MakePair(string, AppGraph);
+void SetInputsPointer(Node* curr, Node* next);
+int IfEven(int);
+void SetInputs(Node*, pair<Node*, int>);
 #endif
