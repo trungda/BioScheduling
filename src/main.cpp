@@ -23,25 +23,36 @@ int main(){
 
 	ifstream inputfile_1("../resources/a2.txt");
 
-    string type_string, name;
+    string name, type_string;
     string garbage;
     Type type;
     char ch;
     int i;
     Node createnode[1000];                                                
 
-    //First-Padd
+    //First-Pass
     if(inputfile_1.is_open()){                             
 	    for(i=0; !inputfile_1.eof(); i++){
 
-	    	//Read the Name
+	    	//Reads the Name
 			inputfile_1 >> name;
+
+			//Case:end of inputs
+			if(name == "#end")
+				break;
+
 			ch = name.at(0);
+
+			//Ignores comments i.e. lines beginning with '#'
+			//Ignores Input-Output information i.e strings beginning with '('
 			if(ch!='#' && ch!='('){
 
-				//Read the type
+				//Reads the type
 				inputfile_1 >> type_string;
-				if(type_string.at(0)=='I'){                           
+
+				if(type_string.at(0)=='I'){
+
+					//Keeps only "Input"                           
 					type_string.resize(5);
 				}
 				type = conversion[type_string];
@@ -50,7 +61,7 @@ int main(){
 				app_graph.AddNode(createnode+i);
 			}
 			else{
-				//Skip the line
+				//Skips the line
 				getline(inputfile_1, garbage);
 			}
 		}
@@ -68,18 +79,27 @@ int main(){
 	if(inputfile_2.is_open()){                                    
 		while(!inputfile_2.eof()){
 
-			//Read the name
+			//Reads the name
 			inputfile_2 >> name;
+
 			ch = name.at(0);
 			if(ch!='#'){
 
-				//Read the line
+				//Reads the type
 				inputfile_2 >> type_string;
+
 				if(type_string.at(0)== 'I'){
 					curr_address = app_graph.inputs().at(inputs_counter);
+
+					//Keeps only the volume-x from INPUT:x
 					type_string.erase(0, 6);
+
 					volume = stoi(type_string);
+
+					//Places the volume information in the node
+					//Additional functionality explained in the function definition
 					curr_address->set_outputs_volume(volume);
+
 					inputs_counter++;
 				}
 				else if(type_string.at(0)== 'M'){
@@ -88,8 +108,14 @@ int main(){
 					//First Input
 					inputfile_2 >> input_name;
 					input_name.erase(0, 1);
-					input_name.pop_back(); 
+					input_name.pop_back();
+
+					//Searches for node with the name "input_name"
+					//Returns a pointer to that node
 					node_address = app_graph.SearchByName(input_name);
+
+					//Places the pointer to the input node in the current node
+					//Additional functionaltiy explained in the function definition
 					SetInputsPointer(curr_address, node_address);
 
 					//Second Input
@@ -107,10 +133,16 @@ int main(){
 					//Remaining Outputs
 					while(output_name.back()!=')'){
 						inputfile_2 >> output_name;
+
+						//MakePair(013:23, app_graph) would return pair<013*, 23>
 						pair<Node*, int> output_info = MakePair(output_name, app_graph);
+
+						//Adds edge between the two nodes with the given weight
+						//Additional functionaltiy explained in the function definition
 						app_graph.AddEdge(curr_address, output_info.first, output_info.second);
-						i++;
 					}
+
+					ConsistencyCheck(curr_address);
 					internals_counter++;
  				}
 			}
@@ -120,8 +152,9 @@ int main(){
 			}
 		}
     }
-    app_graph.PrintInternals();
+    //Print Contents of the Application Graph
     app_graph.PrintInputs();
+    app_graph.PrintInternals();
     app_graph.PrintOutputs();
 	return 0;
 }

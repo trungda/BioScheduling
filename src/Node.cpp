@@ -17,33 +17,55 @@ Node::Node(){
   	type_ = Input;
 }
 
+
 Node::Node(string Name, Type optype){                                                                       
     name_ = Name;                                                                                       
     type_ = optype;
 }
 
+
+//Used only in the second-pass of the parser
+//Used only for input nodes
 void Node::set_outputs_volume(int volume){
+
+	//Case: Parser visits this node before visiting any of its children
 	if(outputs_.empty()){
   		pair<Node*, int> temp;
   		temp.second = volume;
   		outputs_.push_back(temp);
-  		return;
   	}
+
+  	//Case: Parser visits this node after atleast one of its children have been visited
   	else{
-  		int i, volume_sum=0;
-  		for(i=0; i< outputs_.size()-1; i++)
+  		int i, volume_sum = 0;
+
+  		//dummy_volume: A flag to signify that this node has not been visited by the parser
+  		//once visited, the dummy_volume is removed
+  		//const int dummy_volume = 100;
+
+  		//volume_sum: total volume that already visited children are taking from this node
+  		//Iterates only till second-last element. Last element contains dummy_volume
+  		for(i=0; i< outputs_.size()-1; i++){
   			volume_sum += outputs_.at(i).second;
-  		if (volume_sum > volume)
-  			cout << "Inconsistency at" << this->name() << endl;
+  		}
+
+  		if (volume_sum > volume){
+  			cout << "Inconsistency at " << this->name() << endl;
+  		}
   		else{
-  			//Remove the Dummy volume 100
-  			outputs_.pop_back();                                 
+  			//Remove the dummy_volume
+  			outputs_.pop_back();
+
   			pair<Node*, int> temp;
+
+  			//volume-volume_sum: total volume available for other children (unvisited)
   			temp.second = volume-volume_sum;
+
+  			//Appends the (volume-volume_sum) information for future reference
   			outputs_.push_back(temp);
   		}
-  		return;
   	}
+  	return;
 }
 
 void Node::set_inputs_volume(int index, int volume){
@@ -93,7 +115,7 @@ void Node::set_inputs_pointer(Node* input){
   	return;
 }
 
-void Node::pop_outputs_volume(){
+void Node::pop_outputs(){
 	outputs_.pop_back();
 	return;
 }

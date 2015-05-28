@@ -27,62 +27,85 @@ pair<Node*, int> MakePair(string output_name, AppGraph app_graph){
 	return output_pair;
 }
 
-void SetInputsPointer(Node* curr, Node* next){
 
-	//Input being set by itself
-	//100 used as dummy to indicate self-set
-	if(curr->inputs().empty() || curr->inputs().at(0).second == 100){  
-		pair<Node*, int> temp(next, 100);
+//Used in second pass-only
+//Used only for internal Nodes
+void SetInputsPointer(Node* curr, Node* parent){
+
+	//dummy_volume: A pair in the input vector of the "curr" node has this
+	//              volume only if it was set by this "curr" node itself
+	const int dummy_volume = 100;
+
+	//Parser visits the "curr" node before visiting either of its parents
+	//Case: "curr" node setting its first input
+	//OR
+	//Case: "curr" node setting its second input	
+	if(curr->inputs().empty() || (curr->inputs().size() == 1 && curr->inputs().at(0).second == dummy_volume) ){  
+		pair<Node*, int> temp(parent, dummy_volume);
 		curr->set_inputs(temp);
 	}
 
-	//Both-Inputs set by other nodes
-	else if(curr->inputs().size()==2 && curr->inputs()[0].first!= next && curr->inputs()[1].first!= next)
-			cout << "Inconsistency at" << curr->name() << endl;
+	//Parser visits the "curr" node after both parents have been visited
+	//Case: first input != parent
+	//AND
+	//Case: second input!= parent
+	else if(curr->inputs().size()==2 && curr->inputs()[0].first!= parent && curr->inputs()[1].first!= parent)
+			cout << "Inconsistency at " << curr->name() << endl;
 
-	//Only one input set and that too by other
-	else if(curr->inputs().size()==1 && curr->inputs().at(0).second != 100 ){
-		if(curr->inputs().at(0).first != next){
-			pair<Node*, int> temp(next, 100);
+	//Parser visits the "curr" node after one of its parents have visited
+	else if(curr->inputs().size()==1 && curr->inputs().at(0).second != dummy_volume){
+
+		//Case: first input (the only input) != parent
+		if(curr->inputs().at(0).first != parent){
+			pair<Node*, int> temp(parent, dummy_volume);
 			curr->set_inputs(temp);	
 		}
 	}
-
 	return;
 }
 
 void SetInputs(Node* input, pair<Node*, int> output_info){
+
+	//dummy_volume to indicate that it has not been visited by parser but by other nodes	
+	const int dummy_volume = 100;
+
 	if(input->outputs().empty()){
 			input->set_outputs(output_info);
-			//Setting dummy volume to indicate unvisited by the parser
+			//Setting dummy_volume to indicate unvisited by the parser
 			pair<Node*, int> temp;
-			temp.second = 100;
+			temp.second = dummy_volume;
+			input->set_outputs(temp);
+	}
+	else{
+		//Unvisited by parser but visited by other nodes
+		if(input->outputs().back().second == dummy_volume){
+			input->pop_outputs();
 			input->set_outputs(output_info);
+			pair<Node*, int> temp;
+			temp.second = dummy_volume;
+			input->set_outputs(temp);
 		}
+
+		//Visited by parser 
 		else{
-			//Unvisited by parser but visited by other nodes
-			if(input->outputs().back().second == 100){
-				input->pop_outputs_volume();
-				input->set_outputs(output_info);
-			}
+			int volume_left = input->outputs().back().second;
 
-			//Visited by parser 
+			//Case: Available Volume < Required
+			if(volume_left < output_info.second){
+				cout << "Volume Inconsistency at " << output_info.first->name() << endl;
+				return;
+			}
 			else{
-				int volume_left = input->outputs().back().second;
-				if(volume_left < output_info.second){
-					cout << "Inconsistency at" << output_info.first->name() << endl;
-					return;
-				}
-				else{
-					input->pop_outputs_volume();
-					input->set_outputs(output_info);
-					pair <Node*, int> temp;
-					temp.second = volume_left - output_info.second;
-					input->set_outputs(temp); 
-				}
+				input->pop_outputs();
+				input->set_outputs(output_info);
+				pair <Node*, int> temp;
+				temp.second = volume_left - output_info.second;
+				input->set_outputs(temp); 
 			}
+		}
 
-		}	
+	}
+	return;	
 }
 
 int IfEven(int n){
@@ -91,4 +114,33 @@ int IfEven(int n){
 	}
 	else 
 		return 1;
+}
+
+//Checks for even outflow
+//Sets the outputs_ for the parents of this node if they are of "Input" type
+void ConsistencyCheck(Node* start){
+
+	int i;
+	
+	//volume_sum: total volume flowing out of this node
+	int volume_sum = 0;
+	
+	for(i=0; i<start->outputs().size(); i++)
+		volume_sum += start->outputs().at(i).second;
+
+	//To ensure even outflow
+	if(!IfEven(volume_sum)){
+		cout << "Volume outflow not even at " << start->name() << volume_sum << endl;
+		return;
+	}
+	
+	pair<Node*, int> output_info (start, volume_sum/2);
+
+	if(start->inputs().at(0).first->type() == Input)
+		SetInputs(start->inputs().at(0).first, output_info);
+
+	if(start->inputs().at(1).first->type() == Input)
+		SetInputs(start->inputs().at(1).first, output_info);
+
+	return;
 }

@@ -35,7 +35,7 @@ class Node{
   		void set_outputs_volume(int a);
       void set_inputs_volume(int index, int volume);
       void set_inputs_pointer(Node *);
-      void pop_outputs_volume();
+      void pop_outputs();
 
       int SearchByName(string);
 };

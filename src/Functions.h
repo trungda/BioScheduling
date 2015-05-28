@@ -13,7 +13,9 @@
 #include "Node.h"
 
 pair<Node*, int> MakePair(string, AppGraph);
-void SetInputsPointer(Node* curr, Node* next);
+void SetInputsPointer(Node* curr, Node* parent);
 int IfEven(int);
 void SetInputs(Node*, pair<Node*, int>);
+void ConsistencyCheck(Node* node);
+
 #endif
