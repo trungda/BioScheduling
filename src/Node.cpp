@@ -4,7 +4,8 @@
 #include <vector>						
 #include <algorithm>                       
 #include <utility>                         
-#include <map>                           
+#include <map>    
+#include <exception>                       
 
 #include "AppGraph.h"
 #include "Functions.h"
@@ -50,7 +51,8 @@ void Node::set_outputs_volume(int volume){
   		}
 
   		if (volume_sum > volume){
-  			cout << "Inconsistency at " << this->name() << endl;
+  			cout << "Inconsistency at " << this->name() <<"\nOutflow > Volume Specified"<< endl;
+  			abort();
   		}
   		else{
   			//Remove the dummy_volume
@@ -105,7 +107,6 @@ int Node::SearchByName(string output_name){
 		if(outputs_[i].first->name_ == output_name)
 			return i; 
 	}
-	//else handle the exception
 }
 
 void Node::set_inputs_pointer(Node* input){

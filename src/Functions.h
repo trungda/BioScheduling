@@ -7,10 +7,13 @@
 #include <vector>						
 #include <algorithm>                       
 #include <utility>                         
-#include <map>                           
+#include <map> 
+#include <exception>                          
 
 #include "AppGraph.h"
 #include "Node.h"
+
+using namespace std;
 
 pair<Node*, int> MakePair(string, AppGraph);
 void SetInputsPointer(Node* curr, Node* parent);

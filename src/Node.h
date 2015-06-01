@@ -8,6 +8,7 @@
 #include <algorithm>                         
 #include <utility>                           
 #include <map> 
+#include <exception>
 
 using namespace std;
 

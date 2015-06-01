@@ -7,12 +7,12 @@
 #include <vector>						
 #include <algorithm>                       
 #include <utility>                         
-#include <map>                           
+#include <map>  
+#include <exception>                         
 
 #include "Node.h" 
                            
 using namespace std;
-
 
 class AppGraph{
 	private:
@@ -34,6 +34,8 @@ class AppGraph{
     	void PrintInternals();
     	void PrintInputs();
     	void PrintOutputs();
+    	void InputVolumeConsumeCheck();
+    	void InternalsVolumeConsistencyCheck();
 	};	
 
 #endif

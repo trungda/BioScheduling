@@ -4,7 +4,8 @@
 #include <vector>						
 #include <algorithm>                       
 #include <utility>                         
-#include <map>                           
+#include <map> 
+#include <exception>                          
 
 #include "AppGraph.h"
 #include "Functions.h"
@@ -83,6 +84,8 @@ int main(){
 			inputfile_2 >> name;
 
 			ch = name.at(0);
+
+			//Ignores comments i.e. lines beginning with '#'
 			if(ch!='#'){
 
 				//Reads the type
@@ -152,6 +155,13 @@ int main(){
 			}
 		}
     }
+
+    //To check if all Input volume is consumed
+    app_graph.InputVolumeConsumeCheck();
+
+    //To check if the inflow and outflow is same in internal nodes
+    app_graph.InternalsVolumeConsistencyCheck();
+
     //Print Contents of the Application Graph
     app_graph.PrintInputs();
     app_graph.PrintInternals();

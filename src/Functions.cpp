@@ -4,7 +4,8 @@
 #include <vector>						
 #include <algorithm>                       
 #include <utility>                         
-#include <map>                           
+#include <map>  
+#include <exception>                       
 
 #include "AppGraph.h"
 #include "Functions.h"
@@ -49,10 +50,12 @@ void SetInputsPointer(Node* curr, Node* parent){
 	//Case: first input != parent
 	//AND
 	//Case: second input!= parent
-	else if(curr->inputs().size()==2 && curr->inputs()[0].first!= parent && curr->inputs()[1].first!= parent)
-			cout << "Inconsistency at " << curr->name() << endl;
+	else if(curr->inputs().size()==2 && curr->inputs()[0].first!= parent && curr->inputs()[1].first!= parent){
+			cout << "Inconsistency at " << curr->name()  << endl;
+			abort();
+	}
 
-	//Parser visits the "curr" node after one of its parents have visited
+	//Parser visits the "curr" node after one of its parents have been visited
 	else if(curr->inputs().size()==1 && curr->inputs().at(0).second != dummy_volume){
 
 		//Case: first input (the only input) != parent
@@ -64,6 +67,7 @@ void SetInputsPointer(Node* curr, Node* parent){
 	return;
 }
 
+//Used only for Input nodes
 void SetInputs(Node* input, pair<Node*, int> output_info){
 
 	//dummy_volume to indicate that it has not been visited by parser but by other nodes	
@@ -92,8 +96,8 @@ void SetInputs(Node* input, pair<Node*, int> output_info){
 
 			//Case: Available Volume < Required
 			if(volume_left < output_info.second){
-				cout << "Volume Inconsistency at " << output_info.first->name() << endl;
-				return;
+				cout << "Volume Inconsistency at " << input->name() << "\nOutflow > Volume Specified" << endl;
+				abort();
 			}
 			else{
 				input->pop_outputs();
@@ -103,7 +107,6 @@ void SetInputs(Node* input, pair<Node*, int> output_info){
 				input->set_outputs(temp); 
 			}
 		}
-
 	}
 	return;	
 }
@@ -130,17 +133,33 @@ void ConsistencyCheck(Node* start){
 
 	//To ensure even outflow
 	if(!IfEven(volume_sum)){
-		cout << "Volume outflow not even at " << start->name() << volume_sum << endl;
-		return;
+		cout << "Volume outflow not even at " << start->name() << "\nIt is: " << volume_sum << endl;
+		abort();
 	}
 	
 	pair<Node*, int> output_info (start, volume_sum/2);
 
-	if(start->inputs().at(0).first->type() == Input)
+	if(start->inputs().at(0).first->type() == Input){
+		start->set_inputs_volume (0, volume_sum/2);
 		SetInputs(start->inputs().at(0).first, output_info);
+	}
 
-	if(start->inputs().at(1).first->type() == Input)
+	else if(start->inputs().at(0).second != volume_sum/2 && start->inputs().at(0).second != 100 ){
+		cout << "Inconsistency at "  << start->inputs().at(0).first->name() <<"\nOutflow to "
+		<< start->name() << ' ' << " is not the same as required" << endl;
+		abort();
+	}
+
+	if(start->inputs().at(1).first->type() == Input){
+		start->set_inputs_volume (1, volume_sum/2);
 		SetInputs(start->inputs().at(1).first, output_info);
+	}
+
+	else if(start->inputs().at(1).second != volume_sum/2 && start->inputs().at(1).second != 100){
+		cout << "Inconsistency at " << start->inputs().at(1).first->name() <<"\nOutflow to "
+		<< start->name() << ' ' << " is not the same as required" << endl;
+		abort();
+	}
 
 	return;
 }
