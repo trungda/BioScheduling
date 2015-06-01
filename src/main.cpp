@@ -4,8 +4,7 @@
 #include <vector>						
 #include <algorithm>                       
 #include <utility>                         
-#include <map> 
-#include <exception>                          
+#include <map>                          
 
 #include "AppGraph.h"
 #include "Functions.h"
@@ -67,6 +66,9 @@ int main(){
 			}
 		}
     }
+
+    //Checks whether the graph has inputs and outputs
+    app_graph.InputOutputCheck();
 
     //Second-Pass
 	ifstream inputfile_2("../resources/a2.txt");
@@ -166,6 +168,7 @@ int main(){
     app_graph.PrintInputs();
     app_graph.PrintInternals();
     app_graph.PrintOutputs();
+
 	return 0;
 }
 

@@ -4,8 +4,7 @@
 #include <vector>						
 #include <algorithm>                       
 #include <utility>                         
-#include <map> 
-#include <exception>                          
+#include <map>                        
 
 #include "AppGraph.h"
 #include "Node.h"
@@ -27,9 +26,9 @@ vector<Node*> AppGraph::outputs(){
 
 void AppGraph::AddNode(Node* n){            
 	switch(n->type()){
-		case Input : inputs_.push_back(n);  break;
-		case Output: outputs_.push_back(n); break;
-		case Mix: internals_.push_back(n); break;
+		case Input : inputs_.emplace_back(n);  break;
+		case Output: outputs_.emplace_back(n); break;
+		case Mix: internals_.emplace_back(n); break;
 	}
 	return;
 }
@@ -181,3 +180,13 @@ void AppGraph::InternalsVolumeConsistencyCheck(){
 	}
 }
 
+void AppGraph::InputOutputCheck(){
+	if(inputs_.empty()){
+		cout << "No Inputs specified\n";
+		abort();
+	}
+	if(outputs_.empty()){
+		cout << "No Outputs specified\n";
+		abort();
+	}
+}

@@ -4,8 +4,7 @@
 #include <vector>						
 #include <algorithm>                       
 #include <utility>                         
-#include <map>    
-#include <exception>                       
+#include <map>                          
 
 #include "AppGraph.h"
 #include "Functions.h"
@@ -33,7 +32,7 @@ void Node::set_outputs_volume(int volume){
 	if(outputs_.empty()){
   		pair<Node*, int> temp;
   		temp.second = volume;
-  		outputs_.push_back(temp);
+  		outputs_.emplace_back(temp);
   	}
 
   	//Case: Parser visits this node after atleast one of its children have been visited
@@ -64,7 +63,7 @@ void Node::set_outputs_volume(int volume){
   			temp.second = volume-volume_sum;
 
   			//Appends the (volume-volume_sum) information for future reference
-  			outputs_.push_back(temp);
+  			outputs_.emplace_back(temp);
   		}
   	}
   	return;
@@ -84,7 +83,7 @@ Type Node::type(){
 }
 
 void Node::set_outputs(pair<Node*, int> output_info){
-	outputs_.push_back(output_info);
+	outputs_.emplace_back(output_info);
 	return;
 }
 
@@ -97,7 +96,7 @@ vector<pair<Node*, int> > Node::inputs(){
 }
 
 void Node::set_inputs(pair<Node*, int> input_info){
-	inputs_.push_back(input_info);
+	inputs_.emplace_back(input_info);
 	return;
 }
 
@@ -112,7 +111,7 @@ int Node::SearchByName(string output_name){
 void Node::set_inputs_pointer(Node* input){
 	pair<Node*, int> temp;
   	temp.first = input;
-  	inputs_.push_back(temp);
+  	inputs_.emplace_back(temp);
   	return;
 }
 

@@ -7,8 +7,7 @@
 #include <vector>						
 #include <algorithm>                       
 #include <utility>                         
-#include <map>  
-#include <exception>                         
+#include <map>                          
 
 #include "Node.h" 
                            
@@ -36,6 +35,7 @@ class AppGraph{
     	void PrintOutputs();
     	void InputVolumeConsumeCheck();
     	void InternalsVolumeConsistencyCheck();
+    	void InputOutputCheck();
 	};	
 
 #endif
