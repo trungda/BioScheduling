@@ -4,13 +4,14 @@
 #include <vector>						
 #include <algorithm>                       
 #include <utility>                         
-#include <map>                        
+#include <map>  
+#include <unordered_set>                       
 
 #include "AppGraph.h"
 #include "Functions.h"
 #include "Node.h"
 
-pair<Node*, int> MakePair(string output_name, AppGraph app_graph){
+pair<Node*, int> MakePair(string output_name, AppGraph app_graph, unordered_map <string, Node*> SearchMap){
 	int i;
 	string volume_string;
 	output_name.pop_back();
@@ -22,7 +23,7 @@ pair<Node*, int> MakePair(string output_name, AppGraph app_graph){
 	volume_string = output_name.substr(i+1, 10);
 	int volume = stoi(volume_string);
 	output_name = output_name.substr(0, i);
-	Node* node_address = app_graph.SearchByName(output_name);
+	Node* node_address = app_graph.SearchByName(output_name, SearchMap);
 	pair<Node*, int> output_pair(node_address, volume);
 	return output_pair;
 }

@@ -4,7 +4,8 @@
 #include <vector>						
 #include <algorithm>                       
 #include <utility>                         
-#include <map>                          
+#include <map>  
+#include <unordered_map>                      
 
 #include "AppGraph.h"
 #include "Functions.h"
@@ -19,6 +20,8 @@ int main(){
 	conversion["OUTPUT"] = Output;
 	conversion["MIX"] = Mix;
 
+	unordered_map <string, Node*> SearchMap;
+
 	AppGraph app_graph;
 
 	ifstream inputfile_1("../resources/a2.txt");
@@ -28,7 +31,8 @@ int main(){
     Type type;
     char ch;
     int i;
-    Node createnode[1000];                                                
+    Node createnode[1000]; 
+    unordered_map <string, Node*>::iterator got;                                               
 
     //First-Pass
     if(inputfile_1.is_open()){                             
@@ -58,7 +62,22 @@ int main(){
 				type = conversion[type_string];
 				Node temp(name, type);
 				createnode[i]= temp;
-				app_graph.AddNode(createnode+i);
+
+				got = SearchMap.find(name);
+				if(got == SearchMap.end()){
+
+					//Hash_Map between the node name and address
+					SearchMap.emplace(make_pair(name, createnode+i));
+
+					//Add the node to the graph
+					app_graph.AddNode(createnode+i);
+				}
+
+				else{
+					cout << "ID collision" << endl;
+					cout << "Multiple occurences of " << name << endl;
+					abort();
+				}
 			}
 			else{
 				//Skips the line
@@ -117,7 +136,7 @@ int main(){
 
 					//Searches for node with the name "input_name"
 					//Returns a pointer to that node
-					node_address = app_graph.SearchByName(input_name);
+					node_address = app_graph.SearchByName(input_name, SearchMap);
 
 					//Places the pointer to the input node in the current node
 					//Additional functionaltiy explained in the function definition
@@ -126,13 +145,13 @@ int main(){
 					//Second Input
 					inputfile_2 >> input_name;
 					input_name.pop_back();
-					node_address = app_graph.SearchByName(input_name);
+					node_address = app_graph.SearchByName(input_name, SearchMap);
 					SetInputsPointer(curr_address, node_address);
 
 					//First Output
 					inputfile_2 >> output_name;
 					output_name.erase(0, 1);
-					pair<Node*, int> output_info = MakePair(output_name, app_graph);
+					pair<Node*, int> output_info = MakePair(output_name, app_graph, SearchMap);
 					app_graph.AddEdge(curr_address, output_info.first, output_info.second);
 
 					//Remaining Outputs
@@ -140,7 +159,7 @@ int main(){
 						inputfile_2 >> output_name;
 
 						//MakePair(013:23, app_graph) would return pair<013*, 23>
-						pair<Node*, int> output_info = MakePair(output_name, app_graph);
+						pair<Node*, int> output_info = MakePair(output_name, app_graph, SearchMap);
 
 						//Adds edge between the two nodes with the given weight
 						//Additional functionaltiy explained in the function definition
@@ -166,8 +185,8 @@ int main(){
 
     //Print Contents of the Application Graph
     app_graph.PrintInputs();
-    app_graph.PrintInternals();
     app_graph.PrintOutputs();
+    app_graph.PrintInternals();
 
 	return 0;
 }

@@ -4,7 +4,8 @@
 #include <vector>						
 #include <algorithm>                       
 #include <utility>                         
-#include <map>                        
+#include <map>   
+#include <unordered_set>                      
 
 #include "AppGraph.h"
 #include "Node.h"
@@ -77,82 +78,65 @@ void AppGraph::AddEdge(Node* parent, Node* child, int edge_weight){
 	return;
 }
 
-Node* AppGraph::SearchByName(string input_name){
-	int i, j; 
-	int found = 0;
-	for(i=0; i<inputs_.size(); i++){
-		if(inputs_.at(i)->name() == input_name)
-			return inputs_.at(i); 
-	}
-	for(i=0; i<internals_.size(); i++){
-		if(internals_.at(i)->name() == input_name)
-			return internals_.at(i); 
-	}
-	for(i=0; i<outputs_.size(); i++){
-		if(outputs_.at(i)->name() == input_name)
-			return outputs_.at(i); 
-	}
-}
+Node* AppGraph::SearchByName(string input_name, unordered_map<string, Node*> SearchMap ){
+	unordered_map<string, Node*>::iterator got = SearchMap.find(input_name);
+	return got->second;
+}	
 
 void AppGraph::PrintOutputs(){
 	int i;
 	int j;
+	cout << "Output type\n" << endl;
+	cout << "ID\t|" << "\tINPUTS\t\n";	 
 	for(i=0; i<outputs_.size(); i++){
-		cout << outputs_.at(i)->name() <<'\t' << "Output" << endl;
-		cout << "The inputs are: \n";
+		cout << outputs_.at(i)->name() << "\t|\t";
+		//Last element contains only volume_left information
 		for(j=0; j<outputs_.at(i)->inputs().size(); j++){
-			cout << outputs_.at(i)->inputs().at(j).first->name() << '\t' 
-			<<  outputs_.at(i)->inputs().at(j).second << endl;
-		}
-		cout << "The outputs are: \n";
-		for(j=0; j<outputs_.at(i)->outputs().size(); j++){
-			cout << outputs_.at(i)->outputs().at(j).first->name()<< '\t' 
-			<<  outputs_.at(i)->outputs().at(j).second << endl;
+			cout << "|" << outputs_.at(i)->inputs().at(j).first->name()<< ":"
+			<<  outputs_.at(i)->inputs().at(j).second << "\t|";
 		}
 		cout << endl;
 	}
+	cout << endl;
 }
 
 void AppGraph::PrintInputs(){
 	int i;
 	int j;
+	cout << "Input type\n" << endl;
+	cout << "ID\t|" << "\tOUTPUTS\t\n";	 
 	for(i=0; i<inputs_.size(); i++){
-		cout << inputs_.at(i)->name() <<'\t' << "Input" << endl;
-		cout << "The inputs are: \n";
-		for(j=0; j<inputs_.at(i)->inputs().size(); j++){
-			cout << inputs_.at(i)->inputs().at(j).first->name() << '\t' 
-			<<  inputs_.at(i)->inputs().at(j).second << endl;
-		}
-		cout << "The outputs are: \n";
-
+		cout << inputs_.at(i)->name() << "\t|\t";
 		//Last element contains only volume_left information
 		for(j=0; j<inputs_.at(i)->outputs().size()-1; j++){
-			cout << inputs_.at(i)->outputs().at(j).first->name()<< '\t' 
-			<<  inputs_.at(i)->outputs().at(j).second << endl;
+			cout << "|" << inputs_.at(i)->outputs().at(j).first->name()<< ":"
+			<<  inputs_.at(i)->outputs().at(j).second << "\t|";
 		}
 		cout << endl;
 	}
+	cout << endl;
 }
 
 void AppGraph::PrintInternals(){
 	int i;
 	int j;
+	cout << "Internal type\n" << endl;
+	cout << "ID\t|" << "\t\tINPUTS\t\t|\t\tOUTPUTS\n";	 
 	for(i=0; i<internals_.size(); i++){
-		cout << internals_.at(i)->name() <<'\t' << "Mix" << endl;
-		cout << "The inputs are: \n";
+		cout << internals_.at(i)->name() << "\t|\t";
 		for(j=0; j<internals_.at(i)->inputs().size(); j++){
-			cout << internals_.at(i)->inputs().at(j).first->name() << '\t' 
-			<<  internals_.at(i)->inputs().at(j).second << endl;
+			cout << "|" << internals_.at(i)->inputs().at(j).first->name()<< ":"
+			<<  internals_.at(i)->inputs().at(j).second << "\t|";
 		}
-		cout << "The outputs are: \n";
+		cout << "\t|\t";
 		for(j=0; j<internals_.at(i)->outputs().size(); j++){
-			cout << internals_.at(i)->outputs().at(j).first->name()<< '\t' 
-			<<  internals_.at(i)->outputs().at(j).second << endl;
+			cout << "|" << internals_.at(i)->outputs().at(j).first->name()<< ":"
+			<<  internals_.at(i)->outputs().at(j).second << "\t|";
 		}
 		cout << endl;
 	}
+	cout << endl;
 }
-
 void AppGraph::InputVolumeConsumeCheck(){
 	int i;
 	for(i = 0; i < inputs_.size(); i++){

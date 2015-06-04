@@ -4,7 +4,8 @@
 #include <vector>						
 #include <algorithm>                       
 #include <utility>                         
-#include <map>                          
+#include <map>  
+#include <unordered_set>                         
 
 #include "AppGraph.h"
 #include "Functions.h"

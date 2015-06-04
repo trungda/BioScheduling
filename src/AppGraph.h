@@ -7,7 +7,8 @@
 #include <vector>						
 #include <algorithm>                       
 #include <utility>                         
-#include <map>                          
+#include <map> 
+#include <unordered_map>                          
 
 #include "Node.h" 
                            
@@ -29,7 +30,7 @@ class AppGraph{
     	vector<pair<Node*, int> > GetInputs(Node*);                                    
 		vector<pair<Node*, int> > GetOutputs(Node*);
 
-    	Node* SearchByName(string);
+    	Node* SearchByName(string, unordered_map <string, Node*>);
     	void PrintInternals();
     	void PrintInputs();
     	void PrintOutputs();
