@@ -5,3 +5,4 @@
 ### Contributors
 * Trungda
 * Abhimanyu
+* Daiki Kitagawa

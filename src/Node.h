@@ -39,6 +39,9 @@ class Node{
       void pop_outputs();
 
       int SearchByName(string);
+      void ConsistencyCheck();
+      void SetInputsPointer(Node* parent);
+      void SetInputs(pair<Node*, int> output_info);
 };
 
 #endif

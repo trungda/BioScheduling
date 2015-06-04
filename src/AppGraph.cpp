@@ -9,7 +9,6 @@
 
 #include "AppGraph.h"
 #include "Node.h"
-#include "Functions.h"
 
 using namespace std;
 
@@ -80,6 +79,10 @@ void AppGraph::AddEdge(Node* parent, Node* child, int edge_weight){
 
 Node* AppGraph::SearchByName(string input_name, unordered_map<string, Node*> SearchMap ){
 	unordered_map<string, Node*>::iterator got = SearchMap.find(input_name);
+	if(got == SearchMap.end()){
+		cout << "Invalid ID "<< input_name << endl;
+		abort();
+	}
 	return got->second;
 }	
 
@@ -173,4 +176,21 @@ void AppGraph::InputOutputCheck(){
 		cout << "No Outputs specified\n";
 		abort();
 	}
+}
+
+pair<Node*, int> AppGraph::MakePair(string output_name, unordered_map <string, Node*> SearchMap){
+	int i;
+	string volume_string;
+	output_name.pop_back();
+	for(i=0; i < output_name.size(); i++){
+		if(output_name[i]==':'){
+			break;
+		}
+	}
+	volume_string = output_name.substr(i+1, 10);
+	int volume = stoi(volume_string);
+	output_name = output_name.substr(0, i);
+	Node* node_address = this->SearchByName(output_name, SearchMap);
+	pair<Node*, int> output_pair(node_address, volume);
+	return output_pair;
 }

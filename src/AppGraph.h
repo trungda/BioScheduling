@@ -37,6 +37,7 @@ class AppGraph{
     	void InputVolumeConsumeCheck();
     	void InternalsVolumeConsistencyCheck();
     	void InputOutputCheck();
+    	pair<Node*, int> MakePair(string output_name, unordered_map <string, Node*> SearchMap);
 	};	
 
 #endif

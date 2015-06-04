@@ -8,7 +8,6 @@
 #include <unordered_map>                      
 
 #include "AppGraph.h"
-#include "Functions.h"
 #include "Node.h"
 
 using namespace std;
@@ -140,18 +139,18 @@ int main(){
 
 					//Places the pointer to the input node in the current node
 					//Additional functionaltiy explained in the function definition
-					SetInputsPointer(curr_address, node_address);
+					curr_address->SetInputsPointer(node_address);
 
 					//Second Input
 					inputfile_2 >> input_name;
 					input_name.pop_back();
 					node_address = app_graph.SearchByName(input_name, SearchMap);
-					SetInputsPointer(curr_address, node_address);
+					curr_address->SetInputsPointer(node_address);
 
 					//First Output
 					inputfile_2 >> output_name;
 					output_name.erase(0, 1);
-					pair<Node*, int> output_info = MakePair(output_name, app_graph, SearchMap);
+					pair<Node*, int> output_info = app_graph.MakePair(output_name, SearchMap);
 					app_graph.AddEdge(curr_address, output_info.first, output_info.second);
 
 					//Remaining Outputs
@@ -159,14 +158,14 @@ int main(){
 						inputfile_2 >> output_name;
 
 						//MakePair(013:23, app_graph) would return pair<013*, 23>
-						pair<Node*, int> output_info = MakePair(output_name, app_graph, SearchMap);
+						pair<Node*, int> output_info = app_graph.MakePair(output_name, SearchMap);
 
 						//Adds edge between the two nodes with the given weight
 						//Additional functionaltiy explained in the function definition
 						app_graph.AddEdge(curr_address, output_info.first, output_info.second);
 					}
 
-					ConsistencyCheck(curr_address);
+					curr_address->ConsistencyCheck();
 					internals_counter++;
  				}
 			}
