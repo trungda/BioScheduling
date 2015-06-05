@@ -5,7 +5,8 @@
 #include <algorithm>                       
 #include <utility>                         
 #include <map>   
-#include <unordered_set>                      
+#include <unordered_set>  
+#include <iomanip>                    
 
 #include "AppGraph.h"
 #include "Node.h"
@@ -90,13 +91,12 @@ void AppGraph::PrintOutputs(){
 	int i;
 	int j;
 	cout << "Output type\n" << endl;
-	cout << "ID\t|" << "\tINPUTS\t\n";	 
+	cout << "ID\t|" << "\t  INPUTS\t\t\n";	 
 	for(i=0; i<outputs_.size(); i++){
 		cout << outputs_.at(i)->name() << "\t|\t";
-		//Last element contains only volume_left information
 		for(j=0; j<outputs_.at(i)->inputs().size(); j++){
-			cout << "|" << outputs_.at(i)->inputs().at(j).first->name()<< ":"
-			<<  outputs_.at(i)->inputs().at(j).second << "\t|";
+			cout << "|" << setw(4) << outputs_.at(i)->inputs().at(j).first->name()<< ":"
+			<<  setw(3) << outputs_.at(i)->inputs().at(j).second << "|";
 		}
 		cout << endl;
 	}
@@ -107,13 +107,13 @@ void AppGraph::PrintInputs(){
 	int i;
 	int j;
 	cout << "Input type\n" << endl;
-	cout << "ID\t|" << "\tOUTPUTS\t\n";	 
+	cout << "ID\t|" << "\t  OUTPUTS\t\t\n";	 
 	for(i=0; i<inputs_.size(); i++){
 		cout << inputs_.at(i)->name() << "\t|\t";
 		//Last element contains only volume_left information
 		for(j=0; j<inputs_.at(i)->outputs().size()-1; j++){
-			cout << "|" << inputs_.at(i)->outputs().at(j).first->name()<< ":"
-			<<  inputs_.at(i)->outputs().at(j).second << "\t|";
+			cout << "|" << setw(4) << inputs_.at(i)->outputs().at(j).first->name()<< ":"
+			<<  setw(3)<< inputs_.at(i)->outputs().at(j).second << "|";
 		}
 		cout << endl;
 	}
@@ -128,13 +128,13 @@ void AppGraph::PrintInternals(){
 	for(i=0; i<internals_.size(); i++){
 		cout << internals_.at(i)->name() << "\t|\t";
 		for(j=0; j<internals_.at(i)->inputs().size(); j++){
-			cout << "|" << internals_.at(i)->inputs().at(j).first->name()<< ":"
-			<<  internals_.at(i)->inputs().at(j).second << "\t|";
+			cout << "|" << setw(4) << internals_.at(i)->inputs().at(j).first->name()<< ":"
+			<<  setw(3) << internals_.at(i)->inputs().at(j).second << "|";
 		}
 		cout << "\t|\t";
 		for(j=0; j<internals_.at(i)->outputs().size(); j++){
-			cout << "|" << internals_.at(i)->outputs().at(j).first->name()<< ":"
-			<<  internals_.at(i)->outputs().at(j).second << "\t|";
+			cout << "|" << setw(4) << internals_.at(i)->outputs().at(j).first->name()<< ":"
+			<<  setw(3) << internals_.at(i)->outputs().at(j).second << "|";
 		}
 		cout << endl;
 	}
