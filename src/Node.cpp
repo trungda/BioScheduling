@@ -100,14 +100,6 @@ void Node::set_inputs(pair<Node*, int> input_info){
 	return;
 }
 
-int Node::SearchByName(string output_name){
-	int i; 
-	for(i=0; i<outputs_.size(); i++){
-		if(outputs_[i].first->name_ == output_name)
-			return i; 
-	}
-}
-
 void Node::set_inputs_pointer(Node* input){
 	pair<Node*, int> temp;
   	temp.first = input;

@@ -20,6 +20,9 @@ class Node{
   		Type type_;
   		vector<pair<Node*, int> > inputs_;
   		vector<pair<Node*, int> > outputs_;
+      void set_inputs_pointer(Node *); 
+      void pop_outputs();
+      void SetInputs(pair<Node*, int> output_info);
 
 	public:
   		Node();
@@ -29,19 +32,12 @@ class Node{
       Type type();
       vector<pair<Node*, int> > inputs();
       vector<pair<Node*, int> > outputs();
-
       void set_inputs(pair<Node*, int> inuput_info);
       void set_outputs(pair<Node*, int> output_info);
-
-  		void set_outputs_volume(int a);
-      void set_inputs_volume(int index, int volume);
-      void set_inputs_pointer(Node *);
-      void pop_outputs();
-
-      int SearchByName(string);
-      void ConsistencyCheck();
-      void SetInputsPointer(Node* parent);
-      void SetInputs(pair<Node*, int> output_info);
+  		void set_outputs_volume(int a);  
+      void set_inputs_volume(int index, int volume); 
+      void ConsistencyCheck(); 
+      void SetInputsPointer(Node* parent); 
 };
 
 #endif
