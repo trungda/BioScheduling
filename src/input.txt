@@ -1,1 +1,2 @@
-../resources/a3.txt
+../resources/a2.txt
+../resources/arch2.txt

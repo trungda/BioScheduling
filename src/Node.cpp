@@ -41,7 +41,7 @@ void Node::set_outputs_volume(int volume){
 
   		//dummy_volume: A flag to signify that this node has not been visited by the parser
   		//once visited, the dummy_volume is removed
-  		//const int dummy_volume = 100;
+  		//const int dummy_volume = 1000;
 
   		//volume_sum: total volume that already visited children are taking from this node
   		//Iterates only till second-last element. Last element contains dummy_volume
@@ -137,7 +137,7 @@ void Node::ConsistencyCheck(){
 		this->inputs().at(0).first->SetInputs(output_info);
 	}
 
-	else if(this->inputs().at(0).second != volume_sum/2 && this->inputs().at(0).second != 100 ){
+	else if(this->inputs().at(0).second != volume_sum/2 && this->inputs().at(0).second != 1000 ){
 		cout << "Inconsistency at "  << this->inputs().at(0).first->name() <<"\nOutflow to "
 		<< this->name() << ' ' << " is not the same as required" << endl;
 		abort();
@@ -148,7 +148,7 @@ void Node::ConsistencyCheck(){
 		this->inputs().at(1).first->SetInputs(output_info);
 	}
 
-	else if(this->inputs().at(1).second != volume_sum/2 && this->inputs().at(1).second != 100){
+	else if(this->inputs().at(1).second != volume_sum/2 && this->inputs().at(1).second != 1000){
 		cout << "Inconsistency at " << this->inputs().at(1).first->name() <<"\nOutflow to "
 		<< this->name() << ' ' << " is not the same as required" << endl;
 		abort();
@@ -163,7 +163,7 @@ void Node::SetInputsPointer(Node* parent){
 
 	//dummy_volume: A pair in the input vector of the "this" node has this
 	//              volume only if it was set by this "this" node itself
-	const int dummy_volume = 100;
+	const int dummy_volume = 1000;
 
 	//Parser visits the "this" node before visiting either of its parents
 	//Case: "this" node setting its first input
@@ -200,7 +200,7 @@ void Node::SetInputsPointer(Node* parent){
 void Node::SetInputs(pair<Node*, int> output_info){
 
 	//dummy_volume to indicate that it has not been visited by parser but by other nodes	
-	const int dummy_volume = 100;
+	const int dummy_volume = 1000;
 
 	if(this->outputs().empty()){
 			this->set_outputs(output_info);

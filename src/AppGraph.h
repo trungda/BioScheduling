@@ -19,9 +19,6 @@ class AppGraph{
 		vector<Node*> inputs_;
 		vector<Node*> outputs_;
 		vector<Node*> internals_;
-		vector<Node*> inputs();
-    	vector<Node*> internals();
-    	vector<Node*> outputs();
 
 		void AddNode(Node*);
 		void AddEdge(Node* start, Node* end, int edge_weight);
@@ -36,7 +33,11 @@ class AppGraph{
     	pair<Node*, int> MakePair(string output_name, unordered_map <string, Node*> SearchMap);
 
     public:
+
     	AppGraph (string filename);
+    	vector<Node*> inputs();
+    	vector<Node*> internals();
+    	vector<Node*> outputs();
     	void PrintInternals();
     	void PrintInputs();
     	void PrintOutputs();

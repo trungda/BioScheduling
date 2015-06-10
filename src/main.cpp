@@ -9,6 +9,7 @@
 
 #include "AppGraph.h"
 #include "Node.h"
+#include "ChipArch.h"
 
 using namespace std;
 
@@ -18,7 +19,13 @@ int main(){
 
 	//Constructor for the Application Graph
 	AppGraph app_graph(filename);
+
+	cin >> filename;
+
+	//Constructor for the Application Graph
+	ChipArch chip_arch(filename);
 	
+	chip_arch.PrintMixers();
 	return 0;
 }
 

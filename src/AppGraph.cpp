@@ -355,6 +355,9 @@ AppGraph::AppGraph(string filename){
 				getline(inputfile_2, garbage);
 			}
 		}
+		this->PrintInputs();
+    	this->PrintOutputs();
+    	this->PrintInternals();
     }
 
     //To check if all Input volume is consumed
@@ -362,9 +365,4 @@ AppGraph::AppGraph(string filename){
 
     //To check if the inflow and outflow is same in internal nodes
     this->InternalsVolumeConsistencyCheck();
-
-    //Print Contents of the Application Graph
-    this->PrintInputs();
-    this->PrintOutputs();
-    this->PrintInternals();
 }
