@@ -195,7 +195,7 @@ pair<Node*, int> AppGraph::MakePair(string output_name, unordered_map <string, N
 	return output_pair;
 }
 
-AppGraph::AppGraph(string filename){
+AppGraph::AppGraph(string filename, Node* createnode){
 
 	map<string, Type> conversion;                    
 	conversion["INPUT"] = Input;
@@ -211,7 +211,7 @@ AppGraph::AppGraph(string filename){
     Type type;
     char ch;
     int i;
-    Node createnode[1000]; 
+    //Node createnode[1000]; 
     unordered_map <string, Node*>::iterator got;                                               
 
     //First-Pass
@@ -355,9 +355,6 @@ AppGraph::AppGraph(string filename){
 				getline(inputfile_2, garbage);
 			}
 		}
-		this->PrintInputs();
-    	this->PrintOutputs();
-    	this->PrintInternals();
     }
 
     //To check if all Input volume is consumed

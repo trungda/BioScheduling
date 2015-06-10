@@ -17,14 +17,21 @@ int main(){
 	string filename;
 	cin >> filename;
 
+	Node createnode[1000];
+
 	//Constructor for the Application Graph
-	AppGraph app_graph(filename);
+	AppGraph app_graph(filename, createnode);
+
+	//cout << app_graph.internals().size() << endl;
+	app_graph.PrintInputs();
+	app_graph.PrintOutputs();
+   	app_graph.PrintInternals();
 
 	cin >> filename;
 
 	//Constructor for the Application Graph
 	ChipArch chip_arch(filename);
-	
+
 	chip_arch.PrintMixers();
 	return 0;
 }

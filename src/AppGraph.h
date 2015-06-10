@@ -34,7 +34,7 @@ class AppGraph{
 
     public:
 
-    	AppGraph (string filename);
+    	AppGraph (string filename, Node*);
     	vector<Node*> inputs();
     	vector<Node*> internals();
     	vector<Node*> outputs();
