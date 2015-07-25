@@ -39,7 +39,7 @@ int main(){
 
     BoolVarMatrix X(env, n);
     Create2DArray(model, X);
-    BoolVarMatrix Y(env, e);
+    BoolVarMatrix Y(env, E);
     Create2DArray(model, X);
     CreateSchedulingConstraint(model, X, s, c);
     
