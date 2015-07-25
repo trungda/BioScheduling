@@ -28,14 +28,10 @@ typedef IloArray<BoolVarMatrix> BoolVar3DMatrix;
 void Create3DArray(IloModel model, BoolVar3DMatrix m, int size);
 
 void PopulateFromGraph(IloModel model, IloNumVarArray s, IloRangeArray c); 
-void CreateSchedulingConstraint(IloModel model, BoolVarMatrix X, IloNumVarArray s,
-				IloRangeArray c);
-void CreateBindingConstraint(IloModel model, BoolVarMatrix M,  BoolVarMatrix X, 
-			     IloRangeArray c);
-void ReservoirConstraint(IloModel model, BoolVar3DMatrix R, BoolVarMatrix M,
-			BoolVarMatrix X, IloRangeArray c);
-void OutputDroplet(IloModel model, BoolVar3DMatrix Y, BoolVarMatrix M, 
-		   BoolVarMatrix X, IloRangeArray c, BoolVar3DMatrix R);
+void CreateSchedulingConstraint(IloModel model, BoolVarMatrix X, BoolVarMatrix Y,
+				IloNumVarArray s, IloRangeArray c);
+void CreateBindingConstraint(IloModel model, BoolVarMatrix M,  BoolVarMatrix R,
+			     BoolVarMatrix Y, BoolVarMatrix X, IloRangeArray c);
 
 int main(){
   try{
@@ -43,19 +39,13 @@ int main(){
 
     BoolVarMatrix X(env, n);
     Create2DArray(model, X);
+    BoolVarMatrix Y(env, e);
+    Create2DArray(model, X);
     CreateSchedulingConstraint(model, X, s, c);
     
     BoolVarMatrix M(env, n_m);
     Create2DArray(model, M);
     CreateBindingConstraint(model, M, X, c);
-    
-    BoolVar3DMatrix R(env, n_r);
-    Create3DArray(model, R, E);
-    ReservoirConstraint(model, R, M, X, c);
-    
-    BoolVar3DMatrix Y(env, n_m);
-    Create3DArray(model, Y, n);
-    OutputDroplet(model, Y, M, X, c, R);
 
     model.add(c);
     
@@ -74,13 +64,6 @@ int main(){
     cplex.getValues(vals, M[2]);
     env.out() << "Mixer 3    " << vals << endl;
     
-    //Output Droplet() needs debugging
-    /*for(int p = 0; p < n_r; p++){
-      for(int e = 0; e < E; e++){
-	cplex.getValues(vals, R[p][e]);
-	env.out() << "Edge " << e <<" " << vals << endl;
-      }
-      }*/
   }
   catch(IloException& e){
     cerr << "Error: " << e << endl;
@@ -184,92 +167,4 @@ void CreateBindingConstraint(IloModel model, BoolVarMatrix M, BoolVarMatrix X,
   return;
 }
 
-void ReservoirConstraint(IloModel model, BoolVar3DMatrix R, BoolVarMatrix M,
-			BoolVarMatrix X, IloRangeArray c){
-  IloEnv env = model.getEnv();
-  for(int p = 0; p < n_r; p++){
-    for(int e = 0; e < E; e++){
-      for(int t = 0; t < T_MAX; t++){
-	R[p][e].add(IloBoolVar(env));
-      }
-    }
-  }
 
-  //A reservoir at a given time step holds at most one drop
-  for(int p = 0; p < n_r; p++){
-    IloExprArray sum(env);
-    for(int t = 0; t < T_MAX; t++){
-      sum.add(IloExpr(env));
-      for(int e = 0; e < E; e++){
-	sum[t] += R[p][e][t];
-      }
-      c.add(sum[t] <= 1);
-    }
-  }
-
-  //A droplet at a given time step can be only in one reservoir
-  IloExprArray sum1(env);
-  for(int e = 0; e < E; e++){
-    for(int t = 0; t < T_MAX; t++){
-      sum1.add(IloExpr(env));
-      for(int p = 0; p < n_r; p++){
-	sum1[t + e*T_MAX] += R[p][e][t];
-      }
-      c.add(sum1[t] <= 1);
-    }
-  }
-
-  //At any given time step, the max number of reservoirs being used
-  //can be atmost n_r
-  IloExprArray sum(env);
-  IloExprArray summation(env);
-  for(int t = 0; t < T_MAX; t++){
-    summation.add(IloExpr(env));
-    for(int p = 0; p < n_r; p++){
-      sum.add(IloExpr(env));
-      for(int e = 0; e < E; e++)
-	sum[p] += R[p][e][t];
-      summation[t] += sum[p];
-    }
-    c.add(summation[t] <= n_r);
-  }
-  return;
-}
-
-void OutputDroplet(IloModel model, BoolVar3DMatrix Y, BoolVarMatrix M, 
-		   BoolVarMatrix X, IloRangeArray c, BoolVar3DMatrix R){
-
-  IloEnv env = model.getEnv();
-  for(int p = 0; p < Y.getSize(); p++){
-    for(int i = 0; i < n; i++){
-      for(int t = 0; t < T_MAX; t++){
-	Y[p][i].add(IloBoolVar(env));
-	c.add(Y[p][i][t] - M[p][i] - X[i][t] >= -1);
-	c.add(Y[p][i][t] - M[p][i] - X[i][t] <=  0);
-	c.add(Y[p][i][t] + M[p][i] - X[i][t] <=  1);
-	c.add(Y[p][i][t] - M[p][i] + X[i][t] <=  1);
-      }
-    }
-  }
-
-  //Droplet back and forth
-   for(int t = 0; t < T_MAX; t++){
-    for(int e = 0; e < E; e++){
-      IloExprArray sum1(env);
-      IloExprArray sum2(env);
-      for(int p = 0; p < n_m; p++){
-	sum1.add(IloExpr(env));
-        sum2.add(IloExpr(env));
-	for(int l = 0; l < n_r; l++){
-	  sum1[p] += R[l][e][t];
-	}
-	for(int i = 0; i < n; i++){
-	  sum2[p] += Y[p][i][t];
-	}
-	c.add(sum1[p] - sum2[p] + M[p][e] <=  1);
-	//c.add(sum1[p] - sum2[p] - M[p][e] >= -1);
-      }
-    }
-   }
-  return;
-}
