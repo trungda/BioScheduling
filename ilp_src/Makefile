@@ -73,10 +73,10 @@ clean :
 #
 # The examples
 #
-ilp1: ilp1.o
-	$(CCC) $(CCFLAGS) $(CCLNDIRS) -o ilp1 ilp1.o $(CCLNFLAGS)
-ilp1.o: ilp1.cpp
-	$(CCC) -c $(CCFLAGS) ilp1.cpp -o ilp1.o 
+parabolic-2: parabolic-2.o
+	$(CCC) $(CCFLAGS) $(CCLNDIRS) -o parabolic-2 parabolic-2.o $(CCLNFLAGS)
+parabolic-2.o: parabolic-2.cpp
+	$(CCC) -c $(CCFLAGS) parabolic-2.cpp -o parabolic-2.o 
 
 # Local Variables:
 # mode: makefile
