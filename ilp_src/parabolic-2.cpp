@@ -53,9 +53,9 @@ int main(){
     CreateBindingConstraint(model, M, R, Y, X, c);
     
     BoolVar3DMatrix L(env, n_m);
-    Create3DArray(model, R, n);
+    Create3DArray(model, L, n);
     BoolVar3DMatrix G(env, n_m);
-    Create3DArray(model, R, E);
+    Create3DArray(model, G, E);
     AddtionalConstraint(model, L,  M, X, G, R, Y, c); 
 
     model.add(c);
