@@ -31,7 +31,8 @@ void PopulateFromGraph(IloModel model, IloNumVarArray s, IloRangeArray c);
 void CreateSchedulingConstraint(IloModel model, BoolVarMatrix X, BoolVarMatrix Y,
 				IloNumVarArray s, IloRangeArray c);
 void CreateBindingConstraint(IloModel model, BoolVarMatrix M,  BoolVarMatrix R,
-			     BoolVarMatrix Y, BoolVarMatrix X, IloRangeArray c);
+			     BoolVarMatrix Y, BoolVarMatrix X, IloNumVarArray s,
+ 			     IloRangeArray c);
 void AddtionalConstraint(IloModel model, BoolVar3DMatrix L, BoolVarMatrix M, 
 			 BoolVarMatrix X, BoolVar3DMatrix G, BoolVarMatrix R,
 			 BoolVarMatrix Y, IloRangeArray c);
@@ -50,7 +51,7 @@ int main(){
     Create2DArray(model, M);
     BoolVarMatrix R(env, n_m);
     Create2DArray(model, R);
-    CreateBindingConstraint(model, M, R, Y, X, c);
+    CreateBindingConstraint(model, M, R, Y, X, s, c);
     
     BoolVar3DMatrix L(env, n_m);
     Create3DArray(model, L, n);
