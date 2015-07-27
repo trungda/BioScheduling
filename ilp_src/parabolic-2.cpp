@@ -411,7 +411,7 @@ void AddtionalConstraint(IloModel model, BoolVar3DMatrix L, BoolVarMatrix M,
       for(int e = 0; e < E; e++){
 	sum2[p] += G[p][e][t];
       }
-      c.add(sum1[p] + sum2[p] - 2 <  0);
+      c.add(sum1[p] + sum2[p] - 2 <=  -1);
     }
   }
   return;
