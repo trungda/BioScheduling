@@ -389,7 +389,7 @@ void AddtionalConstraint(IloModel model, BoolVar3DMatrix L, BoolVarMatrix M,
   for(int p = 0; p < G.getSize(); p++){
     for(int e = 0; e < E; e++){
       for(int t = 0; t < T_MAX; t++){
-	G[p][i].add(IloBoolVar(env));
+	G[p][e].add(IloBoolVar(env));
 	c.add(G[p][e][t] - R[p][e] - Y[e][t] >= -1);
 	c.add(G[p][e][t] - R[p][e] - X[e][t] <=  0);
 	c.add(G[p][e][t] + R[p][e] - X[e][t] <=  1);
