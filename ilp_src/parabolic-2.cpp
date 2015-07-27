@@ -161,8 +161,8 @@ void CreateSchedulingConstraint(IloModel model, BoolVarMatrix Y, BoolVarMatrix X
   for(int t = 0; t < T_MAX; t++){
     Y[0].add(IloBoolVar(env)); 
     sum2[0] +=  Y[0][t];
-    c.add( t - (s[1] + T) - T_MAX*(Y[e][t]-1)     >= 0);
-    c.add(-t +  s[2]      - T_MAX*(Y[e][t]-1) + T >= 1);
+    c.add( t - (s[1] + T) - T_MAX*(Y[0][t]-1)     >= 0);
+    c.add(-t +  s[2]      - T_MAX*(Y[0][t]-1) + T >= 1);
   }
   c.add(sum2[0] - (s[2]-(s[1]+T)) == 0);
 
@@ -171,8 +171,8 @@ void CreateSchedulingConstraint(IloModel model, BoolVarMatrix Y, BoolVarMatrix X
   for(int t = 0; t < T_MAX; t++){
     Y[1].add(IloBoolVar(env)); 
     sum2[1] +=  Y[1][t];
-    c.add( t - (s[2] + T) - T_MAX*(Y[e][t]-1)     >= 0);
-    c.add(-t +  s[3]      - T_MAX*(Y[e][t]-1) + T >= 1);
+    c.add( t - (s[2] + T) - T_MAX*(Y[0][t]-1)     >= 0);
+    c.add(-t +  s[3]      - T_MAX*(Y[0][t]-1) + T >= 1);
   }
   c.add(sum2[1] - (s[3]-(s[2]+T)) == 0);
 	
@@ -276,7 +276,7 @@ void CreateSchedulingConstraint(IloModel model, BoolVarMatrix Y, BoolVarMatrix X
     c.add( t - (s[7] + T) - T_MAX*(Y[11][t]-1)     >= 0);
     c.add(-t +  s[10]     - T_MAX*(Y[11][t]-1) + T >= 1);
   }
-  c.add(sum2[i] - (s[10]-(s[7]+T)) == 0);
+  c.add(sum2[11] - (s[10]-(s[7]+T)) == 0);
 
   //Edge-13
   sum2.add(IloExpr(env));
@@ -304,7 +304,7 @@ void CreateSchedulingConstraint(IloModel model, BoolVarMatrix Y, BoolVarMatrix X
     for(int i = 0; i < X.getSize(); i++){
       summation1[t] += X[i][t];
     }
-    for(int e = 0; i < Y.getSize(); i++){
+    for(int e = 0; e < Y.getSize(); i++){
       summation2[t] += Y[e][t];
     }
     c.add(summation1[t] + summation2[t] <= n_m);
@@ -358,7 +358,7 @@ void CreateBindingConstraint(IloModel model, BoolVarMatrix M, BoolVarMatrix R,
   //to the same module
   for(int p = 0; p < n_m; p++){
     for(int t = 0; t < T_MAX; t++){
-      for(int i = 0; i < e; i++){
+      for(int i = 0; i < j; i++){
 	for(int j = i+1; j < n; j++){
 	  c.add(Y[i][t] + Y[j][t] - R[p][i] - R[p][j] >= -2);
 	  c.add(Y[i][t] + Y[j][t] + R[p][i] + R[p][j] <=  3);
@@ -387,7 +387,7 @@ void AddtionalConstraint(IloModel model, BoolVar3DMatrix L, BoolVarMatrix M,
   }
 
   for(int p = 0; p < G.getSize(); p++){
-    for(int i = 0; i < E; i++){
+    for(int e = 0; e < E; i++){
       for(int t = 0; t < T_MAX; t++){
 	G[p][i].add(IloBoolVar(env));
 	c.add(G[p][e][t] - R[p][e] - Y[e][t] >= -1);
@@ -408,7 +408,7 @@ void AddtionalConstraint(IloModel model, BoolVar3DMatrix L, BoolVarMatrix M,
       for(int i = 0; i < n; i++){
 	sum2[p] += L[p][i][t];
       }
-      for(int e = 0; e < E; i++){
+      for(int e = 0; e < E; e++){
 	sum2[p] += G[p][e][t];
       }
       c.add(sum1[p] + sum2[p] - 2 <  0);
