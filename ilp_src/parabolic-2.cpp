@@ -338,7 +338,7 @@ void CreateBindingConstraint(IloModel model, BoolVarMatrix M, BoolVarMatrix R,
     for(int p = 0; p < n_m; p++){
       sum[i] += M[p][i];
     }
-    c.add(sum[i] == 1);
+    c.add(sum[i] <= 1);
   }
 
   //Two operations running simulateneously can not be bound
