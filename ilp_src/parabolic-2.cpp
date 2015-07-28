@@ -59,8 +59,8 @@ int main(){
     Create3DArray(model, L, n);
     BoolVar3DMatrix G(env, n_m);
     Create3DArray(model, G, E);
-    //    AddtionalConstraint(model, L,  M, X, G, R, Y, c); 
-    // cout << "here" << endl;
+    AddtionalConstraint(model, L,  M, X, G, R, Y, c); 
+    cout << "here" << endl;
     model.add(c);
     
     cplex.exportModel("ilp1.lp");
@@ -334,7 +334,7 @@ void CreateBindingConstraint(IloModel model, BoolVarMatrix M, BoolVarMatrix R,
     for(int e = 0; e < E; e++)
       R[p].add(IloBoolVar(env));
   }
-  
+
   //Ensuring operation remains bound to the same module
   for(int i = 0; i < n; i++){
     sum1.add(IloExpr(env));
@@ -343,16 +343,16 @@ void CreateBindingConstraint(IloModel model, BoolVarMatrix M, BoolVarMatrix R,
     }
     c.add(sum1[i] == 1);
   }
-
+ 
   //Ensuring droplet remains bound to the same module
-  for(int i = 0; i < E; i++){
+  for(int e = 0; e < E; e++){
     sum2.add(IloExpr(env));
     for(int p = 0; p < n_m; p++){
-      sum2[i] += M[p][i];
+      sum2[e] += R[p][e];
     }
-    c.add(sum2[i] <= 1);
+    c.add(sum2[e] <= 1);
   }
-
+  
   //Two operations running simulateneously can not be bound
   //to the same module
   for(int p = 0; p < n_m; p++){
@@ -403,9 +403,9 @@ void AddtionalConstraint(IloModel model, BoolVar3DMatrix L, BoolVarMatrix M,
       for(int t = 0; t < T_MAX; t++){
 	G[p][e].add(IloBoolVar(env));
 	c.add(G[p][e][t] - R[p][e] - Y[e][t] >= -1);
-	c.add(G[p][e][t] - R[p][e] - X[e][t] <=  0);
-	c.add(G[p][e][t] + R[p][e] - X[e][t] <=  1);
-	c.add(G[p][e][t] - R[p][e] + X[e][t] <=  1);
+	c.add(G[p][e][t] - R[p][e] - Y[e][t] <=  0);
+	c.add(G[p][e][t] + R[p][e] - Y[e][t] <=  1);
+	c.add(G[p][e][t] - R[p][e] + Y[e][t] <=  1);
       }
     }
   }
