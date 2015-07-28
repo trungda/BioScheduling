@@ -44,21 +44,23 @@ int main(){
     BoolVarMatrix X(env, n);
     Create2DArray(model, X);
     BoolVarMatrix Y(env, E);
-    Create2DArray(model, X);
+    Create2DArray(model, Y);
     CreateSchedulingConstraint(model, X, Y, s, c);
-    
+    cout << "here" << endl;
+
     BoolVarMatrix M(env, n_m);
     Create2DArray(model, M);
     BoolVarMatrix R(env, n_m);
     Create2DArray(model, R);
     CreateBindingConstraint(model, M, R, Y, X, s, c);
-    
+    cout << "Here-2" << endl;
+
     BoolVar3DMatrix L(env, n_m);
     Create3DArray(model, L, n);
     BoolVar3DMatrix G(env, n_m);
     Create3DArray(model, G, E);
-    AddtionalConstraint(model, L,  M, X, G, R, Y, c); 
-
+    //    AddtionalConstraint(model, L,  M, X, G, R, Y, c); 
+    // cout << "here" << endl;
     model.add(c);
     
     cplex.exportModel("ilp1.lp");
@@ -73,8 +75,8 @@ int main(){
     env.out() << "Module 1    " << vals << endl;
     cplex.getValues(vals, M[1]);
     env.out() << "Module 2    " << vals << endl;
-    cplex.getValues(vals, M[2]);
-    env.out() << "Module 3    " << vals << endl;
+    // cplex.getValues(vals, M[2]);
+    //env.out() << "Module 3    " << vals << endl;
     
   }
   catch(IloException& e){
@@ -109,7 +111,9 @@ void Create3DArray(IloModel model, BoolVar3DMatrix R, int size){
 
 void PopulateFromGraph(IloModel model, IloNumVarArray s, IloRangeArray c){
   IloEnv env = model.getEnv();
-  for(int i = 0; i < n; i++)
+
+  // Used n+2 for accomodating two extra variables
+  for(int i = 0; i < n+2; i++)
     s.add(IloNumVar(env));
   model.add(IloMinimize(env, s[7]));
   
@@ -137,7 +141,7 @@ void PopulateFromGraph(IloModel model, IloNumVarArray s, IloRangeArray c){
   c.add(s[12]- s[10] >= 0);
 }
 
-void CreateSchedulingConstraint(IloModel model, BoolVarMatrix Y, BoolVarMatrix X, 
+void CreateSchedulingConstraint(IloModel model, BoolVarMatrix X, BoolVarMatrix Y, 
 				IloNumVarArray s, IloRangeArray c){
   IloEnv env = model.getEnv();
   IloExprArray sum(env);
@@ -146,11 +150,12 @@ void CreateSchedulingConstraint(IloModel model, BoolVarMatrix Y, BoolVarMatrix X
   IloExprArray summation2(env);
   for(int i = 0; i < X.getSize(); i++){
     sum.add(IloExpr(env));
+    //cout << i << endl;
     for(int t = 0; t < T_MAX; t++){
       X[i].add(IloBoolVar(env)); 
       sum[i] +=  X[i][t];
-      c.add( t - s[i] - T_MAX*(X[i][t]-1)     >= 0);
-      c.add(-t + s[i] - T_MAX*(X[i][t]-1) + T >= 1);
+      c.add( t - s[i+1] - T_MAX*(X[i][t]-1)     >= 0);
+      c.add(-t + s[i+1] - T_MAX*(X[i][t]-1) + T >= 1);
     }
     c.add(sum[i] == T);
   }
@@ -300,8 +305,9 @@ void CreateSchedulingConstraint(IloModel model, BoolVarMatrix Y, BoolVarMatrix X
   c.add(sum2[13] - (s[11]-(s[9]+T)) == 0);
   
   //Chip Architecture Constraint
-  for(int t = 0; t < T_MAX; t++){
+   for(int t = 0; t < T_MAX; t++){
     summation1.add(IloExpr(env));
+    summation2.add(IloExpr(env));
     for(int i = 0; i < X.getSize(); i++){
       summation1[t] += X[i][t];
     }
@@ -309,7 +315,7 @@ void CreateSchedulingConstraint(IloModel model, BoolVarMatrix Y, BoolVarMatrix X
       summation2[t] += Y[e][t];
     }
     c.add(summation1[t] + summation2[t] <= n_m);
-  }
+   }
   
   return;
 }
@@ -318,28 +324,33 @@ void CreateBindingConstraint(IloModel model, BoolVarMatrix M, BoolVarMatrix R,
 			     BoolVarMatrix Y, BoolVarMatrix X, IloNumVarArray s,
 			     IloRangeArray c){
   IloEnv env = model.getEnv();
-  IloExprArray sum(env);
+  IloExprArray sum1(env);
+  IloExprArray sum2(env);
   for(int p = 0; p < M.getSize(); p++){
     for(int i = 0; i < n; i++)
       M[p].add(IloBoolVar(env));
   }
+  for(int p = 0; p < R.getSize(); p++){
+    for(int e = 0; e < E; e++)
+      R[p].add(IloBoolVar(env));
+  }
   
   //Ensuring operation remains bound to the same module
   for(int i = 0; i < n; i++){
-    sum.add(IloExpr(env));
+    sum1.add(IloExpr(env));
     for(int p = 0; p < n_m; p++){
-      sum[i] += M[p][i];
+      sum1[i] += M[p][i];
     }
-    c.add(sum[i] == 1);
+    c.add(sum1[i] == 1);
   }
 
   //Ensuring droplet remains bound to the same module
   for(int i = 0; i < E; i++){
-    sum.add(IloExpr(env));
+    sum2.add(IloExpr(env));
     for(int p = 0; p < n_m; p++){
-      sum[i] += M[p][i];
+      sum2[i] += M[p][i];
     }
-    c.add(sum[i] <= 1);
+    c.add(sum2[i] <= 1);
   }
 
   //Two operations running simulateneously can not be bound
