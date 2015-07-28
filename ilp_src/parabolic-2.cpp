@@ -197,10 +197,10 @@ void CreateSchedulingConstraint(IloModel model, BoolVarMatrix X, BoolVarMatrix Y
   for(int t = 0; t < T_MAX; t++){
     Y[3].add(IloBoolVar(env)); 
     sum2[3] +=  Y[3][t];
-    c.add( t - (s[2] + T) - T_MAX*(Y[3][t]-1)     >= 0);
+    c.add( t - (s[1] + T) - T_MAX*(Y[3][t]-1)     >= 0);
     c.add(-t +  s[4]      - T_MAX*(Y[3][t]-1) + T >= 1);
   }
-  c.add(sum2[3] - (s[4]-(s[2]+T)) == 0);
+  c.add(sum2[3] - (s[4]-(s[1]+T)) == 0);
 
   //Edge-5
   sum2.add(IloExpr(env));
