@@ -7,10 +7,10 @@
 
 #include <ilcplex/ilocplex.h>
 
-#define T_MAX 33
+#define T_MAX 20
 #define n 11         //Number of Mixing Operations
-#define n_m 2        //Numer of Mixers
-#define T 3          //Operation Time
+#define n_m 3        //Numer of Mixers
+#define T 1          //Operation Time
 #define E 14         //Edges between mix nodes
 
 using namespace std;
@@ -46,24 +46,22 @@ int main(){
     BoolVarMatrix Y(env, E);
     Create2DArray(model, Y);
     CreateSchedulingConstraint(model, X, Y, s, c);
-    cout << "here" << endl;
-
+  
     BoolVarMatrix M(env, n_m);
     Create2DArray(model, M);
     BoolVarMatrix R(env, n_m);
     Create2DArray(model, R);
     CreateBindingConstraint(model, M, R, Y, X, s, c);
-    cout << "Here-2" << endl;
 
     BoolVar3DMatrix L(env, n_m);
     Create3DArray(model, L, n);
     BoolVar3DMatrix G(env, n_m);
     Create3DArray(model, G, E);
     AddtionalConstraint(model, L,  M, X, G, R, Y, c); 
-    cout << "here" << endl;
+
     model.add(c);
     
-    cplex.exportModel("ilp1.lp");
+    cplex.exportModel("para-3.lp");
     cplex.solve();
 
     env.out() << "Status: " << cplex.getStatus() << endl;
@@ -72,11 +70,17 @@ int main(){
     cplex.getValues(vals, s);
     env.out() << "Schedule    " << vals << endl;
     cplex.getValues(vals, M[0]);
-    env.out() << "Module 1    " << vals << endl;
+    env.out() << "Mix-Module 1    " << vals << endl;
     cplex.getValues(vals, M[1]);
-    env.out() << "Module 2    " << vals << endl;
-    // cplex.getValues(vals, M[2]);
-    //env.out() << "Module 3    " << vals << endl;
+    env.out() << "Mix-Module 2    " << vals << endl;
+    cplex.getValues(vals, M[2]);
+    env.out() << "Mix-Module 3    " << vals << endl;
+    cplex.getValues(vals, R[0]);
+    env.out() << "Storage-Module 1    " << vals << endl;
+    cplex.getValues(vals, R[1]);
+    env.out() << "Storage-Module 2    " << vals << endl;
+    cplex.getValues(vals, R[2]);
+    env.out() << "Storage-Module 3    " << vals << endl;
     
   }
   catch(IloException& e){
@@ -115,26 +119,26 @@ void PopulateFromGraph(IloModel model, IloNumVarArray s, IloRangeArray c){
   // Used n+2 for accomodating two extra variables
   for(int i = 0; i < n+2; i++)
     s.add(IloNumVar(env));
-  model.add(IloMinimize(env, s[7]));
+  model.add(IloMinimize(env, s[12]));
   
   //To Start Enumeration from 1
   c.add(s[0] == 100);
   
-  //Every edge bears a constraint    |Edge No.
-  c.add(s[2] - s[1] >= T);//         |1
-  c.add(s[3] - s[2] >= T);//         |2
-  c.add(s[4] - s[3] >= T);//         |3
-  c.add(s[4] - s[2] >= T);//         |4
-  c.add(s[5] - s[4] >= T);//         |5
-  c.add(s[6] - s[4] >= T);//         |6
-  c.add(s[6] - s[2] >= T);//         |7
-  c.add(s[7] - s[6] >= T);//         |8
-  c.add(s[8] - s[5] >= T);//         |9
-  c.add(s[9] - s[8] >= T);//         |10
-  c.add(s[10]- s[8] >= T);//         |11
-  c.add(s[10]- s[7] >= T);//         |12
-  c.add(s[11]- s[6] >= T);//         |13
-  c.add(s[11]- s[9] >= T);//         |14
+  //Every edge bears a constraint    
+  c.add(s[2] - s[1] >= T);         
+  c.add(s[3] - s[2] >= T);
+  c.add(s[4] - s[3] >= T);
+  c.add(s[4] - s[1] >= T);
+  c.add(s[5] - s[4] >= T);
+  c.add(s[6] - s[4] >= T);
+  c.add(s[6] - s[2] >= T);
+  c.add(s[7] - s[6] >= T);
+  c.add(s[8] - s[5] >= T);
+  c.add(s[9] - s[8] >= T);
+  c.add(s[10]- s[8] >= T);
+  c.add(s[10]- s[7] >= T);
+  c.add(s[11]- s[6] >= T);
+  c.add(s[11]- s[9] >= T);
   
   //Dummy Variable s[12]
   c.add(s[12]- s[11]>= 0);
@@ -161,14 +165,14 @@ void CreateSchedulingConstraint(IloModel model, BoolVarMatrix X, BoolVarMatrix Y
   }
 
   //Manual Formulation
-
+  
   //Edge-1
   sum2.add(IloExpr(env));
   for(int t = 0; t < T_MAX; t++){
     Y[0].add(IloBoolVar(env)); 
     sum2[0] +=  Y[0][t];
     c.add( t - (s[1] + T) - T_MAX*(Y[0][t]-1)     >= 0);
-    c.add(-t +  s[2]      - T_MAX*(Y[0][t]-1) + T >= 1);
+    c.add(-t +  s[2]      - T_MAX*(Y[0][t]-1)  >= 1);
   }
   c.add(sum2[0] - (s[2]-(s[1]+T)) == 0);
 
@@ -177,8 +181,8 @@ void CreateSchedulingConstraint(IloModel model, BoolVarMatrix X, BoolVarMatrix Y
   for(int t = 0; t < T_MAX; t++){
     Y[1].add(IloBoolVar(env)); 
     sum2[1] +=  Y[1][t];
-    c.add( t - (s[2] + T) - T_MAX*(Y[0][t]-1)     >= 0);
-    c.add(-t +  s[3]      - T_MAX*(Y[0][t]-1) + T >= 1);
+    c.add( t - (s[2] + T) - T_MAX*(Y[1][t]-1)     >= 0);
+    c.add(-t +  s[3]      - T_MAX*(Y[1][t]-1) >= 1);
   }
   c.add(sum2[1] - (s[3]-(s[2]+T)) == 0);
 	
@@ -188,7 +192,7 @@ void CreateSchedulingConstraint(IloModel model, BoolVarMatrix X, BoolVarMatrix Y
     Y[2].add(IloBoolVar(env)); 
     sum2[2] +=  Y[2][t];
     c.add( t - (s[3] + T) - T_MAX*(Y[2][t]-1)     >= 0);
-    c.add(-t +  s[4]      - T_MAX*(Y[2][t]-1) + T >= 1);
+    c.add(-t +  s[4]      - T_MAX*(Y[2][t]-1)  >= 1);
   }
   c.add(sum2[2] - (s[4]-(s[3]+T)) == 0);
 
@@ -198,7 +202,7 @@ void CreateSchedulingConstraint(IloModel model, BoolVarMatrix X, BoolVarMatrix Y
     Y[3].add(IloBoolVar(env)); 
     sum2[3] +=  Y[3][t];
     c.add( t - (s[1] + T) - T_MAX*(Y[3][t]-1)     >= 0);
-    c.add(-t +  s[4]      - T_MAX*(Y[3][t]-1) + T >= 1);
+    c.add(-t +  s[4]      - T_MAX*(Y[3][t]-1)  >= 1);
   }
   c.add(sum2[3] - (s[4]-(s[1]+T)) == 0);
 
@@ -219,7 +223,7 @@ void CreateSchedulingConstraint(IloModel model, BoolVarMatrix X, BoolVarMatrix Y
     Y[5].add(IloBoolVar(env)); 
     sum2[5] +=  Y[5][t];
     c.add( t - (s[4] + T) - T_MAX*(Y[5][t]-1)     >= 0);
-    c.add(-t +  s[6]      - T_MAX*(Y[5][t]-1) + T >= 1);
+    c.add(-t +  s[6]      - T_MAX*(Y[5][t]-1)  >= 1);
   }
   c.add(sum2[5] - (s[6]-(s[4]+T)) == 0); 
 
@@ -230,9 +234,9 @@ void CreateSchedulingConstraint(IloModel model, BoolVarMatrix X, BoolVarMatrix Y
     Y[6].add(IloBoolVar(env)); 
     sum2[6] +=  Y[6][t];
     c.add( t - (s[2] + T) - T_MAX*(Y[6][t]-1)     >= 0);
-    c.add(-t +  s[6]      - T_MAX*(Y[6][t]-1) + T >= 1);
+    c.add(-t +  s[6]      - T_MAX*(Y[6][t]-1)  >= 1);
   }
-  c.add(sum2[1] - (s[6]-(s[2]+T)) == 0);
+  c.add(sum2[6] - (s[6]-(s[2]+T)) == 0);
 
   //Edge-8
   sum2.add(IloExpr(env));
@@ -240,7 +244,7 @@ void CreateSchedulingConstraint(IloModel model, BoolVarMatrix X, BoolVarMatrix Y
     Y[7].add(IloBoolVar(env)); 
     sum2[7] +=  Y[7][t];
     c.add( t - (s[6] + T) - T_MAX*(Y[7][t]-1)     >= 0);
-    c.add(-t +  s[7]      - T_MAX*(Y[7][t]-1) + T >= 1);
+    c.add(-t +  s[7]      - T_MAX*(Y[7][t]-1)  >= 1);
   }
   c.add(sum2[7] - (s[7]-(s[6]+T)) == 0);
   
@@ -250,7 +254,7 @@ void CreateSchedulingConstraint(IloModel model, BoolVarMatrix X, BoolVarMatrix Y
     Y[8].add(IloBoolVar(env)); 
     sum2[8] +=  Y[8][t];
     c.add( t - (s[5] + T) - T_MAX*(Y[8][t]-1)     >= 0);
-    c.add(-t +  s[8]      - T_MAX*(Y[8][t]-1) + T >= 1);
+    c.add(-t +  s[8]      - T_MAX*(Y[8][t]-1)  >= 1);
   }
   c.add(sum2[8] - (s[8]-(s[5]+T)) == 0);
 
@@ -260,7 +264,7 @@ void CreateSchedulingConstraint(IloModel model, BoolVarMatrix X, BoolVarMatrix Y
     Y[9].add(IloBoolVar(env)); 
     sum2[9] +=  Y[9][t];
     c.add( t - (s[8] + T) - T_MAX*(Y[9][t]-1)     >= 0);
-    c.add(-t +  s[9]      - T_MAX*(Y[9][t]-1) + T >= 1);
+    c.add(-t +  s[9]      - T_MAX*(Y[9][t]-1) >= 1);
   }
   c.add(sum2[9] - (s[9]-(s[8]+T)) == 0);
 
@@ -270,7 +274,7 @@ void CreateSchedulingConstraint(IloModel model, BoolVarMatrix X, BoolVarMatrix Y
     Y[10].add(IloBoolVar(env)); 
     sum2[10] +=  Y[10][t];
     c.add( t - (s[8] + T) - T_MAX*(Y[10][t]-1)     >= 0);
-    c.add(-t +  s[10]     - T_MAX*(Y[10][t]-1) + T >= 1);
+    c.add(-t +  s[10]     - T_MAX*(Y[10][t]-1)  >= 1);
   }
   c.add(sum2[10] - (s[10]-(s[8]+T)) == 0);
 
@@ -280,7 +284,7 @@ void CreateSchedulingConstraint(IloModel model, BoolVarMatrix X, BoolVarMatrix Y
     Y[11].add(IloBoolVar(env)); 
     sum2[11] +=  Y[11][t];
     c.add( t - (s[7] + T) - T_MAX*(Y[11][t]-1)     >= 0);
-    c.add(-t +  s[10]     - T_MAX*(Y[11][t]-1) + T >= 1);
+    c.add(-t +  s[10]     - T_MAX*(Y[11][t]-1)  >= 1);
   }
   c.add(sum2[11] - (s[10]-(s[7]+T)) == 0);
 
@@ -290,7 +294,7 @@ void CreateSchedulingConstraint(IloModel model, BoolVarMatrix X, BoolVarMatrix Y
     Y[12].add(IloBoolVar(env)); 
     sum2[12] +=  Y[12][t];
     c.add( t - (s[6] + T) - T_MAX*(Y[12][t]-1)     >= 0);
-    c.add(-t +  s[11]     - T_MAX*(Y[12][t]-1) + T >= 1);
+    c.add(-t +  s[11]     - T_MAX*(Y[12][t]-1)  >= 1);
   }
   c.add(sum2[12] - (s[11]-(s[6]+T)) == 0);
 
@@ -300,12 +304,12 @@ void CreateSchedulingConstraint(IloModel model, BoolVarMatrix X, BoolVarMatrix Y
     Y[13].add(IloBoolVar(env)); 
     sum2[13] +=  Y[13][t];
     c.add( t - (s[9] + T) - T_MAX*(Y[13][t]-1)     >= 0);
-    c.add(-t +  s[11]     - T_MAX*(Y[13][t]-1) + T >= 1);
+    c.add(-t +  s[11]     - T_MAX*(Y[13][t]-1)  >= 1);
   }
   c.add(sum2[13] - (s[11]-(s[9]+T)) == 0);
   
   //Chip Architecture Constraint
-   for(int t = 0; t < T_MAX; t++){
+  for(int t = 0; t < T_MAX; t++){
     summation1.add(IloExpr(env));
     summation2.add(IloExpr(env));
     for(int i = 0; i < X.getSize(); i++){
@@ -315,7 +319,7 @@ void CreateSchedulingConstraint(IloModel model, BoolVarMatrix X, BoolVarMatrix Y
       summation2[t] += Y[e][t];
     }
     c.add(summation1[t] + summation2[t] <= n_m);
-   }
+  }
   
   return;
 }
