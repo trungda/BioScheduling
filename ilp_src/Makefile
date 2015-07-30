@@ -78,6 +78,11 @@ parabolic-2: parabolic-2.o
 parabolic-2.o: parabolic-2.cpp
 	$(CCC) -c $(CCFLAGS) parabolic-2.cpp -o parabolic-2.o 
 
+pcr: pcr.o
+	$(CCC) $(CCFLAGS) $(CCLNDIRS) -o pcr pcr.o $(CCLNFLAGS)
+pcr.o: PCR.cpp
+	$(CCC) -c $(CCFLAGS) PCR.cpp -o pcr.o 
+
 # Local Variables:
 # mode: makefile
 # End:

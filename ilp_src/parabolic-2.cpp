@@ -375,7 +375,7 @@ void CreateBindingConstraint(IloModel model, BoolVarMatrix M, BoolVarMatrix R,
   for(int p = 0; p < n_m; p++){
     for(int t = 0; t < T_MAX; t++){
       for(int i = 0; i < E; i++){
-	for(int j = i+1; j < n; j++){
+	for(int j = i+1; j < E; j++){
 	  c.add(Y[i][t] + Y[j][t] - R[p][i] - R[p][j] >= -2);
 	  c.add(Y[i][t] + Y[j][t] + R[p][i] + R[p][j] <=  3);
 	}
