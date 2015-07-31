@@ -9,7 +9,7 @@
 
 #define T_MAX 20
 #define n 12         //Number of Mixing Operations
-#define n_m 3        //Numer of Mixers
+#define n_m 4        //Numer of Mixers
 #define T 1          //Operation Time
 #define E 15         //Edges between mix nodes
 
@@ -78,12 +78,17 @@ int main(){
     env.out() << "Mix-Module 2 (M_2i)    " << vals << endl;
     cplex.getValues(vals, M[2]);
     env.out() << "Mix-Module 3 (M_3i)    " << vals << endl;
+    cplex.getValues(vals, M[3]);
+    env.out() << "Mix-Module 4 (M_4i)    " << vals << endl;
     cplex.getValues(vals, R[0]);
     env.out() << "Storage-Module 1 (R_1e)   " << vals << endl;
     cplex.getValues(vals, R[1]);
     env.out() << "Storage-Module 2 (R_2e)   " << vals << endl;
     cplex.getValues(vals, R[2]);
     env.out() << "Storage-Module 3 (R_3e)   " << vals << endl;
+    cplex.getValues(vals, R[3]);
+    env.out() << "Storage-Module 4 (R_4e)   " << vals << endl;
+
     
   }
   catch(IloException& e){
@@ -147,7 +152,7 @@ void PopulateFromGraph(IloModel model, IloNumVarArray s, IloRangeArray c){
   //Dummy Variable s[12]
   c.add(s[13]- s[11]>= 0);
   c.add(s[13]- s[10] >= 0);
-  c.add(s[13]- s[13] >= 0);
+  c.add(s[13]- s[8] >= 0);
 }
 
 void CreateSchedulingConstraint(IloModel model, BoolVarMatrix X, BoolVarMatrix Y, 
@@ -288,7 +293,7 @@ void CreateSchedulingConstraint(IloModel model, BoolVarMatrix X, BoolVarMatrix Y
   //Edge-9
   c.add(s[8]-(s[6]+T) + T_MAX*D[8] >= 1);
   c.add(v[8] + T_MAX*D[8] >= 1);
-  c.add(T_MAX*(1-D[8]) - s[8] + (s[5]+T) >= 0);
+  c.add(T_MAX*(1-D[8]) - s[8] + (s[6]+T) >= 0);
   c.add(v[8] - s[8] + (s[6]+T) <= 0);
   sum2.add(IloExpr(env));
   for(int t = 0; t < T_MAX; t++){
@@ -429,7 +434,7 @@ void CreateBindingConstraint(IloModel model, BoolVarMatrix M, BoolVarMatrix R,
     for(int p = 0; p < n_m; p++){
       sum2[e] += R[p][e];
     }
-    c.add(sum2[e] - v[e] >= 0);
+    c.add(sum2[e] - v[e] == 0);
   }
   
   //Two operations running simulateneously can not be bound
