@@ -1,48 +1,268 @@
-parabolic-2.cpp: In function 'void CreateSchedulingConstraint(IloModel, BoolVarMatrix, BoolVarMatrix, IloNumVarArray, IloRangeArray)':
-parabolic-2.cpp:164:38: error: 'e' was not declared in this scope
-     c.add( t - (s[1] + T) - T_MAX*(Y[e][t]-1)     >= 0);
-                                      ^
-parabolic-2.cpp:174:38: error: 'e' was not declared in this scope
-     c.add( t - (s[2] + T) - T_MAX*(Y[e][t]-1)     >= 0);
-                                      ^
-parabolic-2.cpp:235:19: error: 'e' was not declared in this scope
-     sum2[7] +=  Y[e][t];
-                   ^
-parabolic-2.cpp:279:14: error: name lookup of 'i' changed for ISO 'for' scoping [-fpermissive]
-   c.add(sum2[i] - (s[10]-(s[7]+T)) == 0);
-              ^
-parabolic-2.cpp:279:14: note: (if you use '-fpermissive' G++ will accept your code)
-parabolic-2.cpp:307:20: error: name lookup of 'i' changed for ISO 'for' scoping [-fpermissive]
-     for(int e = 0; i < Y.getSize(); i++){
-                    ^
-parabolic-2.cpp: In function 'void CreateBindingConstraint(IloModel, BoolVarMatrix, BoolVarMatrix, BoolVarMatrix, BoolVarMatrix, IloNumVarArray, IloRangeArray)':
-parabolic-2.cpp:361:26: error: 'e' was not declared in this scope
-       for(int i = 0; i < e; i++){
-                          ^
-parabolic-2.cpp: In function 'void AddtionalConstraint(IloModel, BoolVar3DMatrix, BoolVarMatrix, BoolVarMatrix, BoolVar3DMatrix, BoolVarMatrix, BoolVarMatrix, IloRangeArray)':
-parabolic-2.cpp:393:13: error: 'e' was not declared in this scope
-  c.add(G[p][e][t] - R[p][e] - Y[e][t] >= -1);
-             ^
-parabolic-2.cpp:411:29: error: name lookup of 'i' changed for ISO 'for' scoping [-fpermissive]
-       for(int e = 0; e < E; i++){
-                             ^
-parabolic-2.cpp:414:39: error: no matching function for call to 'IloRangeArray::add(IloConstraint)'
-       c.add(sum1[p] + sum2[p] - 2 <  0);
-                                       ^
-parabolic-2.cpp:414:39: note: candidates are:
+parabolic-2.cpp: In function ‘void CreateSchedulingConstraint(IloModel, BoolVarMatrix, BoolVarMatrix, IloNumVarArray, IloRangeArray, IloBoolVarArray, IloBoolVarArray)’:
+parabolic-2.cpp:175:40: error: no matching function for call to ‘IloRangeArray::add(IloConstraint)’
+   c.add(T_MAX*(1-D[0]) >= s[2]-(s[1]+T));
+                                        ^
+parabolic-2.cpp:175:40: note: candidates are:
 In file included from ../../../CPLEX/concert/include/ilconcert/ilomodel.h:24:0,
                  from ../../../CPLEX/cplex/include/ilcplex/ilocplex.h:27,
                  from parabolic-2.cpp:8:
 ../../../CPLEX/concert/include/ilconcert/ilolinear.h:368:7: note: void IloRangeArray::add(IloRangeArray)
   void add(const IloRangeArray array)         { IloExtractableArray::add (array); }
        ^
-../../../CPLEX/concert/include/ilconcert/ilolinear.h:368:7: note:   no known conversion for argument 1 from 'IloConstraint' to 'IloRangeArray'
+../../../CPLEX/concert/include/ilconcert/ilolinear.h:368:7: note:   no known conversion for argument 1 from ‘IloConstraint’ to ‘IloRangeArray’
 ../../../CPLEX/concert/include/ilconcert/ilolinear.h:370:7: note: void IloRangeArray::add(IloRange)
   void add(const IloRange range)              { IloExtractableArray::add (range); }
        ^
-../../../CPLEX/concert/include/ilconcert/ilolinear.h:370:7: note:   no known conversion for argument 1 from 'IloConstraint' to 'IloRange'
+../../../CPLEX/concert/include/ilconcert/ilolinear.h:370:7: note:   no known conversion for argument 1 from ‘IloConstraint’ to ‘IloRange’
 ../../../CPLEX/concert/include/ilconcert/ilolinear.h:372:7: note: void IloRangeArray::add(IloInt, IloRange)
   void add(IloInt more, const IloRange range) { IloExtractableArray::add (more, range); }
        ^
 ../../../CPLEX/concert/include/ilconcert/ilolinear.h:372:7: note:   candidate expects 2 arguments, 1 provided
-make: *** [parabolic-2.o] Error 1
+parabolic-2.cpp:188:40: error: no matching function for call to ‘IloRangeArray::add(IloConstraint)’
+   c.add(T_MAX*(1-D[1]) >= s[3]-(s[2]+T));
+                                        ^
+parabolic-2.cpp:188:40: note: candidates are:
+In file included from ../../../CPLEX/concert/include/ilconcert/ilomodel.h:24:0,
+                 from ../../../CPLEX/cplex/include/ilcplex/ilocplex.h:27,
+                 from parabolic-2.cpp:8:
+../../../CPLEX/concert/include/ilconcert/ilolinear.h:368:7: note: void IloRangeArray::add(IloRangeArray)
+  void add(const IloRangeArray array)         { IloExtractableArray::add (array); }
+       ^
+../../../CPLEX/concert/include/ilconcert/ilolinear.h:368:7: note:   no known conversion for argument 1 from ‘IloConstraint’ to ‘IloRangeArray’
+../../../CPLEX/concert/include/ilconcert/ilolinear.h:370:7: note: void IloRangeArray::add(IloRange)
+  void add(const IloRange range)              { IloExtractableArray::add (range); }
+       ^
+../../../CPLEX/concert/include/ilconcert/ilolinear.h:370:7: note:   no known conversion for argument 1 from ‘IloConstraint’ to ‘IloRange’
+../../../CPLEX/concert/include/ilconcert/ilolinear.h:372:7: note: void IloRangeArray::add(IloInt, IloRange)
+  void add(IloInt more, const IloRange range) { IloExtractableArray::add (more, range); }
+       ^
+../../../CPLEX/concert/include/ilconcert/ilolinear.h:372:7: note:   candidate expects 2 arguments, 1 provided
+parabolic-2.cpp:201:40: error: no matching function for call to ‘IloRangeArray::add(IloConstraint)’
+   c.add(T_MAX*(1-D[2]) >= s[4]-(s[3]+T));
+                                        ^
+parabolic-2.cpp:201:40: note: candidates are:
+In file included from ../../../CPLEX/concert/include/ilconcert/ilomodel.h:24:0,
+                 from ../../../CPLEX/cplex/include/ilcplex/ilocplex.h:27,
+                 from parabolic-2.cpp:8:
+../../../CPLEX/concert/include/ilconcert/ilolinear.h:368:7: note: void IloRangeArray::add(IloRangeArray)
+  void add(const IloRangeArray array)         { IloExtractableArray::add (array); }
+       ^
+../../../CPLEX/concert/include/ilconcert/ilolinear.h:368:7: note:   no known conversion for argument 1 from ‘IloConstraint’ to ‘IloRangeArray’
+../../../CPLEX/concert/include/ilconcert/ilolinear.h:370:7: note: void IloRangeArray::add(IloRange)
+  void add(const IloRange range)              { IloExtractableArray::add (range); }
+       ^
+../../../CPLEX/concert/include/ilconcert/ilolinear.h:370:7: note:   no known conversion for argument 1 from ‘IloConstraint’ to ‘IloRange’
+../../../CPLEX/concert/include/ilconcert/ilolinear.h:372:7: note: void IloRangeArray::add(IloInt, IloRange)
+  void add(IloInt more, const IloRange range) { IloExtractableArray::add (more, range); }
+       ^
+../../../CPLEX/concert/include/ilconcert/ilolinear.h:372:7: note:   candidate expects 2 arguments, 1 provided
+parabolic-2.cpp:214:40: error: no matching function for call to ‘IloRangeArray::add(IloConstraint)’
+   c.add(T_MAX*(1-D[3]) >= s[4]-(s[1]+T));
+                                        ^
+parabolic-2.cpp:214:40: note: candidates are:
+In file included from ../../../CPLEX/concert/include/ilconcert/ilomodel.h:24:0,
+                 from ../../../CPLEX/cplex/include/ilcplex/ilocplex.h:27,
+                 from parabolic-2.cpp:8:
+../../../CPLEX/concert/include/ilconcert/ilolinear.h:368:7: note: void IloRangeArray::add(IloRangeArray)
+  void add(const IloRangeArray array)         { IloExtractableArray::add (array); }
+       ^
+../../../CPLEX/concert/include/ilconcert/ilolinear.h:368:7: note:   no known conversion for argument 1 from ‘IloConstraint’ to ‘IloRangeArray’
+../../../CPLEX/concert/include/ilconcert/ilolinear.h:370:7: note: void IloRangeArray::add(IloRange)
+  void add(const IloRange range)              { IloExtractableArray::add (range); }
+       ^
+../../../CPLEX/concert/include/ilconcert/ilolinear.h:370:7: note:   no known conversion for argument 1 from ‘IloConstraint’ to ‘IloRange’
+../../../CPLEX/concert/include/ilconcert/ilolinear.h:372:7: note: void IloRangeArray::add(IloInt, IloRange)
+  void add(IloInt more, const IloRange range) { IloExtractableArray::add (more, range); }
+       ^
+../../../CPLEX/concert/include/ilconcert/ilolinear.h:372:7: note:   candidate expects 2 arguments, 1 provided
+parabolic-2.cpp:227:40: error: no matching function for call to ‘IloRangeArray::add(IloConstraint)’
+   c.add(T_MAX*(1-D[4]) >= s[5]-(s[4]+T));
+                                        ^
+parabolic-2.cpp:227:40: note: candidates are:
+In file included from ../../../CPLEX/concert/include/ilconcert/ilomodel.h:24:0,
+                 from ../../../CPLEX/cplex/include/ilcplex/ilocplex.h:27,
+                 from parabolic-2.cpp:8:
+../../../CPLEX/concert/include/ilconcert/ilolinear.h:368:7: note: void IloRangeArray::add(IloRangeArray)
+  void add(const IloRangeArray array)         { IloExtractableArray::add (array); }
+       ^
+../../../CPLEX/concert/include/ilconcert/ilolinear.h:368:7: note:   no known conversion for argument 1 from ‘IloConstraint’ to ‘IloRangeArray’
+../../../CPLEX/concert/include/ilconcert/ilolinear.h:370:7: note: void IloRangeArray::add(IloRange)
+  void add(const IloRange range)              { IloExtractableArray::add (range); }
+       ^
+../../../CPLEX/concert/include/ilconcert/ilolinear.h:370:7: note:   no known conversion for argument 1 from ‘IloConstraint’ to ‘IloRange’
+../../../CPLEX/concert/include/ilconcert/ilolinear.h:372:7: note: void IloRangeArray::add(IloInt, IloRange)
+  void add(IloInt more, const IloRange range) { IloExtractableArray::add (more, range); }
+       ^
+../../../CPLEX/concert/include/ilconcert/ilolinear.h:372:7: note:   candidate expects 2 arguments, 1 provided
+parabolic-2.cpp:241:40: error: no matching function for call to ‘IloRangeArray::add(IloConstraint)’
+   c.add(T_MAX*(1-D[5]) >= s[6]-(s[4]+T));
+                                        ^
+parabolic-2.cpp:241:40: note: candidates are:
+In file included from ../../../CPLEX/concert/include/ilconcert/ilomodel.h:24:0,
+                 from ../../../CPLEX/cplex/include/ilcplex/ilocplex.h:27,
+                 from parabolic-2.cpp:8:
+../../../CPLEX/concert/include/ilconcert/ilolinear.h:368:7: note: void IloRangeArray::add(IloRangeArray)
+  void add(const IloRangeArray array)         { IloExtractableArray::add (array); }
+       ^
+../../../CPLEX/concert/include/ilconcert/ilolinear.h:368:7: note:   no known conversion for argument 1 from ‘IloConstraint’ to ‘IloRangeArray’
+../../../CPLEX/concert/include/ilconcert/ilolinear.h:370:7: note: void IloRangeArray::add(IloRange)
+  void add(const IloRange range)              { IloExtractableArray::add (range); }
+       ^
+../../../CPLEX/concert/include/ilconcert/ilolinear.h:370:7: note:   no known conversion for argument 1 from ‘IloConstraint’ to ‘IloRange’
+../../../CPLEX/concert/include/ilconcert/ilolinear.h:372:7: note: void IloRangeArray::add(IloInt, IloRange)
+  void add(IloInt more, const IloRange range) { IloExtractableArray::add (more, range); }
+       ^
+../../../CPLEX/concert/include/ilconcert/ilolinear.h:372:7: note:   candidate expects 2 arguments, 1 provided
+parabolic-2.cpp:255:40: error: no matching function for call to ‘IloRangeArray::add(IloConstraint)’
+   c.add(T_MAX*(1-D[6]) >= s[6]-(s[2]+T));
+                                        ^
+parabolic-2.cpp:255:40: note: candidates are:
+In file included from ../../../CPLEX/concert/include/ilconcert/ilomodel.h:24:0,
+                 from ../../../CPLEX/cplex/include/ilcplex/ilocplex.h:27,
+                 from parabolic-2.cpp:8:
+../../../CPLEX/concert/include/ilconcert/ilolinear.h:368:7: note: void IloRangeArray::add(IloRangeArray)
+  void add(const IloRangeArray array)         { IloExtractableArray::add (array); }
+       ^
+../../../CPLEX/concert/include/ilconcert/ilolinear.h:368:7: note:   no known conversion for argument 1 from ‘IloConstraint’ to ‘IloRangeArray’
+../../../CPLEX/concert/include/ilconcert/ilolinear.h:370:7: note: void IloRangeArray::add(IloRange)
+  void add(const IloRange range)              { IloExtractableArray::add (range); }
+       ^
+../../../CPLEX/concert/include/ilconcert/ilolinear.h:370:7: note:   no known conversion for argument 1 from ‘IloConstraint’ to ‘IloRange’
+../../../CPLEX/concert/include/ilconcert/ilolinear.h:372:7: note: void IloRangeArray::add(IloInt, IloRange)
+  void add(IloInt more, const IloRange range) { IloExtractableArray::add (more, range); }
+       ^
+../../../CPLEX/concert/include/ilconcert/ilolinear.h:372:7: note:   candidate expects 2 arguments, 1 provided
+parabolic-2.cpp:268:40: error: no matching function for call to ‘IloRangeArray::add(IloConstraint)’
+   c.add(T_MAX*(1-D[7]) >= s[7]-(s[6]+T));
+                                        ^
+parabolic-2.cpp:268:40: note: candidates are:
+In file included from ../../../CPLEX/concert/include/ilconcert/ilomodel.h:24:0,
+                 from ../../../CPLEX/cplex/include/ilcplex/ilocplex.h:27,
+                 from parabolic-2.cpp:8:
+../../../CPLEX/concert/include/ilconcert/ilolinear.h:368:7: note: void IloRangeArray::add(IloRangeArray)
+  void add(const IloRangeArray array)         { IloExtractableArray::add (array); }
+       ^
+../../../CPLEX/concert/include/ilconcert/ilolinear.h:368:7: note:   no known conversion for argument 1 from ‘IloConstraint’ to ‘IloRangeArray’
+../../../CPLEX/concert/include/ilconcert/ilolinear.h:370:7: note: void IloRangeArray::add(IloRange)
+  void add(const IloRange range)              { IloExtractableArray::add (range); }
+       ^
+../../../CPLEX/concert/include/ilconcert/ilolinear.h:370:7: note:   no known conversion for argument 1 from ‘IloConstraint’ to ‘IloRange’
+../../../CPLEX/concert/include/ilconcert/ilolinear.h:372:7: note: void IloRangeArray::add(IloInt, IloRange)
+  void add(IloInt more, const IloRange range) { IloExtractableArray::add (more, range); }
+       ^
+../../../CPLEX/concert/include/ilconcert/ilolinear.h:372:7: note:   candidate expects 2 arguments, 1 provided
+parabolic-2.cpp:281:40: error: no matching function for call to ‘IloRangeArray::add(IloConstraint)’
+   c.add(T_MAX*(1-D[8]) >= s[8]-(s[5]+T));
+                                        ^
+parabolic-2.cpp:281:40: note: candidates are:
+In file included from ../../../CPLEX/concert/include/ilconcert/ilomodel.h:24:0,
+                 from ../../../CPLEX/cplex/include/ilcplex/ilocplex.h:27,
+                 from parabolic-2.cpp:8:
+../../../CPLEX/concert/include/ilconcert/ilolinear.h:368:7: note: void IloRangeArray::add(IloRangeArray)
+  void add(const IloRangeArray array)         { IloExtractableArray::add (array); }
+       ^
+../../../CPLEX/concert/include/ilconcert/ilolinear.h:368:7: note:   no known conversion for argument 1 from ‘IloConstraint’ to ‘IloRangeArray’
+../../../CPLEX/concert/include/ilconcert/ilolinear.h:370:7: note: void IloRangeArray::add(IloRange)
+  void add(const IloRange range)              { IloExtractableArray::add (range); }
+       ^
+../../../CPLEX/concert/include/ilconcert/ilolinear.h:370:7: note:   no known conversion for argument 1 from ‘IloConstraint’ to ‘IloRange’
+../../../CPLEX/concert/include/ilconcert/ilolinear.h:372:7: note: void IloRangeArray::add(IloInt, IloRange)
+  void add(IloInt more, const IloRange range) { IloExtractableArray::add (more, range); }
+       ^
+../../../CPLEX/concert/include/ilconcert/ilolinear.h:372:7: note:   candidate expects 2 arguments, 1 provided
+parabolic-2.cpp:294:40: error: no matching function for call to ‘IloRangeArray::add(IloConstraint)’
+   c.add(T_MAX*(1-D[9]) >= s[9]-(s[8]+T));
+                                        ^
+parabolic-2.cpp:294:40: note: candidates are:
+In file included from ../../../CPLEX/concert/include/ilconcert/ilomodel.h:24:0,
+                 from ../../../CPLEX/cplex/include/ilcplex/ilocplex.h:27,
+                 from parabolic-2.cpp:8:
+../../../CPLEX/concert/include/ilconcert/ilolinear.h:368:7: note: void IloRangeArray::add(IloRangeArray)
+  void add(const IloRangeArray array)         { IloExtractableArray::add (array); }
+       ^
+../../../CPLEX/concert/include/ilconcert/ilolinear.h:368:7: note:   no known conversion for argument 1 from ‘IloConstraint’ to ‘IloRangeArray’
+../../../CPLEX/concert/include/ilconcert/ilolinear.h:370:7: note: void IloRangeArray::add(IloRange)
+  void add(const IloRange range)              { IloExtractableArray::add (range); }
+       ^
+../../../CPLEX/concert/include/ilconcert/ilolinear.h:370:7: note:   no known conversion for argument 1 from ‘IloConstraint’ to ‘IloRange’
+../../../CPLEX/concert/include/ilconcert/ilolinear.h:372:7: note: void IloRangeArray::add(IloInt, IloRange)
+  void add(IloInt more, const IloRange range) { IloExtractableArray::add (more, range); }
+       ^
+../../../CPLEX/concert/include/ilconcert/ilolinear.h:372:7: note:   candidate expects 2 arguments, 1 provided
+parabolic-2.cpp:307:42: error: no matching function for call to ‘IloRangeArray::add(IloConstraint)’
+   c.add(T_MAX*(1-D[10]) >= s[10]-(s[8]+T));
+                                          ^
+parabolic-2.cpp:307:42: note: candidates are:
+In file included from ../../../CPLEX/concert/include/ilconcert/ilomodel.h:24:0,
+                 from ../../../CPLEX/cplex/include/ilcplex/ilocplex.h:27,
+                 from parabolic-2.cpp:8:
+../../../CPLEX/concert/include/ilconcert/ilolinear.h:368:7: note: void IloRangeArray::add(IloRangeArray)
+  void add(const IloRangeArray array)         { IloExtractableArray::add (array); }
+       ^
+../../../CPLEX/concert/include/ilconcert/ilolinear.h:368:7: note:   no known conversion for argument 1 from ‘IloConstraint’ to ‘IloRangeArray’
+../../../CPLEX/concert/include/ilconcert/ilolinear.h:370:7: note: void IloRangeArray::add(IloRange)
+  void add(const IloRange range)              { IloExtractableArray::add (range); }
+       ^
+../../../CPLEX/concert/include/ilconcert/ilolinear.h:370:7: note:   no known conversion for argument 1 from ‘IloConstraint’ to ‘IloRange’
+../../../CPLEX/concert/include/ilconcert/ilolinear.h:372:7: note: void IloRangeArray::add(IloInt, IloRange)
+  void add(IloInt more, const IloRange range) { IloExtractableArray::add (more, range); }
+       ^
+../../../CPLEX/concert/include/ilconcert/ilolinear.h:372:7: note:   candidate expects 2 arguments, 1 provided
+parabolic-2.cpp:320:42: error: no matching function for call to ‘IloRangeArray::add(IloConstraint)’
+   c.add(T_MAX*(1-D[11]) >= s[10]-(s[7]+T));
+                                          ^
+parabolic-2.cpp:320:42: note: candidates are:
+In file included from ../../../CPLEX/concert/include/ilconcert/ilomodel.h:24:0,
+                 from ../../../CPLEX/cplex/include/ilcplex/ilocplex.h:27,
+                 from parabolic-2.cpp:8:
+../../../CPLEX/concert/include/ilconcert/ilolinear.h:368:7: note: void IloRangeArray::add(IloRangeArray)
+  void add(const IloRangeArray array)         { IloExtractableArray::add (array); }
+       ^
+../../../CPLEX/concert/include/ilconcert/ilolinear.h:368:7: note:   no known conversion for argument 1 from ‘IloConstraint’ to ‘IloRangeArray’
+../../../CPLEX/concert/include/ilconcert/ilolinear.h:370:7: note: void IloRangeArray::add(IloRange)
+  void add(const IloRange range)              { IloExtractableArray::add (range); }
+       ^
+../../../CPLEX/concert/include/ilconcert/ilolinear.h:370:7: note:   no known conversion for argument 1 from ‘IloConstraint’ to ‘IloRange’
+../../../CPLEX/concert/include/ilconcert/ilolinear.h:372:7: note: void IloRangeArray::add(IloInt, IloRange)
+  void add(IloInt more, const IloRange range) { IloExtractableArray::add (more, range); }
+       ^
+../../../CPLEX/concert/include/ilconcert/ilolinear.h:372:7: note:   candidate expects 2 arguments, 1 provided
+parabolic-2.cpp:333:42: error: no matching function for call to ‘IloRangeArray::add(IloConstraint)’
+   c.add(T_MAX*(1-D[12]) >= s[11]-(s[6]+T));
+                                          ^
+parabolic-2.cpp:333:42: note: candidates are:
+In file included from ../../../CPLEX/concert/include/ilconcert/ilomodel.h:24:0,
+                 from ../../../CPLEX/cplex/include/ilcplex/ilocplex.h:27,
+                 from parabolic-2.cpp:8:
+../../../CPLEX/concert/include/ilconcert/ilolinear.h:368:7: note: void IloRangeArray::add(IloRangeArray)
+  void add(const IloRangeArray array)         { IloExtractableArray::add (array); }
+       ^
+../../../CPLEX/concert/include/ilconcert/ilolinear.h:368:7: note:   no known conversion for argument 1 from ‘IloConstraint’ to ‘IloRangeArray’
+../../../CPLEX/concert/include/ilconcert/ilolinear.h:370:7: note: void IloRangeArray::add(IloRange)
+  void add(const IloRange range)              { IloExtractableArray::add (range); }
+       ^
+../../../CPLEX/concert/include/ilconcert/ilolinear.h:370:7: note:   no known conversion for argument 1 from ‘IloConstraint’ to ‘IloRange’
+../../../CPLEX/concert/include/ilconcert/ilolinear.h:372:7: note: void IloRangeArray::add(IloInt, IloRange)
+  void add(IloInt more, const IloRange range) { IloExtractableArray::add (more, range); }
+       ^
+../../../CPLEX/concert/include/ilconcert/ilolinear.h:372:7: note:   candidate expects 2 arguments, 1 provided
+parabolic-2.cpp:346:42: error: no matching function for call to ‘IloRangeArray::add(IloConstraint)’
+   c.add(T_MAX*(1-D[13]) >= s[11]-(s[9]+T));
+                                          ^
+parabolic-2.cpp:346:42: note: candidates are:
+In file included from ../../../CPLEX/concert/include/ilconcert/ilomodel.h:24:0,
+                 from ../../../CPLEX/cplex/include/ilcplex/ilocplex.h:27,
+                 from parabolic-2.cpp:8:
+../../../CPLEX/concert/include/ilconcert/ilolinear.h:368:7: note: void IloRangeArray::add(IloRangeArray)
+  void add(const IloRangeArray array)         { IloExtractableArray::add (array); }
+       ^
+../../../CPLEX/concert/include/ilconcert/ilolinear.h:368:7: note:   no known conversion for argument 1 from ‘IloConstraint’ to ‘IloRangeArray’
+../../../CPLEX/concert/include/ilconcert/ilolinear.h:370:7: note: void IloRangeArray::add(IloRange)
+  void add(const IloRange range)              { IloExtractableArray::add (range); }
+       ^
+../../../CPLEX/concert/include/ilconcert/ilolinear.h:370:7: note:   no known conversion for argument 1 from ‘IloConstraint’ to ‘IloRange’
+../../../CPLEX/concert/include/ilconcert/ilolinear.h:372:7: note: void IloRangeArray::add(IloInt, IloRange)
+  void add(IloInt more, const IloRange range) { IloExtractableArray::add (more, range); }
+       ^
+../../../CPLEX/concert/include/ilconcert/ilolinear.h:372:7: note:   candidate expects 2 arguments, 1 provided
+make: *** [parabolic-2.o] エラー 1

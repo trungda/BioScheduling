@@ -73,17 +73,17 @@ int main(){
     cplex.getValues(vals, s);
     env.out() << "Schedule    " << vals << endl;
     cplex.getValues(vals, M[0]);
-    env.out() << "Mix-Module 1    " << vals << endl;
+    env.out() << "Mix-Module 1 (M_1i)    " << vals << endl;
     cplex.getValues(vals, M[1]);
-    env.out() << "Mix-Module 2    " << vals << endl;
+    env.out() << "Mix-Module 2 (M_2i)    " << vals << endl;
     cplex.getValues(vals, M[2]);
-    env.out() << "Mix-Module 3    " << vals << endl;
+    env.out() << "Mix-Module 3 (M_3i)    " << vals << endl;
     cplex.getValues(vals, R[0]);
-    env.out() << "Storage-Module 1    " << vals << endl;
+    env.out() << "Storage-Module 1 (R_1e)   " << vals << endl;
     cplex.getValues(vals, R[1]);
-    env.out() << "Storage-Module 2    " << vals << endl;
+    env.out() << "Storage-Module 2 (R_2e)   " << vals << endl;
     cplex.getValues(vals, R[2]);
-    env.out() << "Storage-Module 3    " << vals << endl;
+    env.out() << "Storage-Module 3 (R_3e)   " << vals << endl;
     
   }
   catch(IloException& e){

@@ -1,55 +1,50 @@
+Tried aggregator 2 times.
+MIP Presolve eliminated 14700 rows and 610 columns.
+MIP Presolve modified 1564 coefficients.
+Aggregator did 14 substitutions.
+Reduced MIP has 10009 rows, 1493 columns, and 35892 nonzeros.
+Reduced MIP has 1481 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.02 sec. (31.31 ticks)
+Probing time = 0.00 sec. (1.26 ticks)
 Tried aggregator 1 time.
-MIP Presolve eliminated 14648 rows and 606 columns.
-MIP Presolve modified 1492 coefficients.
-Reduced MIP has 10019 rows, 1483 columns, and 35940 nonzeros.
-Reduced MIP has 1471 binaries, 0 generals, 0 SOSs, and 0 indicators.
-Presolve time = 0.02 sec. (26.22 ticks)
-Probing time = 0.00 sec. (1.35 ticks)
-Tried aggregator 1 time.
-Presolve time = 0.01 sec. (13.72 ticks)
-Probing fixed 92 vars, tightened 0 bounds.
-Probing time = 0.05 sec. (42.84 ticks)
-Clique table members: 19594.
+Presolve time = 0.01 sec. (13.17 ticks)
+Probing fixed 98 vars, tightened 0 bounds.
+Probing time = 0.04 sec. (43.15 ticks)
+Clique table members: 20140.
 MIP emphasis: balance optimality and feasibility.
 MIP search method: dynamic search.
 Parallel mode: deterministic, using up to 8 threads.
-Root relaxation solution time = 0.03 sec. (43.15 ticks)
+Root relaxation solution time = 0.03 sec. (43.71 ticks)
 
         Nodes                                         Cuts/
    Node  Left     Objective  IInf  Best Integer    Best Bound    ItCnt     Gap
 
-      0     0        7.0000    47                      7.0000      629         
-*     0+    0                            8.0000        7.0000      629   12.50%
-*     0+    0                            7.0000        7.0000      671    0.00%
-      0     0        cutoff              7.0000        7.0000      671    0.00%
-Elapsed time = 0.25 sec. (292.09 ticks, tree = 0.00 MB, solutions = 2)
-
-Clique cuts applied:  13
-Implied bound cuts applied:  5
-Mixed integer rounding cuts applied:  4
-Zero-half cuts applied:  1
-Gomory fractional cuts applied:  4
+      0     0        7.0000    70                      7.0000      536         
+*     0+    0                            9.0000        7.0000      536   22.22%
+*     0+    0                            7.0000        7.0000      618    0.00%
+      0     0        cutoff              7.0000        7.0000      618    0.00%
+Elapsed time = 0.25 sec. (291.11 ticks, tree = 0.00 MB, solutions = 2)
 
 Root node processing (before b&c):
-  Real time             =    0.20 sec. (213.26 ticks)
+  Real time             =    0.19 sec. (204.94 ticks)
 Parallel b&c, 8 threads:
   Real time             =    0.00 sec. (0.00 ticks)
   Sync time (average)   =    0.00 sec.
   Wait time (average)   =    0.00 sec.
                           ------------
-Total (root+branch&cut) =    0.20 sec. (213.26 ticks)
+Total (root+branch&cut) =    0.19 sec. (204.94 ticks)
 Status: Optimal
 Schedule    [100, 0, 1, 2, 3, 4, 4, 5, 5, 6,
 6, 7, 7]
-Mix-Module 1    [1, 1, 1, 1, 0, 1, 0, 1, 0, 1,
+Mix-Module 1 (M_1i)    [1, 0, 0, 1, 0, 0, 0, 1, 1, 0,
 1]
-Mix-Module 2    [0, 0, 0, 0, 1, 0, 1, 0, 1, 0,
+Mix-Module 2 (M_2i)    [0, 0, 1, 0, 0, 1, 1, 0, 0, 1,
 0]
-Mix-Module 3    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+Mix-Module 3 (M_3i)    [0, 1, 0, 0, 1, 0, 0, 0, 0, 0,
 0]
-Storage-Module 1    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+Storage-Module 1 (R_1e)   [0, 0, 0, 1, 0, 0, 0, 0, 0, 0,
 0, 0, 0, 0]
-Storage-Module 2    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+Storage-Module 2 (R_2e)   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 0, 0, 0, 0]
-Storage-Module 3    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-0, 0, 0, 0]
+Storage-Module 3 (R_3e)   [0, 0, 0, 0, 0, 0, 1, 0, 0, 0,
+0, 0, 1, 0]
