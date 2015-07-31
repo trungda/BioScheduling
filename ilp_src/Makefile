@@ -83,6 +83,11 @@ pcr: pcr.o
 pcr.o: PCR.cpp
 	$(CCC) -c $(CCFLAGS) PCR.cpp -o pcr.o 
 
+brad: brad.o
+	$(CCC) $(CCFLAGS) $(CCLNDIRS) -o brad brad.o $(CCLNFLAGS)
+brad.o: brad.cpp
+	$(CCC) -c $(CCFLAGS) brad.cpp -o brad.o 
+
 # Local Variables:
 # mode: makefile
 # End:
