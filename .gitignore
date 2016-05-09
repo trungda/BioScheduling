@@ -1,5 +1,3 @@
-# Ignore the build directories
-build/*
-
-# Ignore the executables
+# Ignore the build and executables
+build
 bin/*
