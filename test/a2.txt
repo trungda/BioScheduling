@@ -1,0 +1,19 @@
+#ID		        Operation
+O1                      INPUT:1
+O2			INPUT:1
+O4			INPUT:1				
+O5			INPUT:1				
+O7			INPUT:1				
+O8			INPUT:1			
+O10			INPUT:1					
+O11			INPUT:1	
+O3			MIX (O1, O2) (O13:1, W:1)					
+O6                      MIX (O4, O5) (O13:1, W:1)		
+O9                      MIX (O7, O8) (O14:1, W:1)		
+O12			MIX (O10, O11) (O14:1, W:1)	
+O13			MIX (O3, O6) (O15:1, W:1) 
+O14 		        MIX (O9, O12) (O15:1, W:1)       
+O15			MIX (O13, O14) (O16:1, W:1)
+O16	 		OUTPUT
+W			OUTPUT
+#end
