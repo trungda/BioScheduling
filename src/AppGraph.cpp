@@ -8,8 +8,8 @@
 #include <unordered_set>  
 #include <iomanip>                    
 
-#include "AppGraph.h"
-#include "Node.h"
+#include "../include/AppGraph.h"
+#include "../include/Node.h"
 
 using namespace std;
 

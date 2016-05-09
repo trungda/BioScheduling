@@ -7,9 +7,9 @@
 #include <map>  
 #include <unordered_map>                      
 
-#include "AppGraph.h"
-#include "Node.h"
-#include "ChipArch.h"
+#include "../include/AppGraph.h"
+#include "../include/Node.h"
+#include "../include/ChipArch.h"
 
 using namespace std;
 
