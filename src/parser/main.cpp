@@ -1,6 +1,7 @@
 #include "../../include/AppGraph.h"
 #include "../../include/Node.h"
 #include "../../include/ChipArch.h"
+#include "../../include/CodeGen.h"
 
 using namespace std;
 
@@ -18,6 +19,8 @@ int main(){
 	app_graph.PrintInputs();
 	app_graph.PrintOutputs();
    	app_graph.PrintInternals();
+
+   	GenerateCode(app_graph)
 
    	/*
    	//Reads input for Chip Architecture
