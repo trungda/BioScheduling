@@ -1,6 +1,6 @@
 CC := g++
 CFLAGS := -g -std=c++11
-SRCDIR := src/
+SRCDIR := src/parser/
 BUILDDIR := build/
 SOURCES := main.cpp Node.cpp AppGraph.cpp ChipArch.cpp
 OBJECTS := $(SOURCES:.cpp=.o)

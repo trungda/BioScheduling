@@ -8,7 +8,7 @@
 #include <unordered_map> 
 #include <iomanip>
 
-#include "../include/ChipArch.h"
+#include "../../include/ChipArch.h"
 
 using namespace std;
 

@@ -7,8 +7,8 @@
 #include <map>  
 #include <unordered_set>                         
 
-#include "../include/AppGraph.h"
-#include "../include/Node.h"
+#include "../../include/AppGraph.h"
+#include "../../include/Node.h"
 
 using namespace std;
 

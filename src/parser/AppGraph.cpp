@@ -1,7 +1,7 @@
 #include <iomanip>                    
 
-#include "../include/AppGraph.h"
-#include "../include/Node.h"
+#include "../../include/AppGraph.h"
+#include "../../include/Node.h"
 
 using namespace std;
 
@@ -235,6 +235,7 @@ AppGraph::AppGraph(string filename, Node* createnode){
 				Node temp(name, type);
 				createnode[i]= temp;
 
+				//AVOID SEARCHING
 				got = SearchMap.find(name);
 				if(got == SearchMap.end()){
 
@@ -258,14 +259,19 @@ AppGraph::AppGraph(string filename, Node* createnode){
 		}
     }
 
-    //Checks whether the graph has inputs and outputs
+    //Checks whether the graph has input and output nodes
     this->InputOutputCheck();
 
     //Second-Pass
 	ifstream inputfile_2(filename);
 
-	string input_name, output_name, volume_string;           
+	string input_name, output_name, volume_string;
+
+	//The nodes will be encountered in the same order as they were added
+	//We keep these counters to directly access the inputs_ and internals_
+	//from the application graph to get the address of the node           
 	int inputs_counter=0, internals_counter=0;
+
 	int volume;
 	Node* node_address;
 	Node* curr_address;
@@ -287,7 +293,7 @@ AppGraph::AppGraph(string filename, Node* createnode){
 				if(type_string.at(0)== 'I'){
 					curr_address = this->inputs().at(inputs_counter);
 
-					//Keeps only the volume-x from INPUT:x
+					//Keeps only the volume='x' from INPUT:x
 					type_string.erase(0, 6);
 
 					volume = stoi(type_string);
