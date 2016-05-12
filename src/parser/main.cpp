@@ -19,6 +19,7 @@ int main(){
 	app_graph.PrintOutputs();
    	app_graph.PrintInternals();
 
+   	/*
    	//Reads input for Chip Architecture
 	cin >> filename;
 
@@ -29,6 +30,7 @@ int main(){
 	chip_arch.PrintHeaters();
 	chip_arch.PrintDetectors();
 	chip_arch.PrintReservoirs();
+	*/
 
 	return 0;
 }

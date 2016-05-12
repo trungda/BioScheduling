@@ -1,0 +1,24 @@
+#ID				Operation
+I0				INPUT:1
+I1				INPUT:1
+O1				MIX (I0, I1) (O2:1, O6:1)
+I2				INPUT:1
+O2				MIX (I2, O1) (O3:1, O5:1)
+I3				INPUT:1
+O3				MIX (O2, I3) (O4:1, O6:1)
+I4				INPUT:1
+O4				MIX (I4, O3) (O5:1, W:1)
+O5				MIX (O4, O2) (O7:1, O11:1)
+O6				MIX (O3, O1) (O8:1, O12:1)
+I7				INPUT:1
+O7				MIX (I7, O5) (O9:1, T:1)
+I8				INPUT:1
+O8				MIX (I8, O6) (O10:1, T:1)
+I9				INPUT:1
+O9				MIX (I9, O7) (T:2)
+I10				INPUT:1
+O10				MIX (I10, O8) (O11:1, O12:1)
+O11				MIX (O10, O5) (T:2)
+O12				MIX (O10, O6) (T:2)
+T				OUTPUT
+W 				OUTPUT
