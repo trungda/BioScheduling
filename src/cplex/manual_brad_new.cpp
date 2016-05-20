@@ -50,7 +50,6 @@ void CreateSchedulingConstraint(IloModel model, BoolVarMatrix X, BoolVarMatrix Y
 
 //To encode mixing binding constraints
 //M[p][i]: 2-D array for mixing binding constraints
-//R[p][e][t]: 3-D array for mixing binding constraints
 //X[i][t]: 2-D array for execution constraints
 //Y[e][t]: 2-D array for storage constraints
 //s: the array of start time variables
@@ -59,6 +58,12 @@ void CreateMixingBindingConstraint(IloModel model, BoolVarMatrix M, BoolVarMatri
                                    BoolVarMatrix X, IloNumVarArray s, IloRangeArray c);
 
 //To encode storage binding constraints
+//L[p][i][t] = M[p][i] * X[i][t]
+//M[p][i]: 2-D array for mixing binding constraints
+//X[i][t]: 2-D array for execution constraints
+//R[p][e][t]: 3-D array for mixing binding constraints
+//Y[e][t]: 2-D array for storage constraints
+//c: the array of constraints
 void CreateStorageBindingConstraint(IloModel model, BoolVar3DMatrix L, BoolVarMatrix M, 
 			                              BoolVarMatrix X, BoolVar3DMatrix R, BoolVarMatrix Y, 
 			                              IloRangeArray c);
@@ -434,10 +439,6 @@ void CreateStorageBindingConstraint(IloModel model, BoolVar3DMatrix L, BoolVarMa
 
   IloEnv env = model.getEnv();
 
-  /******************************************************/
-  /*********************STORAGE BINDING******************/
-  /******************************************************/
-
   //The nested for-loops generate L[p][i][t]
   //that is required to linearize equation 16
   for(int p = 0; p < L.getSize(); p++){
@@ -452,8 +453,7 @@ void CreateStorageBindingConstraint(IloModel model, BoolVar3DMatrix L, BoolVarMa
     }
   }
 
-  /******************************************************/
-
+  //Contructing the array R[p][e][t]
   for(int p = 0; p < R.getSize(); p++){
     for(int e = 0; e < E; e++){
       for(int t = 0; t < T_MAX; t++){
@@ -462,22 +462,33 @@ void CreateStorageBindingConstraint(IloModel model, BoolVar3DMatrix L, BoolVarMa
     }
   }
 
+  //Encoding the constraint eqn-15
   for(int t = 0; t < T_MAX; t++){
+    IloExprArray sum(env);
+    for(int e = 0; e < E; e++){
+      summation.add(ILoExpr(env));
+      for(int p = 0; p < n_m; p++){
+        summation[e] += R[p][e][t];
+      }
+      c.add(summation[e] == Y[e][t]);
+    }
+  }
+
+  //Encoding the constraint eqn-21
+  for(int t = 0; t < T_MAX, t++){
     IloExprArray sum1(env);
     IloExprArray sum2(env);
     for(int p = 0; p < n_m; p++){
       sum1.add(IloExpr(env));
       sum2.add(IloExpr(env));
-      
-      for(int i = 0; i < n; i++){
-	     sum2[p] += L[p][i][t];
-      }
-      for(int e = 0; e < E; e++){
-	     sum2[p] += G[p][e][t];
-      }
-      c.add(sum1[p] + sum2[p] - 2 <=  -1);
+      for(int e = 0; e < E; e++)
+        sum1[p] += R[p][e][t];
+      for(int i = 0; i < n; i++)
+        sum2[p] += L[p][i][t];
+      c.add(sum1[p] - n_r*sum2[p] <= 0);
     }
   }
+
   return;
 }
 

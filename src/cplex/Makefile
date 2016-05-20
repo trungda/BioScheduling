@@ -52,6 +52,15 @@ CFLAGS  = $(COPT)  -I$(CPLEXINCDIR)
 CCFLAGS = $(CCOPT) -I$(CPLEXINCDIR) -I$(CONCERTINCDIR) 
 JCFLAGS = $(JOPT)
 
+#------------------------------------------------------------
+# 
+#
+#------------------------------------------------------------
+
+BUILDDIR := ../../build/
+SOURCES := main.cpp Node.cpp AppGraph.cpp ChipArch.cpp
+OBJECTS := $(SOURCES:.cpp=.o)
+OBJECTS_ := $(addprefix $(BUILDDIR), $(OBJECTS))
 
 #------------------------------------------------------------
 #  make all      : to compile the examples. 
@@ -70,23 +79,11 @@ clean :
 	/bin/rm -rf *.mps *.ord *.sos *.lp *.sav *.net *.msg *.log *.clp
 
 # ------------------------------------------------------------
-#
-# The examples
-#
-parabolic-2: parabolic-2.o
-	$(CCC) $(CCFLAGS) $(CCLNDIRS) -o parabolic-2 parabolic-2.o $(CCLNFLAGS)
-parabolic-2.o: parabolic-2.cpp
-	$(CCC) -c $(CCFLAGS) parabolic-2.cpp -o parabolic-2.o 
+# The programs
 
-pcr: pcr.o
-	$(CCC) $(CCFLAGS) $(CCLNDIRS) -o pcr pcr.o $(CCLNFLAGS)
-pcr.o: PCR.cpp
-	$(CCC) -c $(CCFLAGS) PCR.cpp -o pcr.o 
-
-brad: brad.o
-	$(CCC) $(CCFLAGS) $(CCLNDIRS) -o brad brad.o $(CCLNFLAGS)
-brad.o: brad.cpp
-	$(CCC) -c $(CCFLAGS) brad.cpp -o brad.o 
+$(BUILDDIR)%.o: %.cpp
+	mkdir -p $(BUILDDIR)
+	$(CCC) -c $(CCFLAGS) $< -o $@  
 
 # Local Variables:
 # mode: makefile
