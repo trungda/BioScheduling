@@ -58,32 +58,43 @@ JCFLAGS = $(JOPT)
 #------------------------------------------------------------
 
 BUILDDIR := ../../build/
-SOURCES := main.cpp Node.cpp AppGraph.cpp ChipArch.cpp
+SOURCES := SOURCES = $(wildcard *.cpp)
 OBJECTS := $(SOURCES:.cpp=.o)
 OBJECTS_ := $(addprefix $(BUILDDIR), $(OBJECTS))
+EXEC := ../../bin/run
+FOO ?= manual_brad.cpp
 
 #------------------------------------------------------------
 #  make all      : to compile the examples. 
 #  make execute  : to compile and execute the examples.
 #------------------------------------------------------------
 
-CPP_EX = ilp1 
+#CPP_EX = ilp1 
 
-execute_cpp: $(CPP_EX)
-	./ilp1.cpp	
+#execute_cpp: $(CPP_EX)
+#	./ilp1.cpp	
+
+# ------------------------------------------------------------
+# The programs
+#-------------------------------------------------------------
+
+$(EXEC): $(FOO)
+	mkdir -p ../../bin
+	$(CCC) $(CCFLAGS) $(CCLNDIRS) $(FOO) -o $@ 2>err.txt 
+
+$(BUILDDIR)%.o: %.cpp
+	mkdir -p $(BUILDDIR)
+	$(CCC) -c $(CCFLAGS) $< -o $@  
+
 # ------------------------------------------------------------
 
 clean :
 	/bin/rm -rf *.o *~ *.class
 	/bin/rm -rf $(CPP_EX)
 	/bin/rm -rf *.mps *.ord *.sos *.lp *.sav *.net *.msg *.log *.clp
+	/bin/rm $(EXEC) $(OBJECTS_)
 
 # ------------------------------------------------------------
-# The programs
-
-$(BUILDDIR)%.o: %.cpp
-	mkdir -p $(BUILDDIR)
-	$(CCC) -c $(CCFLAGS) $< -o $@  
 
 # Local Variables:
 # mode: makefile

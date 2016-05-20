@@ -1,4 +1,5 @@
 # Ignore the build and executables
 build
 err.txt
+src/cplex/err.txt
 bin/*
