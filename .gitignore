@@ -2,4 +2,5 @@
 build
 err.txt
 src/cplex/err.txt
+*.lp
 bin/*
