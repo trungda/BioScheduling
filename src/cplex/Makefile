@@ -58,23 +58,27 @@ JCFLAGS = $(JOPT)
 #------------------------------------------------------------
 
 BUILDDIR := ../../build/
-SOURCES := 	$(wildcard *.cpp)
-OBJECTS := $(SOURCES:.cpp=.o)
+OBJECTS := Functions.o
 OBJECTS_ := $(addprefix $(BUILDDIR), $(OBJECTS))
 EXEC := ../../bin/run
 FOO := 
+# FOO := Command-line-input that specfies which program to compile
 
 # ------------------------------------------------------------
 # The programs
 #-------------------------------------------------------------
 
-$(EXEC): $(FOO)
+$(EXEC): $(FOO) $(OBJECTS_) 
 	mkdir -p ../../bin
-	$(CCC) $(CCFLAGS) $(CCLNDIRS) -o $@ $< $(CCLNFLAGS) 2>err.txt 
+	$(CCC) $(CCFLAGS) $(CCLNDIRS) -o $@ $^ $(CCLNFLAGS) 2>err.txt 
 
 $(BUILDDIR)%.o: %.cpp
 	mkdir -p $(BUILDDIR)
-	$(CCC) -c $(CCFLAGS) $< -o $@  
+	$(CCC) -c $(CCFLAGS) $< -o $@ 
+
+$(BUILDDIR)%.o: ../codegen/%.cpp
+	mkdir -p $(BUILDDIR)
+	$(CCC) -c $(CCFLAGS) $< -o $@
 
 # ------------------------------------------------------------
 
@@ -82,7 +86,7 @@ clean :
 	/bin/rm -rf err.txt
 	/bin/rm -rf *.o *~ *.class
 	/bin/rm -rf *.mps *.ord *.sos *.lp *.sav *.net *.msg *.log *.clp
-	/bin/rm $(EXEC) $(FOO)
+	/bin/rm $(EXEC) $(FOO) $(OBJECTS_)
 
 # ------------------------------------------------------------
 

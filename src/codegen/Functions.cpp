@@ -1,4 +1,5 @@
-#include <../../include/Functions.h>
+#include "../../include/Functions.h"
+#include "../../include/Directives.h"
 
 void Create2DArray(IloModel model, BoolVarMatrix m){
   IloEnv env = model.getEnv();
