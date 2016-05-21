@@ -62,17 +62,7 @@ SOURCES := 	$(wildcard *.cpp)
 OBJECTS := $(SOURCES:.cpp=.o)
 OBJECTS_ := $(addprefix $(BUILDDIR), $(OBJECTS))
 EXEC := ../../bin/run
-FOO ?= ../../build/manual_brad.o
-
-#------------------------------------------------------------
-#  make all      : to compile the examples. 
-#  make execute  : to compile and execute the examples.
-#------------------------------------------------------------
-
-#CPP_EX = ilp1 
-
-#execute_cpp: $(CPP_EX)
-#	./ilp1.cpp	
+FOO := 
 
 # ------------------------------------------------------------
 # The programs
@@ -86,18 +76,13 @@ $(BUILDDIR)%.o: %.cpp
 	mkdir -p $(BUILDDIR)
 	$(CCC) -c $(CCFLAGS) $< -o $@  
 
-brad: brad.o
-	$(CCC) $(CCFLAGS) $(CCLNDIRS) -o brad brad.o $(CCLNFLAGS)
-brad.o: manual_brad_new.cpp
-	$(CCC) -c $(CCFLAGS) manual_brad_new.cpp -o brad.o 
-
 # ------------------------------------------------------------
 
 clean :
 	/bin/rm -rf err.txt
 	/bin/rm -rf *.o *~ *.class
 	/bin/rm -rf *.mps *.ord *.sos *.lp *.sav *.net *.msg *.log *.clp
-	/bin/rm $(EXEC) $(OBJECTS_)
+	/bin/rm $(EXEC) $(FOO)
 
 # ------------------------------------------------------------
 

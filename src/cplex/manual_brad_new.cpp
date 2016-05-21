@@ -200,21 +200,6 @@ void CreateSchedulingConstraint(IloModel model, BoolVarMatrix X, BoolVarMatrix Y
   //from eqn-11 for the edge e
   IloExprArray sum2(env);
 
-  //Resources Constraints
-  IloExprArray summation1(env);
-  IloExprArray summation2(env);
-  for(int t = 0; t < T_MAX; t++){
-    summation1.add(IloExpr(env));
-    summation2.add(IloExpr(env));
-    for(int i = 0; i < X.getSize(); i++){
-      summation1[t] += X[i][t];
-    }
-    for(int e = 0; e < Y.getSize(); e++){
-      summation2[t] += Y[e][t];
-    }
-    c.add(n_r*summation1[t] + summation2[t] <= n_m*n_r);
-  } 
-
   //The for-loop encodes all
   //the execution constraints
   for(int i = 0; i < X.getSize(); i++){
@@ -389,6 +374,21 @@ void CreateSchedulingConstraint(IloModel model, BoolVarMatrix X, BoolVarMatrix Y
     c.add(-t +  s[12]     - T_MAX*(Y[14][t]-1)  >= 1);
   }
   c.add(sum2[14] - (s[10]-(s[5]+T)) == 0);
+
+  //Resources Constraints
+  IloExprArray summation1(env);
+  IloExprArray summation2(env);
+  for(int t = 0; t < T_MAX; t++){
+    summation1.add(IloExpr(env));
+    summation2.add(IloExpr(env));
+    for(int i = 0; i < X.getSize(); i++){
+      summation1[t] += X[i][t];
+    }
+    for(int e = 0; e < Y.getSize(); e++){
+      summation2[t] += Y[e][t];
+    }
+    c.add(n_r*summation1[t] + summation2[t] <= n_m*n_r);
+  } 
   
   return;
 }
@@ -466,16 +466,16 @@ void CreateStorageBindingConstraint(IloModel model, BoolVar3DMatrix L, BoolVarMa
   for(int t = 0; t < T_MAX; t++){
     IloExprArray sum(env);
     for(int e = 0; e < E; e++){
-      summation.add(ILoExpr(env));
+      sum.add(IloExpr(env));
       for(int p = 0; p < n_m; p++){
-        summation[e] += R[p][e][t];
+        sum[e] += R[p][e][t];
       }
-      c.add(summation[e] == Y[e][t]);
+      c.add(sum[e] - Y[e][t] == 0);
     }
   }
 
   //Encoding the constraint eqn-21
-  for(int t = 0; t < T_MAX, t++){
+  for(int t = 0; t < T_MAX; t++){
     IloExprArray sum1(env);
     IloExprArray sum2(env);
     for(int p = 0; p < n_m; p++){
