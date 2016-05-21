@@ -96,7 +96,7 @@ int main(){
 
     env.out() << "Status: " << cplex.getStatus() << endl;
   
-    IloNumArray vals(env);
+    /*IloNumArray vals(env);
     cplex.getValues(vals, s);
     env.out() << "Schedule    " << vals << endl;
     cplex.getValues(vals, M[0]);
@@ -114,7 +114,7 @@ int main(){
     cplex.getValues(vals, R[2]);
     env.out() << "Storage-Module 3 (R_3e)   " << vals << endl;
     cplex.getValues(vals, R[3]);
-    env.out() << "Storage-Module 4 (R_4e)   " << vals << endl;
+    env.out() << "Storage-Module 4 (R_4e)   " << vals << endl;*/
 
     
   }

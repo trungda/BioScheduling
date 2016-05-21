@@ -58,11 +58,11 @@ JCFLAGS = $(JOPT)
 #------------------------------------------------------------
 
 BUILDDIR := ../../build/
-SOURCES := SOURCES = $(wildcard *.cpp)
+SOURCES := 	$(wildcard *.cpp)
 OBJECTS := $(SOURCES:.cpp=.o)
 OBJECTS_ := $(addprefix $(BUILDDIR), $(OBJECTS))
 EXEC := ../../bin/run
-FOO ?= manual_brad.cpp
+FOO ?= ../../build/manual_brad.o
 
 #------------------------------------------------------------
 #  make all      : to compile the examples. 
@@ -80,17 +80,22 @@ FOO ?= manual_brad.cpp
 
 $(EXEC): $(FOO)
 	mkdir -p ../../bin
-	$(CCC) $(CCFLAGS) $(CCLNDIRS) $(FOO) -o $@ 2>err.txt 
+	$(CCC) $(CCFLAGS) $(CCLNDIRS) -o $@ $< $(CCLNFLAGS) 2>err.txt 
 
 $(BUILDDIR)%.o: %.cpp
 	mkdir -p $(BUILDDIR)
 	$(CCC) -c $(CCFLAGS) $< -o $@  
 
+brad: brad.o
+	$(CCC) $(CCFLAGS) $(CCLNDIRS) -o brad brad.o $(CCLNFLAGS)
+brad.o: manual_brad_new.cpp
+	$(CCC) -c $(CCFLAGS) manual_brad_new.cpp -o brad.o 
+
 # ------------------------------------------------------------
 
 clean :
+	/bin/rm -rf err.txt
 	/bin/rm -rf *.o *~ *.class
-	/bin/rm -rf $(CPP_EX)
 	/bin/rm -rf *.mps *.ord *.sos *.lp *.sav *.net *.msg *.log *.clp
 	/bin/rm $(EXEC) $(OBJECTS_)
 
