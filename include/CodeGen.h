@@ -18,8 +18,8 @@ private:
 public:
 	void ChipInfo(ChipArch);
 	void GraphInfo(AppGraph, ChipArch);
-	pair< map<string, int>, vector<pair<int, int> > > EdgeInfo(AppGraph);
-	void PrintToSource(pair<map<string, int>, vector<pair<int, int> > >, string);
+	pair< map<string, int>, vector<pair<int, int> > > EdgeInfo(AppGraph, string &);
+	void PrintToSource(pair<map<string, int>, vector<pair<int, int> > >, string, string &);
 };
 
 #endif

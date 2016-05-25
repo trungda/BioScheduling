@@ -34,9 +34,10 @@ int main(){
 
 	code.ChipInfo(chip_arch);
 	code.GraphInfo(app_graph, chip_arch);
-	pair< map<string, int>, vector<pair<int, int> > > edgeinfo = code.EdgeInfo(app_graph);
-	code.PrintToSource(edgeinfo, cppfile);
-	
+	string extra_edges;
+	pair< map<string, int>, vector<pair<int, int> > > edgeinfo = code.EdgeInfo(app_graph, extra_edges);
+	code.PrintToSource(edgeinfo, cppfile, extra_edges);
+
 	/*chip_arch.PrintMixers();
 	chip_arch.PrintHeaters();
 	chip_arch.PrintDetectors();

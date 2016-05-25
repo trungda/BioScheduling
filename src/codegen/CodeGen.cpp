@@ -1,5 +1,4 @@
 #include "../../include/CodeGen.h"	
-#define MAX 1000000
 
 using namespace std;
 
@@ -20,7 +19,6 @@ void CodeGen::ChipInfo(ChipArch chip_arch){
 void CodeGen::GraphInfo(AppGraph app_graph, ChipArch chip_arch){
 	int T = chip_arch.mixers().second;
 	int n = app_graph.internals().size();
-	cout << "here" << endl;
 	int E = app_graph.CountInternalEdges();
 	int T_MAX = E*T+2;
 	ofstream myfile;
@@ -33,7 +31,7 @@ void CodeGen::GraphInfo(AppGraph app_graph, ChipArch chip_arch){
 	return;
 }
 
-pair< map<string, int>, vector<pair<int, int> > > CodeGen::EdgeInfo(AppGraph app_graph){
+pair< map<string, int>, vector<pair<int, int> > > CodeGen::EdgeInfo(AppGraph app_graph, string & extra_edges){
 	map <string, int> start_time;
 	int count = 0;
 	vector <pair<int, int> > edges;
@@ -62,24 +60,22 @@ pair< map<string, int>, vector<pair<int, int> > > CodeGen::EdgeInfo(AppGraph app
 				else{ 
 					edge.second = ret.first->second; 
 				}
+				edges.emplace_back(edge);
 			}
 			else{
-				if((*i)->outputs().at(j).first->name() != "W")
-					edge.second = MAX;
-				else{
-					cout << "Waste" << endl;
-					continue;
+				if((*i)->outputs().at(j).first->name() != "W"){
+					extra_edges = extra_edges + "\t\t" + "c.add(s[n] - s[" + to_string(edge.first) + "] >= 0); //OUTPUT\n";
 				}
 			}
-			edges.emplace_back(edge);
 		}
 	}
 	edgeinfo.first = start_time;
 	edgeinfo.second = edges;
+	//cout << extra_edges << endl;
 	return edgeinfo;
 }
 
-void CodeGen::PrintToSource(pair<map<string, int>, vector<pair<int, int> > > edgeinfo, string cppfile){
+void CodeGen::PrintToSource(pair<map<string, int>, vector<pair<int, int> > > edgeinfo, string cppfile, string & extra_edges){
 	this->PrintBefore(cppfile);
 	map <string, int> start_time = edgeinfo.first;
 	vector <pair<int, int> > edges = edgeinfo.second;
@@ -88,20 +84,16 @@ void CodeGen::PrintToSource(pair<map<string, int>, vector<pair<int, int> > > edg
 	myfile.open(filename, ios::app);
 	vector <pair<int, int> >::iterator i;
 	for(i = edges.begin(); i != edges.end(); i++){
-		if((*i).second != MAX){
-			myfile << "\t\t" << "c.add(s[" << (*i).second << "] - s[" << (*i).first << "] >= T);" << endl; 
-		}
-		else{
-			myfile << "\t\t" << "c.add(s[n] - s[" << (*i).first << "] >= 0); //OUTPUT" << endl; 	
-		}
+		myfile << "\t\t" << "c.add(s[" << (*i).second << "] - s[" << (*i).first << "] >= T);" << endl; 
 	}
+
+	myfile << extra_edges << endl;
 
 	myfile << "\n\t\tBoolVarMatrix Y(env, E);" << endl;
 	myfile << "\t\tCreate2DArray(model, Y);\n" << endl;
 	myfile << "\t\tIloExprArray sum2(env); \n" << endl;
 
 	for(i = edges.begin(); i != edges.end(); i++){
-		if((*i).second != MAX){
 			myfile << "\t\tsum2.add(IloExpr(env));" << endl;
 			myfile << "\t\tfor(int t = 0; t < T_MAX; t++){" << endl;
 			myfile << "\t\t\tY["<< i - edges.begin()<<"].add(IloBoolVar(env));" << endl;
@@ -110,7 +102,6 @@ void CodeGen::PrintToSource(pair<map<string, int>, vector<pair<int, int> > > edg
 			myfile << "\t\t\tc.add(-t +  s["<<(*i).second<<"]      - T_MAX*(Y["<< i - edges.begin()<<"][t]-1)  >= 1);" << endl;
 			myfile << "\t\t}" << endl;
 			myfile << "\t\tc.add(sum2["<< i - edges.begin()<<"] - (s["<<(*i).second<<"]-(s["<<(*i).first<<"]+T)) == 0);\n" << endl;
-		}
 	}
 	myfile.close();
 	this->PrintAfter(cppfile);
