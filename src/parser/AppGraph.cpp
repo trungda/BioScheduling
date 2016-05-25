@@ -361,3 +361,17 @@ AppGraph::AppGraph(string filename, Node* createnode){
     //To check if the inflow and outflow is same in internal nodes
     this->InternalsVolumeConsistencyCheck();
 }
+
+int AppGraph::CountInternalEdges(){
+	int count = 0;
+	vector<Node*>::iterator i;
+	int j;
+	for(i = this->internals_.begin(); i != this->internals_.end(); i++){
+		for(j = 0; j != (*i)->outputs().size(); j++){
+			if((*i)->outputs().at(j).first->type() == Mix){ 
+				count++; 
+			}		
+		}
+	}
+	return count;
+}

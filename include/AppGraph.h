@@ -15,16 +15,14 @@
 using namespace std;
 
 class AppGraph{
-    private:
+private:
 	vector<Node*> inputs_;
 	vector<Node*> outputs_;
-        vector<Node*> internals_;
+    vector<Node*> internals_;
 
 	void AddNode(Node*);
 	void AddEdge(Node* start, Node* end, int edge_weight);
 
-    	//vector<pair<Node*, int> > GetInputs(Node*);                                    
-	//vector<pair<Node*, int> > GetOutputs(Node*);
 
     	Node* SearchByName(string, unordered_map <string, Node*>);
     	void InputVolumeConsumeCheck();
@@ -32,7 +30,7 @@ class AppGraph{
     	void InputOutputCheck();
     	pair<Node*, int> MakePair(string output_name, unordered_map <string, Node*> SearchMap);
 
-    public:
+public:
     	AppGraph (string filename, Node*);
     	vector<Node*> inputs();
     	vector<Node*> internals();
@@ -40,7 +38,8 @@ class AppGraph{
     	void PrintInternals();
     	void PrintInputs();
     	void PrintOutputs();
-	};	
+        int CountInternalEdges();
+};	
 
 #endif
 

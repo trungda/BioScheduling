@@ -79,5 +79,17 @@ void ChipArch::PrintReservoirs(){
 	cout << setw(10) << "Reservoirs" << '\t' << reservoirs_.first << '\t' << reservoirs_.second << 's' << endl;
 }
 
+pair<int, int> ChipArch::mixers(){
+	pair<int, int> info;
+	int n_m = mixers_.first;
+	int T = mixers_.second;
+	info = make_pair (n_m, T);
+	return info;
+}
 
+int ChipArch::reservoirs(){
+	int n_r;
+	n_r = reservoirs_.first;
+	return n_r;
+}
 

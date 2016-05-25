@@ -29,5 +29,7 @@ class ChipArch{
 		void PrintHeaters();
 		void PrintDetectors();
 		void PrintReservoirs();
+		pair <int, int> mixers();
+		int reservoirs();
 };
 #endif
