@@ -7,6 +7,7 @@
 #include <string>
 #include <vector>
 #include <cstdio>
+#include <iomanip> 
 
 #include <ilcplex/ilocplex.h>
 
@@ -20,6 +21,12 @@ typedef IloArray<BoolVarMatrix> BoolVar3DMatrix;
 //Generate 2-D and 3-D empty arrays
 void Create2DArray(IloModel model, BoolVarMatrix m);
 void Create3DArray(IloModel model, BoolVar3DMatrix m, int size);
+
+//To print the results neatly to the console
+void PrintResults(IloNumVarArray s, BoolVarMatrix M, BoolVar3DMatrix R, IloCplex cplex);
+void PrintSchedulingResult(IloNumVarArray s, map<int, string> start_time_rev, IloCplex cplex);
+void PrintMixingBindingResult(BoolVarMatrix M, map<int, string> start_time_rev, IloCplex cplex);
+void PrintStorageBindingResult(BoolVar3DMatrix R, map<int, string> start_time_rev, IloCplex cplex);
 
 //To encode the edge relation and objective function
 //s: the array of start time variables

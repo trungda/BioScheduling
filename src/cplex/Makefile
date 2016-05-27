@@ -58,7 +58,7 @@ JCFLAGS = $(JOPT)
 #------------------------------------------------------------
 
 BUILDDIR := ../../build/
-OBJECTS := Functions.o
+OBJECTS := Functions.o 
 OBJECTS_ := $(addprefix $(BUILDDIR), $(OBJECTS))
 EXEC := ../../bin/run
 FOO := 

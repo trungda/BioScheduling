@@ -20,7 +20,7 @@ void CodeGen::GraphInfo(AppGraph app_graph, ChipArch chip_arch){
 	int T = chip_arch.mixers().second;
 	int n = app_graph.internals().size();
 	int E = app_graph.CountInternalEdges();
-	int T_MAX = E*T+2;
+	int T_MAX = E*T+5;
 	ofstream myfile;
 	myfile.open("include/Directives.h", ios::app);
 	myfile << "#define n " << n << endl;
@@ -31,18 +31,15 @@ void CodeGen::GraphInfo(AppGraph app_graph, ChipArch chip_arch){
 	return;
 }
 
-pair< map<string, int>, vector<pair<int, int> > > CodeGen::EdgeInfo(AppGraph app_graph, string & extra_edges){
-	map <string, int> start_time;
+void CodeGen::EdgeInfo(AppGraph app_graph, string & extra_edges){
 	int count = 0;
-	vector <pair<int, int> > edges;
 	pair <int, int> edge;
 	vector<Node*> internals = app_graph.internals();
 	vector<Node*>::iterator i;
 	int j;
 	pair < map<string, int>::iterator, bool> ret;
-	pair<map<string, int>, vector<pair<int, int> > > edgeinfo;  
 	for(i = internals.begin(); i != internals.end(); i++){
-		ret = start_time.emplace((*i)->name(), count);
+		ret = start_time.emplace((*i)->name(), count);	
 		if(ret.second){
 			edge.first = count;
 			count ++;
@@ -69,16 +66,10 @@ pair< map<string, int>, vector<pair<int, int> > > CodeGen::EdgeInfo(AppGraph app
 			}
 		}
 	}
-	edgeinfo.first = start_time;
-	edgeinfo.second = edges;
-	//cout << extra_edges << endl;
-	return edgeinfo;
 }
 
-void CodeGen::PrintToSource(pair<map<string, int>, vector<pair<int, int> > > edgeinfo, string cppfile, string & extra_edges){
+void CodeGen::PrintToSource(string cppfile, string & extra_edges){
 	this->PrintBefore(cppfile);
-	map <string, int> start_time = edgeinfo.first;
-	vector <pair<int, int> > edges = edgeinfo.second;
 	ofstream myfile;
 	string filename = "src/cplex/" + cppfile + ".cpp";
 	myfile.open(filename, ios::app);
@@ -160,6 +151,7 @@ void CodeGen::PrintAfter(string cppfile){
 
     myfile << "\t\tenv.out() << \"Status: \" << cplex.getStatus();\n" << endl;
     
+    myfile << "\t\tPrintResults(s, M, R);" << endl;
   	myfile << "\t} " << endl;
   	myfile << "\tcatch(IloException& e){ " << endl;
     myfile << "\t\tcerr << \"Error: \" << e << endl; " << endl;
@@ -171,5 +163,14 @@ void CodeGen::PrintAfter(string cppfile){
   	myfile << "\treturn 0;" << endl;
 	myfile << "} " << endl;
 	myfile.close();
+	return;
+}
+
+void CodeGen::Generate(ChipArch chip_arch, AppGraph app_graph, string cppfile){
+	this->ChipInfo(chip_arch);
+	this->GraphInfo(app_graph, chip_arch);
+	string extra_edges;
+	this->EdgeInfo(app_graph, extra_edges);
+	this->PrintToSource(cppfile, extra_edges);
 	return;
 }

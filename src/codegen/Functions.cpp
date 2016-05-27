@@ -23,10 +23,9 @@ void Create3DArray(IloModel model, BoolVar3DMatrix R, int size){
 void PopulateFromGraph(IloModel model, IloNumVarArray s, IloRangeArray c){
   IloEnv env = model.getEnv();
 
-  // Used n+2 for accomodating two extra variables
-  // 1st for being able to start enumeration from 1
-  // 2nd for being able to write the objective function
-  for(int i = 0; i < n+2; i++)
+  // Used n+1 for accomodating an extra variable
+  // For being able to write the objective function
+  for(int i = 0; i <= n; i++)
     s.add(IloNumVar(env));
 }
 
@@ -167,3 +166,80 @@ void CreateStorageBindingConstraint(IloModel model, BoolVar3DMatrix L, BoolVarMa
 
   return;
 }
+
+void PrintResults(IloNumVarArray s, BoolVarMatrix M, BoolVar3DMatrix R, IloCplex cplex){
+  map<int, string> start_time_rev;
+  map<string, int>::iterator it;
+  for(it = start_time.begin(); it != start_time.end(); it++){
+    start_time_rev.emplace(it->second, it->first);
+  }
+
+  PrintSchedulingResult(s, start_time_rev, cplex);
+  PrintMixingBindingResult(M, start_time_rev, cplex);
+  PrintStorageBindingResult(R, start_time_rev, cplex);
+
+  return;
+}
+
+void PrintSchedulingResult(IloNumVarArray s, map<int, string> start_time_rev, IloCplex cplex){
+  vector<double> s_;
+  for(int i = 0; i <= n; i++){
+    s_.push_back(cplex.getValue(s[i]));
+  }
+
+  cout << "SCHEDULING RESULTS" << endl;
+  map<string, int>::iterator it;
+  for(it = start_time.begin(); it != start_time.end(); it++){
+    cout << it->first << setw(4) << s_.at(it->second) << endl;
+  }
+  cout << endl;
+  return;
+}
+
+void PrintMixingBindingResult(BoolVarMatrix M, map<int, string> start_time_rev, IloCplex cplex){
+  double M_[n_m][E];
+  for(int i = 0; i < n_m; i++){
+    for(int j = 0; j < E; j++)
+      M_[i][j] = cplex.getValue(M[i][j]);
+  }
+
+  cout << "MIXING BINDING RESULTS" << endl;
+  for(int i = 0; i < n_m; i++){
+    cout << "Module-" << i << setw(2);
+    for(int j = 0; j < E; j++){
+      if(M_[i][j] == 1){
+        cout << start_time_rev[j] << setw(2);
+      }
+    }
+    cout << endl;
+  }
+  cout << endl;
+  return;
+}
+
+void PrintStorageBindingResult(BoolVar3DMatrix R, map<int, string> start_time_rev, IloCplex cplex){
+  double R_[n_m][E][T_MAX];
+  for(int p = 0; p < n_m; p++){
+    for(int e = 0; e < E; e++){
+      for(int t = 0; t < T_MAX; t++){
+        R_[p][e][t] = cplex.getValue(R[p][e][t]);
+      }
+    }
+  }
+
+  cout << "STORAGE BINDING RESULTS" << endl;
+  for(int p = 0; p < n_m; p++){
+    cout << "Module-" << p << setw(2);
+    for(int e = 0; e < E; e++){
+      for(int t = 0; t < T_MAX; t++){
+        if(R_[p][e][t] == 1){
+          cout << "(" <<start_time_rev[edges.at(e).first] << "-" << start_time_rev[edges.at(e).second] <<  ")" <<":" << t << setw(2);
+        }
+      }
+    }
+    cout << endl;
+  }
+  cout << endl;
+  return;
+}
+

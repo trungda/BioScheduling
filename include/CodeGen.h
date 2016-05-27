@@ -11,15 +11,19 @@
 
 using namespace std;
 
+map<string, int> start_time;
+vector<pair<int, int> > edges;
+
 class CodeGen{
 private:
 	void PrintBefore(string);
 	void PrintAfter(string);
-public:
 	void ChipInfo(ChipArch);
 	void GraphInfo(AppGraph, ChipArch);
-	pair< map<string, int>, vector<pair<int, int> > > EdgeInfo(AppGraph, string &);
-	void PrintToSource(pair<map<string, int>, vector<pair<int, int> > >, string, string &);
+	void EdgeInfo(AppGraph, string &);
+	void PrintToSource(string, string &);
+public:
+	void Generate(ChipArch, AppGraph, string);
 };
 
 #endif
