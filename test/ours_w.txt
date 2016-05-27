@@ -1,7 +1,7 @@
 #ID				Operation
 I0				INPUT:1
 I1				INPUT:1
-O1				MIX (I0, I1) (O2:1 O6:1)
+O1				MIX (I0, I1) (O2:1, O6:1)
 I3				INPUT:1
 O2				MIX (I3, O1) (O3:1, O4:1)
 I4				INPUT:1

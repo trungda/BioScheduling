@@ -1,0 +1,64 @@
+Tried aggregator 2 times.
+MIP Presolve eliminated 5135 rows and 1369 columns.
+MIP Presolve modified 2110 coefficients.
+Aggregator did 5 substitutions.
+Reduced MIP has 6064 rows, 1940 columns, and 21869 nonzeros.
+Reduced MIP has 1931 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.01 sec. (20.94 ticks)
+Probing fixed 269 vars, tightened 0 bounds.
+Probing time = 0.07 sec. (79.66 ticks)
+Cover probing fixed 0 vars, tightened 9 bounds.
+Tried aggregator 1 time.
+MIP Presolve eliminated 834 rows and 269 columns.
+MIP Presolve modified 484 coefficients.
+Reduced MIP has 5230 rows, 1671 columns, and 18712 nonzeros.
+Reduced MIP has 1662 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.01 sec. (8.88 ticks)
+Probing time = 0.01 sec. (2.74 ticks)
+Clique table members: 13361.
+MIP emphasis: balance optimality and feasibility.
+MIP search method: dynamic search.
+Parallel mode: deterministic, using up to 8 threads.
+Root relaxation solution time = 0.02 sec. (21.37 ticks)
+
+        Nodes                                         Cuts/
+   Node  Left     Objective  IInf  Best Integer    Best Bound    ItCnt     Gap
+
+      0     0       15.0000    13                     15.0000      282         
+*     0+    0                           15.0000       15.0000      282    0.00%
+      0     0        cutoff             15.0000       15.0000      282    0.00%
+Elapsed time = 0.16 sec. (189.75 ticks, tree = 0.00 MB, solutions = 1)
+
+Root node processing (before b&c):
+  Real time             =    0.05 sec. (39.69 ticks)
+Parallel b&c, 8 threads:
+  Real time             =    0.00 sec. (0.00 ticks)
+  Sync time (average)   =    0.00 sec.
+  Wait time (average)   =    0.00 sec.
+                          ------------
+Total (root+branch&cut) =    0.05 sec. (39.69 ticks)
+Status: Optimal
+SCHEDULING RESULTS
+O1   0
+O2   3
+O3   6
+O4   9
+O5   9
+O6  12
+O7  15
+O8  15
+
+MIXING BINDING RESULTS
+Module-0 O1 O2 O5 O7 O8 
+Module-1 O3 O4 
+Module-2 
+Module-3 
+Module-4 O6 
+
+STORAGE BINDING RESULTS
+Module-0 (O2-O5):6 (O2-O5):7 (O2-O5):8 (O4-O7):12 (O4-O7):13 (O4-O7):14 
+Module-1 
+Module-2 
+Module-3 
+Module-4 
+

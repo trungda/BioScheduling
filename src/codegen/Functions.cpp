@@ -187,7 +187,7 @@ void PrintSchedulingResult(IloNumVarArray s, map<int, string> start_time_rev, Il
     s_.push_back(cplex.getValue(s[i]));
   }
 
-  cout << "SCHEDULING RESULTS" << endl;
+  cout << "\nSCHEDULING RESULTS" << endl;
   map<string, int>::iterator it;
   for(it = start_time.begin(); it != start_time.end(); it++){
     cout << it->first << setw(4) << s_.at(it->second) << endl;
@@ -199,16 +199,16 @@ void PrintSchedulingResult(IloNumVarArray s, map<int, string> start_time_rev, Il
 void PrintMixingBindingResult(BoolVarMatrix M, map<int, string> start_time_rev, IloCplex cplex){
   double M_[n_m][E];
   for(int i = 0; i < n_m; i++){
-    for(int j = 0; j < E; j++)
+    for(int j = 0; j < n; j++)
       M_[i][j] = cplex.getValue(M[i][j]);
   }
 
   cout << "MIXING BINDING RESULTS" << endl;
   for(int i = 0; i < n_m; i++){
-    cout << "Module-" << i << setw(2);
-    for(int j = 0; j < E; j++){
+    cout << "Module-" << i << " ";
+    for(int j = 0; j < n; j++){
       if(M_[i][j] == 1){
-        cout << start_time_rev[j] << setw(2);
+        cout << start_time_rev[j] << " ";
       }
     }
     cout << endl;
@@ -229,11 +229,11 @@ void PrintStorageBindingResult(BoolVar3DMatrix R, map<int, string> start_time_re
 
   cout << "STORAGE BINDING RESULTS" << endl;
   for(int p = 0; p < n_m; p++){
-    cout << "Module-" << p << setw(2);
+    cout << "Module-" << p << " ";
     for(int e = 0; e < E; e++){
       for(int t = 0; t < T_MAX; t++){
         if(R_[p][e][t] == 1){
-          cout << "(" <<start_time_rev[edges.at(e).first] << "-" << start_time_rev[edges.at(e).second] <<  ")" <<":" << t << setw(2);
+          cout << "(" <<start_time_rev[edges.at(e).first] << "-" << start_time_rev[edges.at(e).second] <<  ")" <<":" << t << " ";
         }
       }
     }

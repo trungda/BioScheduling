@@ -70,15 +70,15 @@ FOO :=
 
 $(EXEC): $(FOO) $(OBJECTS_) 
 	mkdir -p ../../bin
-	$(CCC) $(CCFLAGS) $(CCLNDIRS) -o $@ $^ $(CCLNFLAGS) 2>err.txt 
+	$(CCC) -g -std=c++11 $(CCFLAGS) $(CCLNDIRS) -o $@ $^ $(CCLNFLAGS) 2>err.txt 
 
 $(BUILDDIR)%.o: %.cpp
 	mkdir -p $(BUILDDIR)
-	$(CCC) -c $(CCFLAGS) $< -o $@ 
+	$(CCC) -g -std=c++11 -c $(CCFLAGS) $< -o $@ 
 
 $(BUILDDIR)%.o: ../codegen/%.cpp
 	mkdir -p $(BUILDDIR)
-	$(CCC) -c $(CCFLAGS) $< -o $@
+	$(CCC) -g -std=c++11 -c $(CCFLAGS) $< -o $@
 
 # ------------------------------------------------------------
 

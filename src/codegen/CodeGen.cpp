@@ -40,24 +40,31 @@ void CodeGen::EdgeInfo(AppGraph app_graph, string & extra_edges){
 	pair < map<string, int>::iterator, bool> ret;
 	for(i = internals.begin(); i != internals.end(); i++){
 		ret = start_time.emplace((*i)->name(), count);	
+		map_ = map_ + "\t\tstart_time.emplace(\""+(*i)->name()+"\", "+to_string(count)+");\n";	
 		if(ret.second){
 			edge.first = count;
+			vec_ = vec_ + "\t\tedge.first = "+to_string(count)+";\n"; 
 			count ++;
 		}
 		else{
 			edge.first = ret.first->second;
+			vec_ = vec_ + "\t\tedge.first = "+to_string(ret.first->second)+";\n";
 		}
 		for(j = 0; j != (*i)->outputs().size(); j++){
 			if((*i)->outputs().at(j).first->type() == Mix){
 				ret = start_time.emplace((*i)->outputs().at(j).first->name(), count);
+				map_ = map_ + "\t\tstart_time.emplace(\""+(*i)->outputs().at(j).first->name()+"\", "+to_string(count)+");\n";
 				if(ret.second){
 					edge.second = count;
+					vec_ = vec_ + "\t\tedge.second = "+to_string(count)+";\n";
 					count ++;
 				}
 				else{ 
-					edge.second = ret.first->second; 
+					edge.second = ret.first->second;
+					vec_ = vec_ + "\t\tedge.second = "+to_string(ret.first->second)+";\n"; 
 				}
 				edges.emplace_back(edge);
+				vec_ = vec_ + "\t\tedges.emplace_back(edge);\n";
 			}
 			else{
 				if((*i)->outputs().at(j).first->name() != "W"){
@@ -114,6 +121,10 @@ void CodeGen::PrintBefore(string cppfile){
 	myfile << "IloRangeArray c(env);" << endl;
 	myfile << "IloCplex cplex(model);\n" << endl;
 
+	myfile << "map<string, int> start_time;" << endl;
+	myfile << "vector<pair<int, int> > edges;" << endl;
+	myfile << "pair <int, int> edge;\n" << endl;
+
 	myfile << "int main(){" << endl;
 	myfile << "\ttry{" << endl;
 	myfile << "\t\tPopulateFromGraph(model, s, c);\n" << endl;
@@ -151,7 +162,9 @@ void CodeGen::PrintAfter(string cppfile){
 
     myfile << "\t\tenv.out() << \"Status: \" << cplex.getStatus();\n" << endl;
     
-    myfile << "\t\tPrintResults(s, M, R);" << endl;
+    myfile << map_ << endl;
+    myfile << vec_ << endl;
+    myfile << "\t\tPrintResults(s, M, R, cplex);" << endl;
   	myfile << "\t} " << endl;
   	myfile << "\tcatch(IloException& e){ " << endl;
     myfile << "\t\tcerr << \"Error: \" << e << endl; " << endl;

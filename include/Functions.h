@@ -8,8 +8,14 @@
 #include <vector>
 #include <cstdio>
 #include <iomanip> 
+#include <map>
 
 #include <ilcplex/ilocplex.h>
+
+using namespace std;
+
+extern map<string, int> start_time;
+extern vector<pair<int, int> > edges;
 
 //To use 2-D and 3-D arrays
 //Renaming to easier names
