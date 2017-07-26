@@ -57,11 +57,15 @@ void CodeGen::EdgeInfo(AppGraph app_graph, string & extra_edges){
 				if(ret.second){
 					edge.second = count;
 					vec_ = vec_ + "\t\tedge.second = "+to_string(count)+";\n";
+					//To account for edge weight
+					edges_capacity.emplace((*i)->outputs().at(j).second);
 					count ++;
 				}
 				else{ 
 					edge.second = ret.first->second;
-					vec_ = vec_ + "\t\tedge.second = "+to_string(ret.first->second)+";\n"; 
+					vec_ = vec_ + "\t\tedge.second = "+to_string(ret.first->second)+";\n";
+					//To account for edge weight
+					edges_capacity.emplace((*i)->outputs().at(j).second); 
 				}
 				edges.emplace_back(edge);
 				vec_ = vec_ + "\t\tedges.emplace_back(edge);\n";
@@ -81,8 +85,8 @@ void CodeGen::PrintToSource(string cppfile, string & extra_edges){
 	string filename = "src/cplex/" + cppfile + ".cpp";
 	myfile.open(filename, ios::app);
 	vector <pair<int, int> >::iterator i;
-	for(i = edges.begin(); i != edges.end(); i++){
-		myfile << "\t\t" << "c.add(s[" << (*i).second << "] - s[" << (*i).first << "] >= T);" << endl; 
+	for(i = edges.begin(), j=0; i != edges.end(); i++, j++){
+		myfile << "\t\t" << "c.add(s[" << (*i).second << "] - s[" << (*i).first << "] >= T*" << edges_capacity.at(j) <<");" << endl; 
 	}
 
 	myfile << extra_edges << endl;

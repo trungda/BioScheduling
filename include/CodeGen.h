@@ -23,6 +23,7 @@ private:
 	string vec_;
 	map<string, int> start_time;
 	vector<pair<int, int> > edges;
+	vector<int> edges_capacity;
 public:
 	void Generate(ChipArch, AppGraph, string);
 };
