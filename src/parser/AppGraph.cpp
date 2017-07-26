@@ -196,7 +196,10 @@ AppGraph::AppGraph(string filename, Node* createnode){
 
 	unordered_map <string, Node*> SearchMap;
 
-	ifstream inputfile_1(filename);
+	ifstream inputfile_1;
+
+	inputfile_1.open(filename);
+
 
     string name, type_string;
     string garbage;
@@ -360,6 +363,8 @@ AppGraph::AppGraph(string filename, Node* createnode){
 
     //To check if the inflow and outflow is same in internal nodes
     this->InternalsVolumeConsistencyCheck();
+    inputfile_1.close();
+    inputfile_2.close();
 }
 
 int AppGraph::CountInternalEdges(){

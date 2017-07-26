@@ -19,16 +19,16 @@ int main(){
 
 		model.add(IloMinimize(env, s[n]));
 
-		c.add(s[1] - s[0] >= T);
-		c.add(s[3] - s[2] >= T);
-		c.add(s[4] - s[1] >= T);
-		c.add(s[5] - s[3] >= T);
-		c.add(s[6] - s[4] >= T);
-		c.add(s[7] - s[5] >= T);
-		c.add(s[8] - s[6] >= T);
-		c.add(s[9] - s[7] >= T);
-		c.add(s[10] - s[8] >= T);
-		c.add(s[11] - s[9] >= T);
+		c.add(s[1] - s[0] >= T*1);
+		c.add(s[3] - s[2] >= T*1);
+		c.add(s[4] - s[1] >= T*1);
+		c.add(s[5] - s[3] >= T*1);
+		c.add(s[6] - s[4] >= T*1);
+		c.add(s[7] - s[5] >= T*1);
+		c.add(s[8] - s[6] >= T*1);
+		c.add(s[9] - s[7] >= T*1);
+		c.add(s[10] - s[8] >= T*1);
+		c.add(s[11] - s[9] >= T*1);
 		c.add(s[n] - s[10] >= 0); //OUTPUT
 		c.add(s[n] - s[11] >= 0); //OUTPUT
 

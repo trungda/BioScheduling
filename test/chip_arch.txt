@@ -1,4 +1,4 @@
 #Module-Type			Number   				Time
-Mixer				6					3
+Mixer				3					3
 Reservoir			2					0
 #end

@@ -20,7 +20,7 @@ void CodeGen::GraphInfo(AppGraph app_graph, ChipArch chip_arch){
 	int T = chip_arch.mixers().second;
 	int n = app_graph.internals().size();
 	int E = app_graph.CountInternalEdges();
-	int T_MAX = E*T+5;
+	int T_MAX = 2*E*T+5;
 	ofstream myfile;
 	myfile.open("include/Directives.h", ios::app);
 	myfile << "#define n " << n << endl;
@@ -58,14 +58,14 @@ void CodeGen::EdgeInfo(AppGraph app_graph, string & extra_edges){
 					edge.second = count;
 					vec_ = vec_ + "\t\tedge.second = "+to_string(count)+";\n";
 					//To account for edge weight
-					edges_capacity.emplace((*i)->outputs().at(j).second);
+					edges_capacity.emplace_back((*i)->outputs().at(j).second);
 					count ++;
 				}
 				else{ 
 					edge.second = ret.first->second;
 					vec_ = vec_ + "\t\tedge.second = "+to_string(ret.first->second)+";\n";
 					//To account for edge weight
-					edges_capacity.emplace((*i)->outputs().at(j).second); 
+					edges_capacity.emplace_back((*i)->outputs().at(j).second); 
 				}
 				edges.emplace_back(edge);
 				vec_ = vec_ + "\t\tedges.emplace_back(edge);\n";
@@ -85,6 +85,7 @@ void CodeGen::PrintToSource(string cppfile, string & extra_edges){
 	string filename = "src/cplex/" + cppfile + ".cpp";
 	myfile.open(filename, ios::app);
 	vector <pair<int, int> >::iterator i;
+	int j;
 	for(i = edges.begin(), j=0; i != edges.end(); i++, j++){
 		myfile << "\t\t" << "c.add(s[" << (*i).second << "] - s[" << (*i).first << "] >= T*" << edges_capacity.at(j) <<");" << endl; 
 	}
