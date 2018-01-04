@@ -20,5 +20,6 @@ $(BUILDDIR)%.o: src/codegen/%.cpp
 
 clean:
 	rm  -r $(BUILDDIR) bin/
+	rm err.txt
 
 .PHONY: clean
