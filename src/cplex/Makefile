@@ -73,6 +73,7 @@ $(EXEC): $(FOO) $(OBJECTS_)
 	$(CCC) -g -std=c++11 $(CCFLAGS) $(CCLNDIRS) -o $@ $^ $(CCLNFLAGS) 2>err.txt 
 
 $(BUILDDIR)%.o: %.cpp
+	mkdir -p ../../model
 	mkdir -p $(BUILDDIR)
 	$(CCC) -g -std=c++11 -c $(CCFLAGS) $< -o $@ 
 

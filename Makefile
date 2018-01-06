@@ -19,7 +19,7 @@ $(BUILDDIR)%.o: src/codegen/%.cpp
 	$(CC) $(CFLAGS) -c $< -o $@	
 
 clean:
-	rm  -r $(BUILDDIR) bin/
 	rm err.txt
+	rm  -r $(BUILDDIR) bin/ model/
 
 .PHONY: clean
