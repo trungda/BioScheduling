@@ -1,0 +1,9 @@
+#ID Operation
+I1 INPUT:1
+I2 INPUT:1
+O1 MIX (I1, I2) (O2:1, W:1)
+I2 INPUT:1
+O2 MIX (O1, I2) (T:1, W:1)
+T OUTPUT
+W OUTPUT
+#end

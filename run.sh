@@ -3,7 +3,7 @@
 echo "Filename? \c"
 read filename
 input="test/$filename.ip"
-echo $input
+#echo $input
 
 echo "Mixers? \c"
 read nm

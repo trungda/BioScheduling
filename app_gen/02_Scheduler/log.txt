@@ -1,0 +1,590 @@
+Enter dag
+Enter # of mods to begin with
+inserting 1
+no more operation is executable @ time: 0
+inserting 3
+inserting 2
+no more operation is executable @ time: 3
+inserting 8
+inserting 5
+inserting 4
+no more operation is executable @ time: 6
+inserting 11
+inserting 9
+inserting 7
+inserting 6
+no more operation is executable @ time: 9
+inserting 16
+inserting 15
+inserting 14
+inserting 10
+no more operation is executable @ time: 12
+inserting 21
+inserting 18
+inserting 17
+inserting 13
+no more operation is executable @ time: 15
+inserting 26
+inserting 25
+inserting 20
+inserting 12
+no more operation is executable @ time: 18
+inserting 32
+inserting 31
+inserting 24
+inserting 23
+no more operation is executable @ time: 21
+inserting 30
+inserting 19
+no more operation is executable @ time: 24
+inserting 29
+inserting 22
+no more operation is executable @ time: 27
+inserting 28
+inserting 27
+no more operation is executable @ time: 30
+Storage exist between 7 and 13
+Storage exist between 7 and 13
+Storage exist between 10 and 12
+Storage exist between 10 and 12
+Storage exist between 12 and 19
+Storage exist between 12 and 19
+Storage exist between 13 and 27
+Storage exist between 13 and 27
+Storage exist between 16 and 20
+Storage exist between 16 and 20
+Storage exist between 18 and 19
+Storage exist between 18 and 19
+Storage exist between 25 and 29
+ERROR!!! too many ops @ time: 12
+Id= 1 con= 0.5 parent1= -1 parent2= -1 child1= 2 child2= 3
+ start_time= 0 end_time= 2 module num= 0
+
+Id= 2 con= 0.25 parent1= -1 parent2= 1 child1= 4 child2= 8
+ start_time= 3 end_time= 5 module num= 0
+
+Id= 3 con= 0.75 parent1= 1 parent2= -1 child1= 5 child2= 8
+ start_time= 3 end_time= 5 module num= 1
+
+Id= 4 con= 0.125 parent1= -1 parent2= 2 child1= 6 child2= 7
+ start_time= 6 end_time= 8 module num= 0
+
+Id= 5 con= 0.875 parent1= 3 parent2= -1 child1= 9 child2= 11
+ start_time= 6 end_time= 8 module num= 1
+
+Id= 6 con= 0.0625 parent1= -1 parent2= 4 child1= 10 child2= 12
+ start_time= 9 end_time= 11 module num= 0
+
+Id= 7 con= 0.0625 parent1= -1 parent2= 4 child1= 13 child2= 17
+ start_time= 9 end_time= 11 module num= 1
+
+Id= 8 con= 0.5 parent1= 2 parent2= 3 child1= 11 child2= 14
+ start_time= 6 end_time= 8 module num= 2
+
+Id= 9 con= 0.9375 parent1= 5 parent2= -1 child1= 15 child2= 16
+ start_time= 9 end_time= 11 module num= 2
+
+Id= 10 con= 0.03125 parent1= -1 parent2= 6 child1= 12 child2= 13
+ start_time= 12 end_time= 14 module num= 0
+
+Id= 11 con= 0.6875 parent1= 8 parent2= 5 child1= 14 child2= 15
+ start_time= 9 end_time= 11 module num= 3
+
+Id= 12 con= 0.046875 parent1= 10 parent2= 6 child1= 19 child2= 22
+ start_time= 18 end_time= 20 module num= 0
+
+Id= 13 con= 0.046875 parent1= 10 parent2= 7 child1= 27 child2= 28
+ start_time= 15 end_time= 17 module num= 0
+
+Id= 14 con= 0.59375 parent1= 8 parent2= 11 child1= 17 child2= 18
+ start_time= 12 end_time= 14 module num= 1
+
+Id= 15 con= 0.8125 parent1= 11 parent2= 9 child1= 18 child2= 24
+ start_time= 12 end_time= 14 module num= 2
+
+Id= 16 con= 0.96875 parent1= 9 parent2= -1 child1= 20 child2= 21
+ start_time= 12 end_time= 14 module num= 3
+
+Id= 17 con= 0.328125 parent1= 7 parent2= 14 child1= 20 child2= 23
+ start_time= 15 end_time= 17 module num= 0
+
+Id= 18 con= 0.703125 parent1= 14 parent2= 15 child1= 19 child2= 25
+ start_time= 15 end_time= 17 module num= 35996704
+
+Id= 19 con= 0.375 parent1= 12 parent2= 18 child1= 22 child2= 29
+ start_time= 24 end_time= 26 module num= 0
+
+Id= 20 con= 0.648438 parent1= 17 parent2= 16 child1= 23 child2= 24
+ start_time= 18 end_time= 20 module num= 0
+
+Id= 21 con= 0.984375 parent1= 16 parent2= -1 child1= 25 child2= 26
+ start_time= 15 end_time= 17 module num= 0
+
+Id= 22 con= 0.210938 parent1= 12 parent2= 19 child1= 27 child2= 28
+ start_time= 27 end_time= 29 module num= 0
+
+Id= 23 con= 0.488281 parent1= 17 parent2= 20 child1= 30 child2= -1
+ start_time= 21 end_time= 23 module num= 0
+
+Id= 24 con= 0.730469 parent1= 20 parent2= 15 child1= 30 child2= 0
+ start_time= 21 end_time= 23 module num= 0
+
+Id= 25 con= 0.84375 parent1= 18 parent2= 21 child1= 29 child2= 0
+ start_time= 18 end_time= 20 module num= 0
+
+Id= 26 con= 0.992188 parent1= 21 parent2= -1 child1= 31 child2= 32
+ start_time= 18 end_time= 20 module num= 0
+
+Id= 27 con= 0.128906 parent1= 13 parent2= 22 child1= -1 child2= -1
+ start_time= 30 end_time= 32 module num= 0
+
+Id= 28 con= 0.128906 parent1= 13 parent2= 22 child1= -1 child2= -1
+ start_time= 30 end_time= 32 module num= 0
+
+Id= 29 con= 0.609375 parent1= 19 parent2= 25 child1= -1 child2= -1
+ start_time= 27 end_time= 29 module num= 0
+
+Id= 30 con= 0.609375 parent1= 23 parent2= 24 child1= -1 child2= 0
+ start_time= 24 end_time= 26 module num= 0
+
+Id= 31 con= 0.996094 parent1= 26 parent2= -1 child1= -1 child2= -1
+ start_time= 21 end_time= 23 module num= 0
+
+Id= 32 con= 0.996094 parent1= 26 parent2= -1 child1= -1 child2= 0
+ start_time= 21 end_time= 23 module num= 0
+
+
+STORAGE
+
+(O7-O13):12 - 14
+
+(O7-O13):12 - 14
+
+(O10-O12):15 - 17
+
+(O10-O12):15 - 17
+
+(O12-O19):21 - 23
+
+(O12-O19):21 - 23
+
+(O13-O27):18 - 29
+
+(O13-O27):18 - 29
+
+(O16-O20):15 - 17
+
+(O16-O20):15 - 17
+
+(O18-O19):18 - 23
+
+(O18-O19):18 - 23
+
+(O25-O29):21 - 26
+
+4 modules are not enough, redo!
+inserting 1
+no more operation is executable @ time: 0
+inserting 3
+inserting 2
+no more operation is executable @ time: 3
+inserting 8
+inserting 5
+inserting 4
+no more operation is executable @ time: 6
+inserting 11
+inserting 9
+inserting 7
+inserting 6
+no more operation is executable @ time: 9
+inserting 16
+inserting 15
+inserting 14
+inserting 10
+no more operation is executable @ time: 12
+inserting 21
+inserting 18
+inserting 17
+inserting 13
+no more operation is executable @ time: 15
+inserting 26
+inserting 25
+inserting 20
+inserting 12
+no more operation is executable @ time: 18
+inserting 32
+inserting 31
+inserting 24
+inserting 23
+inserting 19
+no more operation is executable @ time: 21
+inserting 30
+inserting 29
+inserting 22
+no more operation is executable @ time: 24
+inserting 28
+inserting 27
+no more operation is executable @ time: 27
+Storage exist between 7 and 13
+Storage exist between 7 and 13
+Storage exist between 10 and 12
+Storage exist between 10 and 12
+Storage exist between 13 and 27
+Storage exist between 13 and 27
+Storage exist between 16 and 20
+Storage exist between 16 and 20
+Storage exist between 18 and 19
+Storage exist between 18 and 19
+Storage exist between 25 and 29
+ERROR!!! too many ops @ time: 15
+Id= 1 con= 0.5 parent1= -1 parent2= -1 child1= 2 child2= 3
+ start_time= 0 end_time= 2 module num= 0
+
+Id= 2 con= 0.25 parent1= -1 parent2= 1 child1= 4 child2= 8
+ start_time= 3 end_time= 5 module num= 0
+
+Id= 3 con= 0.75 parent1= 1 parent2= -1 child1= 5 child2= 8
+ start_time= 3 end_time= 5 module num= 1
+
+Id= 4 con= 0.125 parent1= -1 parent2= 2 child1= 6 child2= 7
+ start_time= 6 end_time= 8 module num= 0
+
+Id= 5 con= 0.875 parent1= 3 parent2= -1 child1= 9 child2= 11
+ start_time= 6 end_time= 8 module num= 1
+
+Id= 6 con= 0.0625 parent1= -1 parent2= 4 child1= 10 child2= 12
+ start_time= 9 end_time= 11 module num= 0
+
+Id= 7 con= 0.0625 parent1= -1 parent2= 4 child1= 13 child2= 17
+ start_time= 9 end_time= 11 module num= 1
+
+Id= 8 con= 0.5 parent1= 2 parent2= 3 child1= 11 child2= 14
+ start_time= 6 end_time= 8 module num= 2
+
+Id= 9 con= 0.9375 parent1= 5 parent2= -1 child1= 15 child2= 16
+ start_time= 9 end_time= 11 module num= 2
+
+Id= 10 con= 0.03125 parent1= -1 parent2= 6 child1= 12 child2= 13
+ start_time= 12 end_time= 14 module num= 0
+
+Id= 11 con= 0.6875 parent1= 8 parent2= 5 child1= 14 child2= 15
+ start_time= 9 end_time= 11 module num= 3
+
+Id= 12 con= 0.046875 parent1= 10 parent2= 6 child1= 19 child2= 22
+ start_time= 18 end_time= 20 module num= 0
+
+Id= 13 con= 0.046875 parent1= 10 parent2= 7 child1= 27 child2= 28
+ start_time= 15 end_time= 17 module num= 0
+
+Id= 14 con= 0.59375 parent1= 8 parent2= 11 child1= 17 child2= 18
+ start_time= 12 end_time= 14 module num= 1
+
+Id= 15 con= 0.8125 parent1= 11 parent2= 9 child1= 18 child2= 24
+ start_time= 12 end_time= 14 module num= 2
+
+Id= 16 con= 0.96875 parent1= 9 parent2= -1 child1= 20 child2= 21
+ start_time= 12 end_time= 14 module num= 3
+
+Id= 17 con= 0.328125 parent1= 7 parent2= 14 child1= 20 child2= 23
+ start_time= 15 end_time= 17 module num= 1
+
+Id= 18 con= 0.703125 parent1= 14 parent2= 15 child1= 19 child2= 25
+ start_time= 15 end_time= 17 module num= 2
+
+Id= 19 con= 0.375 parent1= 12 parent2= 18 child1= 22 child2= 29
+ start_time= 21 end_time= 23 module num= 0
+
+Id= 20 con= 0.648438 parent1= 17 parent2= 16 child1= 23 child2= 24
+ start_time= 18 end_time= 20 module num= 0
+
+Id= 21 con= 0.984375 parent1= 16 parent2= -1 child1= 25 child2= 26
+ start_time= 15 end_time= 17 module num= 3
+
+Id= 22 con= 0.210938 parent1= 12 parent2= 19 child1= 27 child2= 28
+ start_time= 24 end_time= 26 module num= 0
+
+Id= 23 con= 0.488281 parent1= 17 parent2= 20 child1= 30 child2= -1
+ start_time= 21 end_time= 23 module num= 0
+
+Id= 24 con= 0.730469 parent1= 20 parent2= 15 child1= 30 child2= 0
+ start_time= 21 end_time= 23 module num= 0
+
+Id= 25 con= 0.84375 parent1= 18 parent2= 21 child1= 29 child2= 0
+ start_time= 18 end_time= 20 module num= 0
+
+Id= 26 con= 0.992188 parent1= 21 parent2= -1 child1= 31 child2= 32
+ start_time= 18 end_time= 20 module num= 0
+
+Id= 27 con= 0.128906 parent1= 13 parent2= 22 child1= -1 child2= -1
+ start_time= 27 end_time= 29 module num= 0
+
+Id= 28 con= 0.128906 parent1= 13 parent2= 22 child1= -1 child2= -1
+ start_time= 27 end_time= 29 module num= 0
+
+Id= 29 con= 0.609375 parent1= 19 parent2= 25 child1= -1 child2= -1
+ start_time= 24 end_time= 26 module num= 0
+
+Id= 30 con= 0.609375 parent1= 23 parent2= 24 child1= -1 child2= 0
+ start_time= 24 end_time= 26 module num= 0
+
+Id= 31 con= 0.996094 parent1= 26 parent2= -1 child1= -1 child2= -1
+ start_time= 21 end_time= 23 module num= 0
+
+Id= 32 con= 0.996094 parent1= 26 parent2= -1 child1= -1 child2= 0
+ start_time= 21 end_time= 23 module num= 0
+
+
+STORAGE
+
+(O7-O13):12 - 14
+
+(O7-O13):12 - 14
+
+(O10-O12):15 - 17
+
+(O10-O12):15 - 17
+
+(O13-O27):18 - 26
+
+(O13-O27):18 - 26
+
+(O16-O20):15 - 17
+
+(O16-O20):15 - 17
+
+(O18-O19):18 - 20
+
+(O18-O19):18 - 20
+
+(O25-O29):21 - 23
+
+5 modules are not enough, redo!
+inserting 1
+no more operation is executable @ time: 0
+inserting 3
+inserting 2
+no more operation is executable @ time: 3
+inserting 8
+inserting 5
+inserting 4
+no more operation is executable @ time: 6
+inserting 11
+inserting 9
+inserting 7
+inserting 6
+no more operation is executable @ time: 9
+inserting 16
+inserting 15
+inserting 14
+inserting 10
+no more operation is executable @ time: 12
+inserting 21
+inserting 18
+inserting 17
+inserting 13
+no more operation is executable @ time: 15
+inserting 26
+inserting 25
+inserting 20
+inserting 12
+no more operation is executable @ time: 18
+inserting 32
+inserting 31
+inserting 24
+inserting 23
+inserting 19
+no more operation is executable @ time: 21
+inserting 30
+inserting 29
+inserting 22
+no more operation is executable @ time: 24
+inserting 28
+inserting 27
+no more operation is executable @ time: 27
+Storage exist between 7 and 13
+Storage exist between 7 and 13
+Storage exist between 10 and 12
+Storage exist between 10 and 12
+Storage exist between 13 and 27
+Storage exist between 13 and 27
+Storage exist between 16 and 20
+Storage exist between 16 and 20
+Storage exist between 18 and 19
+Storage exist between 18 and 19
+Storage exist between 25 and 29
+ERROR!!! too many ops @ time: 21
+Id= 1 con= 0.5 parent1= -1 parent2= -1 child1= 2 child2= 3
+ start_time= 0 end_time= 2 module num= 0
+
+Id= 2 con= 0.25 parent1= -1 parent2= 1 child1= 4 child2= 8
+ start_time= 3 end_time= 5 module num= 0
+
+Id= 3 con= 0.75 parent1= 1 parent2= -1 child1= 5 child2= 8
+ start_time= 3 end_time= 5 module num= 1
+
+Id= 4 con= 0.125 parent1= -1 parent2= 2 child1= 6 child2= 7
+ start_time= 6 end_time= 8 module num= 0
+
+Id= 5 con= 0.875 parent1= 3 parent2= -1 child1= 9 child2= 11
+ start_time= 6 end_time= 8 module num= 1
+
+Id= 6 con= 0.0625 parent1= -1 parent2= 4 child1= 10 child2= 12
+ start_time= 9 end_time= 11 module num= 0
+
+Id= 7 con= 0.0625 parent1= -1 parent2= 4 child1= 13 child2= 17
+ start_time= 9 end_time= 11 module num= 1
+
+Id= 8 con= 0.5 parent1= 2 parent2= 3 child1= 11 child2= 14
+ start_time= 6 end_time= 8 module num= 2
+
+Id= 9 con= 0.9375 parent1= 5 parent2= -1 child1= 15 child2= 16
+ start_time= 9 end_time= 11 module num= 2
+
+Id= 10 con= 0.03125 parent1= -1 parent2= 6 child1= 12 child2= 13
+ start_time= 12 end_time= 14 module num= 0
+
+Id= 11 con= 0.6875 parent1= 8 parent2= 5 child1= 14 child2= 15
+ start_time= 9 end_time= 11 module num= 3
+
+Id= 12 con= 0.046875 parent1= 10 parent2= 6 child1= 19 child2= 22
+ start_time= 18 end_time= 20 module num= 0
+
+Id= 13 con= 0.046875 parent1= 10 parent2= 7 child1= 27 child2= 28
+ start_time= 15 end_time= 17 module num= 0
+
+Id= 14 con= 0.59375 parent1= 8 parent2= 11 child1= 17 child2= 18
+ start_time= 12 end_time= 14 module num= 1
+
+Id= 15 con= 0.8125 parent1= 11 parent2= 9 child1= 18 child2= 24
+ start_time= 12 end_time= 14 module num= 2
+
+Id= 16 con= 0.96875 parent1= 9 parent2= -1 child1= 20 child2= 21
+ start_time= 12 end_time= 14 module num= 3
+
+Id= 17 con= 0.328125 parent1= 7 parent2= 14 child1= 20 child2= 23
+ start_time= 15 end_time= 17 module num= 1
+
+Id= 18 con= 0.703125 parent1= 14 parent2= 15 child1= 19 child2= 25
+ start_time= 15 end_time= 17 module num= 2
+
+Id= 19 con= 0.375 parent1= 12 parent2= 18 child1= 22 child2= 29
+ start_time= 21 end_time= 23 module num= 0
+
+Id= 20 con= 0.648438 parent1= 17 parent2= 16 child1= 23 child2= 24
+ start_time= 18 end_time= 20 module num= 1
+
+Id= 21 con= 0.984375 parent1= 16 parent2= -1 child1= 25 child2= 26
+ start_time= 15 end_time= 17 module num= 3
+
+Id= 22 con= 0.210938 parent1= 12 parent2= 19 child1= 27 child2= 28
+ start_time= 24 end_time= 26 module num= 0
+
+Id= 23 con= 0.488281 parent1= 17 parent2= 20 child1= 30 child2= -1
+ start_time= 21 end_time= 23 module num= 1
+
+Id= 24 con= 0.730469 parent1= 20 parent2= 15 child1= 30 child2= 0
+ start_time= 21 end_time= 23 module num= 2
+
+Id= 25 con= 0.84375 parent1= 18 parent2= 21 child1= 29 child2= 0
+ start_time= 18 end_time= 20 module num= 2
+
+Id= 26 con= 0.992188 parent1= 21 parent2= -1 child1= 31 child2= 32
+ start_time= 18 end_time= 20 module num= 3
+
+Id= 27 con= 0.128906 parent1= 13 parent2= 22 child1= -1 child2= -1
+ start_time= 27 end_time= 29 module num= 0
+
+Id= 28 con= 0.128906 parent1= 13 parent2= 22 child1= -1 child2= -1
+ start_time= 27 end_time= 29 module num= 0
+
+Id= 29 con= 0.609375 parent1= 19 parent2= 25 child1= -1 child2= -1
+ start_time= 24 end_time= 26 module num= 0
+
+Id= 30 con= 0.609375 parent1= 23 parent2= 24 child1= -1 child2= 0
+ start_time= 24 end_time= 26 module num= 0
+
+Id= 31 con= 0.996094 parent1= 26 parent2= -1 child1= -1 child2= -1
+ start_time= 21 end_time= 23 module num= 3
+
+Id= 32 con= 0.996094 parent1= 26 parent2= -1 child1= -1 child2= 0
+ start_time= 21 end_time= 23 module num= 4
+
+
+STORAGE
+
+(O7-O13):12 - 14
+
+(O7-O13):12 - 14
+
+(O10-O12):15 - 17
+
+(O10-O12):15 - 17
+
+(O13-O27):18 - 26
+
+(O13-O27):18 - 26
+
+(O16-O20):15 - 17
+
+(O16-O20):15 - 17
+
+(O18-O19):18 - 20
+
+(O18-O19):18 - 20
+
+(O25-O29):21 - 23
+
+6 modules are not enough, redo!
+inserting 1
+no more operation is executable @ time: 0
+inserting 3
+inserting 2
+no more operation is executable @ time: 3
+inserting 8
+inserting 5
+inserting 4
+no more operation is executable @ time: 6
+inserting 11
+inserting 9
+inserting 7
+inserting 6
+no more operation is executable @ time: 9
+inserting 16
+inserting 15
+inserting 14
+inserting 10
+no more operation is executable @ time: 12
+inserting 21
+inserting 18
+inserting 17
+inserting 13
+no more operation is executable @ time: 15
+inserting 26
+inserting 25
+inserting 20
+inserting 12
+no more operation is executable @ time: 18
+inserting 32
+inserting 31
+inserting 24
+inserting 23
+inserting 19
+no more operation is executable @ time: 21
+inserting 30
+inserting 29
+inserting 22
+no more operation is executable @ time: 24
+inserting 28
+inserting 27
+no more operation is executable @ time: 27
+Storage exist between 7 and 13
+Storage exist between 7 and 13
+Storage exist between 10 and 12
+Storage exist between 10 and 12
+Storage exist between 13 and 27
+Storage exist between 13 and 27
+Storage exist between 16 and 20
+Storage exist between 16 and 20
+Storage exist between 18 and 19
+Storage exist between 18 and 19
+Storage exist between 25 and 29

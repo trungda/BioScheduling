@@ -1,0 +1,39 @@
+Status: Optimal
+SCHEDULING RESULTS
+O1 0 
+O2 0 
+O3 0 
+O4 0 
+O5 0 
+O6 0 
+O7 0 
+O8 0 
+O9 3 
+O10 3 
+O11 3 
+O12 3 
+O13 3 
+O14 3 
+O15 3 
+O16 3 
+#
+MIXING BINDING RESULTS
+Module-0 O1  O9  
+Module-1 O2  O10  
+Module-2 O3  O11  
+Module-3 O4  O12  
+Module-4 O5  O13  
+Module-5 O6  O14  
+Module-6 O7  O15  
+Module-7 O8  O16  
+#
+STORAGE BINDING RESULTS
+Module-0 
+Module-1 
+Module-2 
+Module-3 
+Module-4 
+Module-5 
+Module-6 
+Module-7 
+#
