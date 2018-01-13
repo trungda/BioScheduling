@@ -7,10 +7,5 @@ This is a tool for biochip researchers to find out the optimal scheduling result
 <img align="left" width="300" height="400" title="Bradford Actual" src="./brad_actual.png">
 <img align="right" width="300" height="400" title="Bradford Textual" src="./brad_textual.png">
 
+A sample input for the chip architecture can be found in `test/chip_arch.txt` and more input dilution graph examples can be found as `*.txt` files in `test/` directory.
 
-## Project Head: Professor Shigeru Yamashita
-
-### Contributors
-* Abhimanyu Yadav
-* Trung Dinh Anh
-* Daiki Kitagawa
